@@ -317,6 +317,7 @@ export function Map() {
               strokeWidth: "18px",
               strokeLinejoin: "miter",
               strokeDasharray: isSelected[0] ? "0" : "30, 15",
+              cursor: "pointer",
             }}
           />
           <path
@@ -330,6 +331,7 @@ export function Map() {
               strokeWidth: "18px",
               strokeLinejoin: "miter",
               strokeDasharray: isSelected[1] ? "0" : "30, 15",
+              cursor: "pointer",
             }}
           />
           <path
@@ -343,6 +345,7 @@ export function Map() {
               strokeWidth: "18px",
               strokeLinejoin: "miter",
               strokeDasharray: isSelected[2] ? "0" : "30, 15",
+              cursor: "pointer",
             }}
           />
           <path
@@ -356,6 +359,7 @@ export function Map() {
               strokeWidth: "18px",
               strokeLinejoin: "miter",
               strokeDasharray: isSelected[3] ? "0" : "30, 15",
+              cursor: "pointer",
             }}
           />
           <path
@@ -369,6 +373,7 @@ export function Map() {
               strokeWidth: "18px",
               strokeLinejoin: "miter",
               strokeDasharray: isSelected[4] ? "0" : "30, 15",
+              cursor: "pointer",
             }}
           />
         </g>
