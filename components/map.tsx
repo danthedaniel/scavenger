@@ -33,6 +33,8 @@ export function Map() {
   const [isPanning, setIsPanning] = useState(false);
   const [start, setStart] = useState<Position>({ x: 0, y: 0 });
   const [hasPanned, setHasPanned] = useState(false);
+  const [initialDistance, setInitialDistance] = useState(0);
+  const [initialScale, setInitialScale] = useState(2);
 
   useEffect(() => {
     const svg = svgRef.current;
@@ -40,6 +42,7 @@ export function Map() {
 
     const handleWheel = (event: WheelEvent) => {
       if (event.ctrlKey) {
+        // Handle zooming
         event.preventDefault();
         const scaleChange = event.deltaY * -0.02;
         setScale((prevScale) =>
@@ -77,6 +80,50 @@ export function Map() {
       setIsPanning(false);
     };
 
+    const handleTouchStart = (event: TouchEvent) => {
+      if (event.touches.length === 1) {
+        // Single touch, start panning
+        setIsPanning(true);
+        setStart({ x: event.touches[0].clientX, y: event.touches[0].clientY });
+        setHasPanned(false);
+      } else if (event.touches.length === 2) {
+        // Two touches, start zooming
+        setIsPanning(false);
+        const distance = getDistance(event.touches);
+        setInitialDistance(distance);
+        setInitialScale(scale);
+      }
+    };
+
+    const handleTouchMove = (event: TouchEvent) => {
+      if (event.touches.length === 1 && isPanning) {
+        // Single touch, continue panning
+        const dx = (event.touches[0].clientX - start.x) / scale;
+        const dy = (event.touches[0].clientY - start.y) / scale;
+
+        setPan(limitPan({ x: pan.x + dx, y: pan.y + dy }));
+        setStart({ x: event.touches[0].clientX, y: event.touches[0].clientY });
+        setHasPanned(true);
+      } else if (event.touches.length === 2) {
+        // Two touches, continue zooming
+        const distance = getDistance(event.touches);
+        const scaleChange = distance / initialDistance;
+        setScale(
+          Math.min(Math.max(MIN_ZOOM, initialScale * scaleChange), MAX_ZOOM)
+        );
+      }
+    };
+
+    const handleTouchEnd = () => {
+      setIsPanning(false);
+    };
+
+    const getDistance = (touches: TouchList) => {
+      const dx = touches[0].clientX - touches[1].clientX;
+      const dy = touches[0].clientY - touches[1].clientY;
+      return Math.sqrt(dx * dx + dy * dy);
+    };
+
     const limitPan = (newPan: { x: number; y: number }): Position => {
       return {
         x: Math.min(Math.max(newPan.x, MIN_PAN_X), MAX_PAN_X),
@@ -88,14 +135,20 @@ export function Map() {
     svg.addEventListener("mousedown", handleMouseDown);
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseup", handleMouseUp);
+    svg.addEventListener("touchstart", handleTouchStart);
+    window.addEventListener("touchmove", handleTouchMove);
+    window.addEventListener("touchend", handleTouchEnd);
 
     return () => {
       svg.removeEventListener("wheel", handleWheel);
       svg.removeEventListener("mousedown", handleMouseDown);
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
+      svg.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [isPanning, pan, start, scale]);
+  }, [isPanning, pan, start, scale, initialDistance, initialScale]);
 
   useEffect(() => {
     const svg = svgRef.current;
@@ -134,6 +187,8 @@ export function Map() {
         strokeLinejoin: "round",
         strokeMiterlimit: 1.5,
         border: "1px solid red",
+        cursor: isPanning ? "grabbing" : "grab",
+        touchAction: "none",
       }}
     >
       <g transform="matrix(1,0,0,1,-380.586,-603.087)">
@@ -416,7 +471,7 @@ export function Map() {
               strokeWidth: "18px",
               strokeLinejoin: "miter",
               strokeDasharray: isSelected[0] ? "0" : "30, 15",
-              cursor: "pointer",
+              cursor: isPanning ? "grabbing" : "pointer",
             }}
           />
           <path
@@ -430,7 +485,7 @@ export function Map() {
               strokeWidth: "18px",
               strokeLinejoin: "miter",
               strokeDasharray: isSelected[1] ? "0" : "30, 15",
-              cursor: "pointer",
+              cursor: isPanning ? "grabbing" : "pointer",
             }}
           />
           <path
@@ -444,7 +499,7 @@ export function Map() {
               strokeWidth: "18px",
               strokeLinejoin: "miter",
               strokeDasharray: isSelected[2] ? "0" : "30, 15",
-              cursor: "pointer",
+              cursor: isPanning ? "grabbing" : "pointer",
             }}
           />
           <path
@@ -458,7 +513,7 @@ export function Map() {
               strokeWidth: "18px",
               strokeLinejoin: "miter",
               strokeDasharray: isSelected[3] ? "0" : "30, 15",
-              cursor: "pointer",
+              cursor: isPanning ? "grabbing" : "pointer",
             }}
           />
           <path
@@ -472,7 +527,7 @@ export function Map() {
               strokeWidth: "18px",
               strokeLinejoin: "miter",
               strokeDasharray: isSelected[4] ? "0" : "30, 15",
-              cursor: "pointer",
+              cursor: isPanning ? "grabbing" : "pointer",
             }}
           />
         </g>
