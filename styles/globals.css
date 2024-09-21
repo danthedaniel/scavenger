@@ -1,3 +1,59 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.font-chakra-petch {
+  font-family: "Chakra Petch", sans-serif;
+}
+
+.text-outline {
+  text-shadow:
+    rgb(0, 0, 0) 7px 0px 0px,
+    rgb(0, 0, 0) 6.92869px 0.996602px 0px,
+    rgb(0, 0, 0) 6.71622px 1.9729px 0px,
+    rgb(0, 0, 0) 6.36692px 2.909px 0px,
+    rgb(0, 0, 0) 5.8879px 3.78584px 0px,
+    rgb(0, 0, 0) 5.28893px 4.58555px 0px,
+    rgb(0, 0, 0) 4.5822px 5.29183px 0px,
+    rgb(0, 0, 0) 3.78212px 5.8903px 0px,
+    rgb(0, 0, 0) 2.90498px 6.36876px 0px,
+    rgb(0, 0, 0) 1.96865px 6.71747px 0px,
+    rgb(0, 0, 0) 0.992221px 6.92932px 0px,
+    rgb(0, 0, 0) -0.00442571px 7px 0px,
+    rgb(0, 0, 0) -1.00098px 6.92806px 0px,
+    rgb(0, 0, 0) -1.97715px 6.71498px 0px,
+    rgb(0, 0, 0) -2.91303px 6.36508px 0px,
+    rgb(0, 0, 0) -3.78956px 5.88551px 0px,
+    rgb(0, 0, 0) -4.58889px 5.28603px 0px,
+    rgb(0, 0, 0) -5.29472px 4.57885px 0px,
+    rgb(0, 0, 0) -5.89269px 3.77839px 0px,
+    rgb(0, 0, 0) -6.3706px 2.90095px 0px,
+    rgb(0, 0, 0) -6.71871px 1.96441px 0px,
+    rgb(0, 0, 0) -6.92995px 0.98784px 0px,
+    rgb(0, 0, 0) -6.99999px -0.00885142px 0px,
+    rgb(0, 0, 0) -6.92743px -1.00536px 0px,
+    rgb(0, 0, 0) -6.71372px -1.98139px 0px,
+    rgb(0, 0, 0) -6.36324px -2.91705px 0px,
+    rgb(0, 0, 0) -5.88311px -3.79328px 0px,
+    rgb(0, 0, 0) -5.28313px -4.59223px 0px,
+    rgb(0, 0, 0) -4.57551px -5.29762px 0px,
+    rgb(0, 0, 0) -3.77466px -5.89508px 0px,
+    rgb(0, 0, 0) -2.89692px -6.37243px 0px,
+    rgb(0, 0, 0) -1.96016px -6.71995px 0px,
+    rgb(0, 0, 0) -0.983458px -6.93057px 0px,
+    rgb(0, 0, 0) 0.0132771px -6.99999px 0px,
+    rgb(0, 0, 0) 1.00974px -6.92679px 0px,
+    rgb(0, 0, 0) 1.98564px -6.71247px 0px,
+    rgb(0, 0, 0) 2.92107px -6.36139px 0px,
+    rgb(0, 0, 0) 3.797px -5.88071px 0px,
+    rgb(0, 0, 0) 4.59557px -5.28022px 0px,
+    rgb(0, 0, 0) 5.30051px -4.57216px 0px,
+    rgb(0, 0, 0) 5.89746px -3.77094px 0px,
+    rgb(0, 0, 0) 6.37426px -2.89289px 0px,
+    rgb(0, 0, 0) 6.72119px -1.95591px 0px,
+    rgb(0, 0, 0) 6.93119px -0.979076px 0px;
+}
+
+.text-jumbo {
+  font-size: 10rem;
+}

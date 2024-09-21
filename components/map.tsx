@@ -1,4 +1,9 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+
+interface Position {
+  x: number;
+  y: number;
+}
 
 const roadStyle: React.CSSProperties = {
   fill: "none",
@@ -10,12 +15,99 @@ const waterStyle: React.CSSProperties = {
   fillOpacity: 0.65,
 };
 
+const MIN_ZOOM = 2;
+const MAX_ZOOM = 5;
+const MIN_PAN_X = -200;
+const MAX_PAN_X = 200;
+const MIN_PAN_Y = -50;
+const MAX_PAN_Y = 20;
+
 export function Map() {
+  const svgRef = useRef<SVGSVGElement>(null);
+
   const [isSelected, setSelected] = useState<
     [boolean, boolean, boolean, boolean, boolean]
   >([false, false, false, false, false]);
+  const [scale, setScale] = useState(2);
+  const [pan, setPan] = useState<Position>({ x: 0, y: 0 });
+  const [isPanning, setIsPanning] = useState(false);
+  const [start, setStart] = useState<Position>({ x: 0, y: 0 });
+  const [hasPanned, setHasPanned] = useState(false);
+
+  useEffect(() => {
+    const svg = svgRef.current;
+    if (!svg) return;
+
+    const handleWheel = (event: WheelEvent) => {
+      if (event.ctrlKey) {
+        event.preventDefault();
+        const scaleChange = event.deltaY * -0.02;
+        setScale((prevScale) =>
+          Math.min(Math.max(MIN_ZOOM, prevScale + scaleChange), MAX_ZOOM)
+        );
+      } else {
+        // Handle scrolling
+        setPan((prevPan) =>
+          limitPan({
+            x: prevPan.x - event.deltaX / scale,
+            y: prevPan.y - event.deltaY / scale,
+          })
+        );
+      }
+    };
+
+    const handleMouseDown = (event: MouseEvent) => {
+      setIsPanning(true);
+      setStart({ x: event.clientX, y: event.clientY });
+      setHasPanned(false);
+    };
+
+    const handleMouseMove = (event: MouseEvent) => {
+      if (!isPanning) return;
+
+      const dx = (event.clientX - start.x) / scale;
+      const dy = (event.clientY - start.y) / scale;
+
+      setPan(limitPan({ x: pan.x + dx, y: pan.y + dy }));
+      setStart({ x: event.clientX, y: event.clientY });
+      setHasPanned(true);
+    };
+
+    const handleMouseUp = () => {
+      setIsPanning(false);
+    };
+
+    const limitPan = (newPan: { x: number; y: number }): Position => {
+      return {
+        x: Math.min(Math.max(newPan.x, MIN_PAN_X), MAX_PAN_X),
+        y: Math.min(Math.max(newPan.y, MIN_PAN_Y), MAX_PAN_Y),
+      };
+    };
+
+    svg.addEventListener("wheel", handleWheel);
+    svg.addEventListener("mousedown", handleMouseDown);
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      svg.removeEventListener("wheel", handleWheel);
+      svg.removeEventListener("mousedown", handleMouseDown);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isPanning, pan, start, scale]);
+
+  useEffect(() => {
+    const svg = svgRef.current;
+    if (!svg) return;
+
+    svg.style.transform = `scale(${scale}) translate(${pan.x}px, ${pan.y}px)`;
+    svg.style.transformOrigin = "center center";
+  }, [scale, pan]);
 
   const handleClick = (index: number) => {
+    if (isPanning || hasPanned) return;
+
     setSelected((prev) => {
       const newSelected = [...prev] as typeof prev;
       newSelected[index] = !newSelected[index];
@@ -23,11 +115,17 @@ export function Map() {
     });
   };
 
+  const svgPaddingY = 500;
+  const svgPaddingX = 3000;
+  const svgWidth = 2707;
+  const svgHeight = 642;
+
   return (
     <svg
+      ref={svgRef}
       width="100%"
       height="100%"
-      viewBox="0 0 2707 642"
+      viewBox={`${-svgPaddingX} ${-svgPaddingY} ${svgWidth + 2 * svgPaddingX} ${svgHeight + 2 * svgPaddingY}`}
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       style={{
@@ -35,6 +133,7 @@ export function Map() {
         clipRule: "evenodd",
         strokeLinejoin: "round",
         strokeMiterlimit: 1.5,
+        border: "1px solid red",
       }}
     >
       <g transform="matrix(1,0,0,1,-380.586,-603.087)">
