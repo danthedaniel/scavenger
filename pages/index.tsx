@@ -1,4 +1,3 @@
-import Head from "next/head";
 import { Map } from "../components/map";
 import { useState } from "react";
 
@@ -43,7 +42,7 @@ function ZoneInfo({ selected }: ZoneInfoProps) {
 
 function ZonePlaceholder() {
   return (
-    <div className="w-full h-full p-8 overflow-hidden">
+    <div className="w-full h-full p-8 overflow-hidden max-w-screen-md">
       <h2 className="text-4xl font-bold pb-6">Select a Zone</h2>
       <p className="pb-4">Click on a zone to see more information about it.</p>
     </div>
