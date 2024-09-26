@@ -50,11 +50,23 @@ function ZonePlaceholder() {
   );
 }
 
+function Footer() {
+  return (
+    <footer className="w-full text-center text-white p-4 text-sm">
+      Made by{" "}
+      <a href="https://danangell.com" className="underline">
+        Daniel Angell
+      </a>{" "}
+      with 🥳
+    </footer>
+  );
+}
+
 export default function Home() {
   const [selected, setSelected] = useState<number | null>(null);
 
   return (
-    <div className="min-w-screen min-h-screen flex flex-col justify-start items-center bg-gray-800">
+    <div className="min-w-screen min-h-screen flex flex-col justify-between items-center bg-gray-800">
       <Head>
         <title>Zen Masters</title>
       </Head>
@@ -67,10 +79,12 @@ export default function Home() {
         <Map selected={selected} setSelected={setSelected} />
       </div>
 
-      <div className="flex flex-col w-full justify-center items-center border-t-8 border-black text-white">
+      <div className="flex flex-col w-full flex-grow justify-start items-center border-t-8 border-black text-white">
         {selected === null && <ZonePlaceholder />}
         {selected !== null && <ZoneInfo selected={selected} />}
       </div>
+
+      <Footer />
     </div>
   );
 }
