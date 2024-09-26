@@ -67,10 +67,6 @@ export default function Home() {
 
   return (
     <div className="min-w-screen min-h-screen flex flex-col justify-between items-center bg-gray-800">
-      <Head>
-        <title>Zen Masters</title>
-      </Head>
-
       {/*       <h1 className="font-chakra-petch text-white text-outline text-jumbo">
         Zen Masters
       </h1> */}

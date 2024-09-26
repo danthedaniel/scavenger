@@ -15,6 +15,11 @@ const waterStyle: CSSProperties = {
   fillOpacity: 0.65,
 };
 
+const SVG_PADDING_Y = 500;
+const SVG_PADDING_X = 3000;
+const SVG_WIDTH = 2707;
+const SVG_HEIGHT = 642;
+
 const MIN_ZOOM = 2;
 const MAX_ZOOM = 5;
 const MIN_PAN_X = -200;
@@ -175,17 +180,12 @@ export function Map({ selected, setSelected }: MapProps) {
     }
   };
 
-  const svgPaddingY = 500;
-  const svgPaddingX = 3000;
-  const svgWidth = 2707;
-  const svgHeight = 642;
-
   return (
     <svg
       ref={svgRef}
       width="100%"
       height="100%"
-      viewBox={`${-svgPaddingX} ${-svgPaddingY} ${svgWidth + 2 * svgPaddingX} ${svgHeight + 2 * svgPaddingY}`}
+      viewBox={`${-SVG_PADDING_X} ${-SVG_PADDING_Y} ${SVG_WIDTH + 2 * SVG_PADDING_X} ${SVG_HEIGHT + 2 * SVG_PADDING_Y}`}
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       style={{
