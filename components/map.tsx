@@ -1,16 +1,16 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, CSSProperties } from "react";
 
 interface Position {
   x: number;
   y: number;
 }
 
-const roadStyle: React.CSSProperties = {
+const roadStyle: CSSProperties = {
   fill: "none",
   stroke: "rgb(226,226,226)",
 };
 
-const waterStyle: React.CSSProperties = {
+const waterStyle: CSSProperties = {
   fill: "rgb(0,193,255)",
   fillOpacity: 0.65,
 };
@@ -22,19 +22,25 @@ const MAX_PAN_X = 200;
 const MIN_PAN_Y = -50;
 const MAX_PAN_Y = 20;
 
-export function Map() {
+interface MapProps {
+  selected: number | null;
+  setSelected: (index: number | null) => void;
+}
+
+export function Map({ selected, setSelected }: MapProps) {
   const svgRef = useRef<SVGSVGElement>(null);
 
-  const [isSelected, setSelected] = useState<
-    [boolean, boolean, boolean, boolean, boolean]
-  >([false, false, false, false, false]);
   const [scale, setScale] = useState(2);
   const [pan, setPan] = useState<Position>({ x: 0, y: 0 });
   const [isPanning, setIsPanning] = useState(false);
+
+  // Drag panning state
   const [start, setStart] = useState<Position>({ x: 0, y: 0 });
   const [hasPanned, setHasPanned] = useState(false);
+
+  // Pinch-to-zoom state
   const [initialDistance, setInitialDistance] = useState(0);
-  const [initialScale, setInitialScale] = useState(2);
+  const [initialScale, setInitialScale] = useState(scale);
 
   useEffect(() => {
     const svg = svgRef.current;
@@ -121,7 +127,8 @@ export function Map() {
     const getDistance = (touches: TouchList) => {
       const dx = touches[0].clientX - touches[1].clientX;
       const dy = touches[0].clientY - touches[1].clientY;
-      return Math.sqrt(dx * dx + dy * dy);
+
+      return Math.hypot(dx, dy);
     };
 
     const limitPan = (newPan: { x: number; y: number }): Position => {
@@ -161,11 +168,11 @@ export function Map() {
   const handleClick = (index: number) => {
     if (isPanning || hasPanned) return;
 
-    setSelected((prev) => {
-      const newSelected = [...prev] as typeof prev;
-      newSelected[index] = !newSelected[index];
-      return newSelected;
-    });
+    if (selected === index) {
+      setSelected(null);
+    } else {
+      setSelected(index);
+    }
   };
 
   const svgPaddingY = 500;
@@ -465,12 +472,12 @@ export function Map() {
             d="M425.581,844.811L448.075,1200.79L931.507,1174.14L911.877,815.325L425.581,844.811Z"
             style={{
               fill: "rgb(227,0,24)",
-              fillOpacity: isSelected[0] ? 0.2 : 0,
+              fillOpacity: selected === 0 ? 0.2 : 0,
               stroke: "rgb(244,28,41)",
               strokeOpacity: 0.65,
               strokeWidth: "18px",
               strokeLinejoin: "miter",
-              strokeDasharray: isSelected[0] ? "0" : "30, 15",
+              strokeDasharray: selected === 0 ? "0" : "30, 15",
               cursor: isPanning ? "grabbing" : "pointer",
             }}
           />
@@ -479,12 +486,12 @@ export function Map() {
             d="M947.761,813.617L967.279,1171.4L1385.03,1148.07L1365.81,788.263L947.761,813.617Z"
             style={{
               fill: "rgb(255,184,0)",
-              fillOpacity: isSelected[1] ? 0.2 : 0,
+              fillOpacity: selected === 1 ? 0.2 : 0,
               stroke: "rgb(234,173,0)",
               strokeOpacity: 0.65,
               strokeWidth: "18px",
               strokeLinejoin: "miter",
-              strokeDasharray: isSelected[1] ? "0" : "30, 15",
+              strokeDasharray: selected === 1 ? "0" : "30, 15",
               cursor: isPanning ? "grabbing" : "pointer",
             }}
           />
@@ -493,12 +500,12 @@ export function Map() {
             d="M1401.44,785.695L1422.79,1146.28L1912.92,1119.02L1890.95,757.414L1401.44,785.695Z"
             style={{
               fill: "rgb(255,249,0)",
-              fillOpacity: isSelected[2] ? 0.2 : 0,
+              fillOpacity: selected === 2 ? 0.2 : 0,
               stroke: "rgb(225,220,0)",
               strokeOpacity: 0.65,
               strokeWidth: "18px",
               strokeLinejoin: "miter",
-              strokeDasharray: isSelected[2] ? "0" : "30, 15",
+              strokeDasharray: selected === 2 ? "0" : "30, 15",
               cursor: isPanning ? "grabbing" : "pointer",
             }}
           />
@@ -507,12 +514,12 @@ export function Map() {
             d="M1928.05,754.541L1950.28,1116.41L2413.34,1091.05L2392.24,727.594L1928.05,754.541Z"
             style={{
               fill: "rgb(0,255,0)",
-              fillOpacity: isSelected[3] ? 0.2 : 0,
+              fillOpacity: selected === 3 ? 0.2 : 0,
               stroke: "rgb(55,228,0)",
               strokeOpacity: 0.65,
               strokeWidth: "18px",
               strokeLinejoin: "miter",
-              strokeDasharray: isSelected[3] ? "0" : "30, 15",
+              strokeDasharray: selected === 3 ? "0" : "30, 15",
               cursor: isPanning ? "grabbing" : "pointer",
             }}
           />
@@ -521,12 +528,12 @@ export function Map() {
             d="M2429.85,725.475L2451.83,1088.71L2828.6,1068.06L2907.41,1091.13L3010.8,1074.84L3008.88,1056.49L3042.51,1052.88L2976.51,647.499L2522.63,720.498L2429.85,725.475Z"
             style={{
               fill: "rgb(0,255,236)",
-              fillOpacity: isSelected[4] ? 0.2 : 0,
+              fillOpacity: selected === 4 ? 0.2 : 0,
               stroke: "rgb(0,228,207)",
               strokeOpacity: 0.65,
               strokeWidth: "18px",
               strokeLinejoin: "miter",
-              strokeDasharray: isSelected[4] ? "0" : "30, 15",
+              strokeDasharray: selected === 4 ? "0" : "30, 15",
               cursor: isPanning ? "grabbing" : "pointer",
             }}
           />
