@@ -1,16 +1,29 @@
+import Head from "next/head";
 import { Map } from "../components/map";
 import { useState } from "react";
+import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 
 const colors = ["Red", "Orange", "Yellow", "Green", "Blue"];
 
 interface ZoneInfoProps {
   selected: number;
+  setSelected: (index: number | null) => void;
 }
 
-function ZoneInfo({ selected }: ZoneInfoProps) {
+function ZoneInfo({ selected, setSelected }: ZoneInfoProps) {
   return (
     <div className="w-full h-full p-8 overflow-hidden max-w-screen-md">
-      <h2 className="text-4xl font-bold pb-6">{colors[selected]} Zone</h2>
+      <div className="flex flex-row justify-between items-center pb-6 select-none">
+        <ArrowLeftIcon
+          className={`w-8 h-8 mr-4 ${selected === 0 ? "opacity-50" : "hover:cursor-pointer hover:text-gray-400"}`}
+          onClick={() => selected > 0 && setSelected(selected - 1)}
+        />
+        <h2 className="text-4xl font-bold">{colors[selected]} Zone</h2>
+        <ArrowRightIcon
+          className={`w-8 h-8 ml-4 ${selected === 4 ? "opacity-50" : "hover:cursor-pointer hover:text-gray-400"}`}
+          onClick={() => selected < 4 && setSelected(selected + 1)}
+        />
+      </div>
       <p className="pb-4">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at leo at
         augue iaculis molestie sed vel odio. Aliquam erat volutpat. Suspendisse
@@ -66,6 +79,9 @@ export default function Home() {
 
   return (
     <div className="min-w-screen min-h-screen flex flex-col justify-between items-center bg-gray-800">
+      <Head>
+        <title>Zen Masters of Golden Gate Park</title>
+      </Head>
       {/*       <h1 className="font-chakra-petch text-white text-outline text-jumbo">
         Zen Masters
       </h1> */}
@@ -76,7 +92,9 @@ export default function Home() {
 
       <div className="flex flex-col w-full flex-grow justify-start items-center border-t-8 border-black text-white">
         {selected === null && <ZonePlaceholder />}
-        {selected !== null && <ZoneInfo selected={selected} />}
+        {selected !== null && (
+          <ZoneInfo selected={selected} setSelected={setSelected} />
+        )}
       </div>
 
       <Footer />

@@ -20,8 +20,16 @@ const SVG_PADDING_X = 3000;
 const SVG_WIDTH = 2707;
 const SVG_HEIGHT = 642;
 
+const SVG_REGION_CENTERS: Position[] = [
+  { x: 375, y: -1 },
+  { x: 200, y: -1 },
+  { x: 0, y: -1 },
+  { x: -200, y: -1 },
+  { x: -375, y: -1 },
+];
+
 const MIN_ZOOM = 2;
-const MAX_ZOOM = 5;
+const MAX_ZOOM = 8;
 const MIN_PAN_X = -200;
 const MAX_PAN_X = 200;
 const MIN_PAN_Y = -50;
@@ -35,7 +43,7 @@ interface MapProps {
 export function Map({ selected, setSelected }: MapProps) {
   const svgRef = useRef<SVGSVGElement>(null);
 
-  const [scale, setScale] = useState(2);
+  const [scale, setScale] = useState(3);
   const [pan, setPan] = useState<Position>({ x: 0, y: 0 });
   const [isPanning, setIsPanning] = useState(false);
 
@@ -46,6 +54,20 @@ export function Map({ selected, setSelected }: MapProps) {
   // Pinch-to-zoom state
   const [initialDistance, setInitialDistance] = useState(0);
   const [initialScale, setInitialScale] = useState(scale);
+
+  useEffect(() => {
+    if (selected === null) return;
+    if (selected >= SVG_REGION_CENTERS.length) return;
+
+    const svg = svgRef.current;
+    if (!svg) return;
+
+    const regionCenter = SVG_REGION_CENTERS[selected];
+    const newScale = 7;
+
+    setScale(newScale);
+    setPan({ x: regionCenter.x / newScale, y: regionCenter.y / newScale });
+  }, [selected]);
 
   useEffect(() => {
     const svg = svgRef.current;

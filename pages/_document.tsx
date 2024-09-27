@@ -30,7 +30,6 @@ export default function Document() {
         <link rel="shortcut icon" href="/favicon.ico" />
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
-        <title>Zen Masters of Golden Gate Park</title>
       </Head>
       <body>
         <Main />
