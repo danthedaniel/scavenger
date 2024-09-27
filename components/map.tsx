@@ -21,15 +21,15 @@ const SVG_WIDTH = 2707;
 const SVG_HEIGHT = 642;
 
 const SVG_REGION_CENTERS: Position[] = [
-  { x: 375, y: -1 },
-  { x: 200, y: -1 },
-  { x: 0, y: -1 },
-  { x: -200, y: -1 },
-  { x: -375, y: -1 },
+  { x: 390, y: -25 },
+  { x: 210, y: -10 },
+  { x: 25, y: -5 },
+  { x: -150, y: 5 },
+  { x: -355, y: 15 },
 ];
 
-const MIN_ZOOM = 2;
-const MAX_ZOOM = 8;
+const MIN_ZOOM = 3;
+const MAX_ZOOM = 9;
 const MIN_PAN_X = -200;
 const MAX_PAN_X = 200;
 const MIN_PAN_Y = -50;
@@ -46,6 +46,7 @@ export function Map({ selected, setSelected }: MapProps) {
   const [scale, setScale] = useState(3);
   const [pan, setPan] = useState<Position>({ x: 0, y: 0 });
   const [isPanning, setIsPanning] = useState(false);
+  const [isZooming, setIsZooming] = useState(false);
 
   // Drag panning state
   const [start, setStart] = useState<Position>({ x: 0, y: 0 });
@@ -63,7 +64,7 @@ export function Map({ selected, setSelected }: MapProps) {
     if (!svg) return;
 
     const regionCenter = SVG_REGION_CENTERS[selected];
-    const newScale = 7;
+    const newScale = 8;
 
     setScale(newScale);
     setPan({ x: regionCenter.x / newScale, y: regionCenter.y / newScale });
@@ -77,10 +78,15 @@ export function Map({ selected, setSelected }: MapProps) {
       if (event.ctrlKey) {
         // Handle zooming
         event.preventDefault();
+        setIsZooming(true);
         const scaleChange = event.deltaY * -0.02;
         setScale((prevScale) =>
           Math.min(Math.max(MIN_ZOOM, prevScale + scaleChange), MAX_ZOOM)
         );
+
+        setTimeout(() => {
+          setIsZooming(false);
+        }, 1000);
       } else {
         // Handle scrolling
         setPan((prevPan) =>
@@ -122,6 +128,7 @@ export function Map({ selected, setSelected }: MapProps) {
       } else if (event.touches.length === 2) {
         // Two touches, start zooming
         setIsPanning(false);
+        setIsZooming(true);
         const distance = getDistance(event.touches);
         setInitialDistance(distance);
         setInitialScale(scale);
@@ -139,6 +146,7 @@ export function Map({ selected, setSelected }: MapProps) {
         setHasPanned(true);
       } else if (event.touches.length === 2) {
         // Two touches, continue zooming
+        setIsZooming(true);
         const distance = getDistance(event.touches);
         const scaleChange = distance / initialDistance;
         setScale(
@@ -149,6 +157,7 @@ export function Map({ selected, setSelected }: MapProps) {
 
     const handleTouchEnd = () => {
       setIsPanning(false);
+      setIsZooming(false);
     };
 
     const getDistance = (touches: TouchList) => {
@@ -205,6 +214,7 @@ export function Map({ selected, setSelected }: MapProps) {
   return (
     <svg
       ref={svgRef}
+      className={isPanning || isZooming ? "" : "animate-park-map"}
       width="100%"
       height="100%"
       viewBox={`${-SVG_PADDING_X} ${-SVG_PADDING_Y} ${SVG_WIDTH + 2 * SVG_PADDING_X} ${SVG_HEIGHT + 2 * SVG_PADDING_Y}`}
@@ -494,9 +504,9 @@ export function Map({ selected, setSelected }: MapProps) {
             d="M425.581,844.811L448.075,1200.79L931.507,1174.14L911.877,815.325L425.581,844.811Z"
             style={{
               fill: "rgb(227,0,24)",
-              fillOpacity: selected === 0 ? 0.2 : 0,
+              fillOpacity: 0,
               stroke: "rgb(244,28,41)",
-              strokeOpacity: 0.65,
+              strokeOpacity: selected === 0 || selected === null ? 0.9 : 0,
               strokeWidth: "18px",
               strokeLinejoin: "miter",
               strokeDasharray: selected === 0 ? "0" : "30, 15",
@@ -508,9 +518,9 @@ export function Map({ selected, setSelected }: MapProps) {
             d="M947.761,813.617L967.279,1171.4L1385.03,1148.07L1365.81,788.263L947.761,813.617Z"
             style={{
               fill: "rgb(255,184,0)",
-              fillOpacity: selected === 1 ? 0.2 : 0,
+              fillOpacity: 0,
               stroke: "rgb(234,173,0)",
-              strokeOpacity: 0.65,
+              strokeOpacity: selected === 1 || selected === null ? 0.9 : 0,
               strokeWidth: "18px",
               strokeLinejoin: "miter",
               strokeDasharray: selected === 1 ? "0" : "30, 15",
@@ -522,9 +532,9 @@ export function Map({ selected, setSelected }: MapProps) {
             d="M1401.44,785.695L1422.79,1146.28L1912.92,1119.02L1890.95,757.414L1401.44,785.695Z"
             style={{
               fill: "rgb(255,249,0)",
-              fillOpacity: selected === 2 ? 0.2 : 0,
+              fillOpacity: 0,
               stroke: "rgb(225,220,0)",
-              strokeOpacity: 0.65,
+              strokeOpacity: selected === 2 || selected === null ? 0.9 : 0,
               strokeWidth: "18px",
               strokeLinejoin: "miter",
               strokeDasharray: selected === 2 ? "0" : "30, 15",
@@ -536,9 +546,9 @@ export function Map({ selected, setSelected }: MapProps) {
             d="M1928.05,754.541L1950.28,1116.41L2413.34,1091.05L2392.24,727.594L1928.05,754.541Z"
             style={{
               fill: "rgb(0,255,0)",
-              fillOpacity: selected === 3 ? 0.2 : 0,
+              fillOpacity: 0,
               stroke: "rgb(55,228,0)",
-              strokeOpacity: 0.65,
+              strokeOpacity: selected === 3 || selected === null ? 0.9 : 0,
               strokeWidth: "18px",
               strokeLinejoin: "miter",
               strokeDasharray: selected === 3 ? "0" : "30, 15",
@@ -550,9 +560,9 @@ export function Map({ selected, setSelected }: MapProps) {
             d="M2429.85,725.475L2451.83,1088.71L2828.6,1068.06L2907.41,1091.13L3010.8,1074.84L3008.88,1056.49L3042.51,1052.88L2976.51,647.499L2522.63,720.498L2429.85,725.475Z"
             style={{
               fill: "rgb(0,255,236)",
-              fillOpacity: selected === 4 ? 0.2 : 0,
+              fillOpacity: 0,
               stroke: "rgb(0,228,207)",
-              strokeOpacity: 0.65,
+              strokeOpacity: selected === 4 || selected === null ? 0.9 : 0,
               strokeWidth: "18px",
               strokeLinejoin: "miter",
               strokeDasharray: selected === 4 ? "0" : "30, 15",

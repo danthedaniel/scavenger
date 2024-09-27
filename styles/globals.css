@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+.animate-park-map {
+  transition: transform 0.5s ease;
+}
+
+.border-t-6 {
+  border-top-width: 6px;
+}
+
+.border-b-6 {
+  border-bottom-width: 6px;
+}
+
 .font-chakra-petch {
   font-family: "Chakra Petch", sans-serif;
 }
