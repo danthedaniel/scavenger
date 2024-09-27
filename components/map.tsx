@@ -40,11 +40,12 @@ const MIN_PAN_Y = -50;
 const MAX_PAN_Y = 20;
 
 interface MapProps {
+  found: number[];
   selected: number | null;
   setSelected: (index: number | null) => void;
 }
 
-export function Map({ selected, setSelected }: MapProps) {
+export function Map({ found, selected, setSelected }: MapProps) {
   const svgRef = useRef<SVGSVGElement>(null);
 
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -535,13 +536,44 @@ export function Map({ selected, setSelected }: MapProps) {
                 fill: "rgb(227,0,24)",
                 fillOpacity: 0,
                 stroke: "rgb(244,28,41)",
-                strokeOpacity: selected === 0 || selected === null ? 0.9 : 0,
+                strokeOpacity:
+                  (selected === 0 || selected === null) && !found.includes(0)
+                    ? 0.9
+                    : 0,
                 strokeWidth: "18px",
                 strokeLinejoin: "miter",
                 strokeDasharray: selected === 0 ? "0" : "30, 15",
                 cursor: isPanning ? "grabbing" : "pointer",
               }}
             />
+            {found.includes(0) && (
+              <g transform="matrix(1,0,0,1,102.035,891.599)">
+                <g transform="matrix(0.951698,0,0,1.00369,-30.0826,-450.145)">
+                  <ellipse
+                    cx="628.105"
+                    cy="578.655"
+                    rx="103.134"
+                    ry="97.866"
+                    style={{
+                      fill: "rgb(245,27,41)",
+                      fillOpacity: 0.75,
+                    }}
+                  />
+                </g>
+                <g transform="matrix(1,0,0,1,-60.4697,-447.886)">
+                  <path
+                    d="M590.121,581.116L620.59,611.443L666.332,547.519"
+                    style={{
+                      fill: "none",
+                      stroke: "white",
+                      strokeWidth: "16px",
+                      strokeLinejoin: "miter",
+                      strokeMiterlimit: 2,
+                    }}
+                  />
+                </g>
+              </g>
+            )}
             <path
               onClick={() => handleClick(1)}
               d="M947.761,813.617L967.279,1171.4L1385.03,1148.07L1365.81,788.263L947.761,813.617Z"
@@ -549,13 +581,44 @@ export function Map({ selected, setSelected }: MapProps) {
                 fill: "rgb(255,184,0)",
                 fillOpacity: 0,
                 stroke: "rgb(234,173,0)",
-                strokeOpacity: selected === 1 || selected === null ? 0.9 : 0,
+                strokeOpacity:
+                  (selected === 1 || selected === null) && !found.includes(1)
+                    ? 0.9
+                    : 0,
                 strokeWidth: "18px",
                 strokeLinejoin: "miter",
                 strokeDasharray: selected === 1 ? "0" : "30, 15",
                 cursor: isPanning ? "grabbing" : "pointer",
               }}
             />
+            {found.includes(1) && (
+              <g transform="matrix(1,0,0,1,608,861.233)">
+                <g transform="matrix(0.951698,0,0,1.00369,-30.0826,-450.145)">
+                  <ellipse
+                    cx="628.105"
+                    cy="578.655"
+                    rx="103.134"
+                    ry="97.866"
+                    style={{
+                      fill: "rgb(234,172,0)",
+                      fillOpacity: 0.75,
+                    }}
+                  />
+                </g>
+                <g transform="matrix(1,0,0,1,-60.4697,-447.886)">
+                  <path
+                    d="M590.121,581.116L620.59,611.443L666.332,547.519"
+                    style={{
+                      fill: "none",
+                      stroke: "white",
+                      strokeWidth: "16px",
+                      strokeLinejoin: "miter",
+                      strokeMiterlimit: 2,
+                    }}
+                  />
+                </g>
+              </g>
+            )}
             <path
               onClick={() => handleClick(2)}
               d="M1401.44,785.695L1422.79,1146.28L1912.92,1119.02L1890.95,757.414L1401.44,785.695Z"
@@ -563,13 +626,44 @@ export function Map({ selected, setSelected }: MapProps) {
                 fill: "rgb(255,249,0)",
                 fillOpacity: 0,
                 stroke: "rgb(225,220,0)",
-                strokeOpacity: selected === 2 || selected === null ? 0.9 : 0,
+                strokeOpacity:
+                  (selected === 2 || selected === null) && !found.includes(2)
+                    ? 0.9
+                    : 0,
                 strokeWidth: "18px",
                 strokeLinejoin: "miter",
                 strokeDasharray: selected === 2 ? "0" : "30, 15",
                 cursor: isPanning ? "grabbing" : "pointer",
               }}
             />
+            {found.includes(2) && (
+              <g transform="matrix(1,0,0,1,1103.55,834.01)">
+                <g transform="matrix(0.951698,0,0,1.00369,-30.0826,-450.145)">
+                  <ellipse
+                    cx="628.105"
+                    cy="578.655"
+                    rx="103.134"
+                    ry="97.866"
+                    style={{
+                      fill: "rgb(226,220,0)",
+                      fillOpacity: 0.75,
+                    }}
+                  />
+                </g>
+                <g transform="matrix(1,0,0,1,-60.4697,-447.886)">
+                  <path
+                    d="M590.121,581.116L620.59,611.443L666.332,547.519"
+                    style={{
+                      fill: "none",
+                      stroke: "white",
+                      strokeWidth: "16px",
+                      strokeLinejoin: "miter",
+                      strokeMiterlimit: 2,
+                    }}
+                  />
+                </g>
+              </g>
+            )}
             <path
               onClick={() => handleClick(3)}
               d="M1928.05,754.541L1950.28,1116.41L2413.34,1091.05L2392.24,727.594L1928.05,754.541Z"
@@ -577,13 +671,44 @@ export function Map({ selected, setSelected }: MapProps) {
                 fill: "rgb(0,255,0)",
                 fillOpacity: 0,
                 stroke: "rgb(55,228,0)",
-                strokeOpacity: selected === 3 || selected === null ? 0.9 : 0,
+                strokeOpacity:
+                  (selected === 3 || selected === null) && !found.includes(3)
+                    ? 0.9
+                    : 0,
                 strokeWidth: "18px",
                 strokeLinejoin: "miter",
                 strokeDasharray: selected === 3 ? "0" : "30, 15",
                 cursor: isPanning ? "grabbing" : "pointer",
               }}
             />
+            {found.includes(3) && (
+              <g transform="matrix(1,0,0,1,1617.22,803.661)">
+                <g transform="matrix(0.951698,0,0,1.00369,-30.0826,-450.145)">
+                  <ellipse
+                    cx="628.105"
+                    cy="578.655"
+                    rx="103.134"
+                    ry="97.866"
+                    style={{
+                      fill: "rgb(54,228,0)",
+                      fillOpacity: 0.75,
+                    }}
+                  />
+                </g>
+                <g transform="matrix(1,0,0,1,-60.4697,-447.886)">
+                  <path
+                    d="M590.121,581.116L620.59,611.443L666.332,547.519"
+                    style={{
+                      fill: "none",
+                      stroke: "white",
+                      strokeWidth: "16px",
+                      strokeLinejoin: "miter",
+                      strokeMiterlimit: 2,
+                    }}
+                  />
+                </g>
+              </g>
+            )}
             <path
               onClick={() => handleClick(4)}
               d="M2429.85,725.475L2451.83,1088.71L2828.6,1068.06L2907.41,1091.13L3010.8,1074.84L3008.88,1056.49L3042.51,1052.88L2976.51,647.499L2522.63,720.498L2429.85,725.475Z"
@@ -591,13 +716,44 @@ export function Map({ selected, setSelected }: MapProps) {
                 fill: "rgb(0,255,236)",
                 fillOpacity: 0,
                 stroke: "rgb(0,228,207)",
-                strokeOpacity: selected === 4 || selected === null ? 0.9 : 0,
+                strokeOpacity:
+                  (selected === 4 || selected === null) && !found.includes(4)
+                    ? 0.9
+                    : 0,
                 strokeWidth: "18px",
                 strokeLinejoin: "miter",
                 strokeDasharray: selected === 4 ? "0" : "30, 15",
                 cursor: isPanning ? "grabbing" : "pointer",
               }}
             />
+            {found.includes(4) && (
+              <g transform="matrix(1,0,0,1,2146.2,771.816)">
+                <g transform="matrix(0.951698,0,0,1.00369,-30.0826,-450.145)">
+                  <ellipse
+                    cx="628.105"
+                    cy="578.655"
+                    rx="103.134"
+                    ry="97.866"
+                    style={{
+                      fill: "rgb(0,229,207)",
+                      fillOpacity: 0.75,
+                    }}
+                  />
+                </g>
+                <g transform="matrix(1,0,0,1,-60.4697,-447.886)">
+                  <path
+                    d="M590.121,581.116L620.59,611.443L666.332,547.519"
+                    style={{
+                      fill: "none",
+                      stroke: "white",
+                      strokeWidth: "16px",
+                      strokeLinejoin: "miter",
+                      strokeMiterlimit: 2,
+                    }}
+                  />
+                </g>
+              </g>
+            )}
           </g>
         </g>
       </svg>

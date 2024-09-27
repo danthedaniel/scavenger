@@ -125,6 +125,7 @@ function Menu() {
 }
 
 export default function Home() {
+  const [found, setFound] = useState<number[]>([]);
   const [selected, setSelected] = useState<number | null>(null);
 
   return (
@@ -135,7 +136,7 @@ export default function Home() {
 
       <Menu />
 
-      <Map selected={selected} setSelected={setSelected} />
+      <Map found={found} selected={selected} setSelected={setSelected} />
 
       <div className="flex flex-col w-full flex-grow justify-start items-center border-t-6 border-black text-black">
         {selected === null && <ZonePlaceholder />}
