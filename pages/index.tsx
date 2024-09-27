@@ -92,7 +92,7 @@ function Menu() {
 
   return (
     <div
-      className={`flex flex-col bg-white ${isMenuOpen ? "fixed top-0 left-0 z-10 h-screen w-screen" : "border-b-6 border-black w-full h-auto"}`}
+      className={`flex flex-col bg-white ${isMenuOpen ? "fixed top-0 left-0 z-50 h-screen w-screen" : "border-b-6 border-black w-full h-auto"}`}
     >
       <div className="flex flex-row w-full h-20 justify-between items-center px-8">
         <h1 className="text-2xl font-bold">Park Scavenger Hunt</h1>
@@ -101,9 +101,15 @@ function Menu() {
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           {isMenuOpen ? (
-            <XMarkIcon className="w-8 h-8 cursor-pointer" />
+            <XMarkIcon
+              className="w-8 h-8 cursor-pointer"
+              aria-label="Close menu"
+            />
           ) : (
-            <Bars3Icon className="w-8 h-8 cursor-pointer" />
+            <Bars3Icon
+              className="w-8 h-8 cursor-pointer"
+              aria-label="Open menu"
+            />
           )}
         </div>
       </div>
@@ -129,9 +135,7 @@ export default function Home() {
 
       <Menu />
 
-      <div className="w-full h-64 p-8 bg-blue-200 overflow-hidden">
-        <Map selected={selected} setSelected={setSelected} />
-      </div>
+      <Map selected={selected} setSelected={setSelected} />
 
       <div className="flex flex-col w-full flex-grow justify-start items-center border-t-6 border-black text-black">
         {selected === null && <ZonePlaceholder />}
