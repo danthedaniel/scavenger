@@ -125,7 +125,7 @@ function Menu() {
 }
 
 export default function Home() {
-  const [found, setFound] = useState<number[]>([]);
+  const [found, _setFound] = useState<number[]>([]);
   const [selected, setSelected] = useState<number | null>(null);
 
   return (

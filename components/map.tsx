@@ -34,9 +34,9 @@ const SVG_REGION_CENTERS: Position[] = [
 
 const MIN_ZOOM = 3;
 const MAX_ZOOM = 9;
-const MIN_PAN_X = -200;
-const MAX_PAN_X = 200;
-const MIN_PAN_Y = -50;
+const MIN_PAN_X = -110;
+const MAX_PAN_X = 110;
+const MIN_PAN_Y = -25;
 const MAX_PAN_Y = 20;
 
 interface MapProps {
