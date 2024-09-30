@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { Map } from "../components/map";
+import { Map, REGIONS } from "../components/map";
 import { useState } from "react";
 import {
   ArrowLeftIcon,
@@ -7,8 +7,6 @@ import {
   Bars3Icon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-
-const colors = ["Red", "Orange", "Yellow", "Green", "Blue"];
 
 interface ZoneInfoProps {
   selected: number;
@@ -24,7 +22,7 @@ function ZoneInfo({ selected, setSelected }: ZoneInfoProps) {
           onClick={() => selected > 0 && setSelected(selected - 1)}
         />
         <h1 className="text-4xl font-bold text-white text-outline font-chakra-petch">
-          {colors[selected]} Zone
+          {REGIONS[selected].name} Zone
         </h1>
         <ArrowRightIcon
           className={`w-8 h-8 ml-4 ${selected === 4 ? "opacity-0" : "hover:cursor-pointer hover:text-blue-400"}`}

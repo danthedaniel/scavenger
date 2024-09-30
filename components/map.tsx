@@ -4,6 +4,12 @@ import {
 } from "@heroicons/react/24/outline";
 import { useState, useRef, useEffect, CSSProperties } from "react";
 
+interface RegionInfo {
+  name: string;
+  color: string;
+  center: Position;
+}
+
 interface Position {
   x: number;
   y: number;
@@ -24,13 +30,33 @@ const SVG_PADDING_X = 3000;
 const SVG_WIDTH = 2707;
 const SVG_HEIGHT = 642;
 
-const SVG_REGION_CENTERS: Position[] = [
-  { x: 390, y: -25 },
-  { x: 210, y: -10 },
-  { x: 25, y: -5 },
-  { x: -150, y: 5 },
-  { x: -355, y: 15 },
-];
+export const REGIONS: RegionInfo[] = [
+  {
+    name: "Red",
+    color: "rgb(244,28,41)",
+    center: { x: 390, y: -25 },
+  },
+  {
+    name: "Orange",
+    color: "rgb(234,173,0)",
+    center: { x: 210, y: -10 },
+  },
+  {
+    name: "Yellow",
+    color: "rgb(225,220,0)",
+    center: { x: 25, y: -5 },
+  },
+  {
+    name: "Green",
+    color: "rgb(55,228,0)",
+    center: { x: -150, y: 5 },
+  },
+  {
+    name: "Blue",
+    color: "rgb(0,228,207)",
+    center: { x: -355, y: 15 },
+  },
+] as const;
 
 const MIN_ZOOM = 3;
 const MAX_ZOOM = 9;
@@ -87,12 +113,12 @@ export function Map({ found, selected, setSelected }: MapProps) {
   // Center on region when selected.
   useEffect(() => {
     if (selected === null) return;
-    if (selected >= SVG_REGION_CENTERS.length) return;
+    if (selected >= REGIONS.length) return;
 
     const svg = svgRef.current;
     if (!svg) return;
 
-    const regionCenter = SVG_REGION_CENTERS[selected];
+    const regionCenter = REGIONS[selected].center;
     const newScale = 8;
 
     setScale(newScale);
@@ -237,7 +263,7 @@ export function Map({ found, selected, setSelected }: MapProps) {
     return () => window.removeEventListener("touchend", handleTouchEnd);
   }, []);
 
-  const handleClick = (index: number) => {
+  const handleRegionClick = (index: number) => {
     if (isPanning || hasPanned) return;
 
     if (selected === index) {
@@ -245,6 +271,25 @@ export function Map({ found, selected, setSelected }: MapProps) {
     } else {
       setSelected(index);
     }
+  };
+
+  const regionHasBorder = (index: number) => {
+    if (found.includes(index)) return false;
+    if (selected === null) true;
+
+    return selected === 0;
+  };
+
+  const regionStyle = (index: number): CSSProperties => {
+    return {
+      fill: "none",
+      stroke: REGIONS[index].color,
+      strokeOpacity: regionHasBorder(index) ? 0.9 : 0,
+      strokeWidth: "18px",
+      strokeLinejoin: "miter",
+      strokeDasharray: selected === index ? "0" : "30, 15",
+      cursor: isPanning ? "grabbing" : "pointer",
+    };
   };
 
   return (
@@ -554,21 +599,9 @@ export function Map({ found, selected, setSelected }: MapProps) {
           </g>
           <g id="Regions">
             <path
-              onClick={() => handleClick(0)}
+              onClick={() => handleRegionClick(0)}
               d="M425.581,844.811L448.075,1200.79L931.507,1174.14L911.877,815.325L425.581,844.811Z"
-              style={{
-                fill: "rgb(227,0,24)",
-                fillOpacity: 0,
-                stroke: "rgb(244,28,41)",
-                strokeOpacity:
-                  (selected === 0 || selected === null) && !found.includes(0)
-                    ? 0.9
-                    : 0,
-                strokeWidth: "18px",
-                strokeLinejoin: "miter",
-                strokeDasharray: selected === 0 ? "0" : "30, 15",
-                cursor: isPanning ? "grabbing" : "pointer",
-              }}
+              style={regionStyle(0)}
             />
             {found.includes(0) && (
               <g transform="matrix(1,0,0,1,102.035,891.599)">
@@ -599,21 +632,9 @@ export function Map({ found, selected, setSelected }: MapProps) {
               </g>
             )}
             <path
-              onClick={() => handleClick(1)}
+              onClick={() => handleRegionClick(1)}
               d="M947.761,813.617L967.279,1171.4L1385.03,1148.07L1365.81,788.263L947.761,813.617Z"
-              style={{
-                fill: "rgb(255,184,0)",
-                fillOpacity: 0,
-                stroke: "rgb(234,173,0)",
-                strokeOpacity:
-                  (selected === 1 || selected === null) && !found.includes(1)
-                    ? 0.9
-                    : 0,
-                strokeWidth: "18px",
-                strokeLinejoin: "miter",
-                strokeDasharray: selected === 1 ? "0" : "30, 15",
-                cursor: isPanning ? "grabbing" : "pointer",
-              }}
+              style={regionStyle(1)}
             />
             {found.includes(1) && (
               <g transform="matrix(1,0,0,1,608,861.233)">
@@ -644,21 +665,9 @@ export function Map({ found, selected, setSelected }: MapProps) {
               </g>
             )}
             <path
-              onClick={() => handleClick(2)}
+              onClick={() => handleRegionClick(2)}
               d="M1401.44,785.695L1422.79,1146.28L1912.92,1119.02L1890.95,757.414L1401.44,785.695Z"
-              style={{
-                fill: "rgb(255,249,0)",
-                fillOpacity: 0,
-                stroke: "rgb(225,220,0)",
-                strokeOpacity:
-                  (selected === 2 || selected === null) && !found.includes(2)
-                    ? 0.9
-                    : 0,
-                strokeWidth: "18px",
-                strokeLinejoin: "miter",
-                strokeDasharray: selected === 2 ? "0" : "30, 15",
-                cursor: isPanning ? "grabbing" : "pointer",
-              }}
+              style={regionStyle(2)}
             />
             {found.includes(2) && (
               <g transform="matrix(1,0,0,1,1103.55,834.01)">
@@ -689,21 +698,9 @@ export function Map({ found, selected, setSelected }: MapProps) {
               </g>
             )}
             <path
-              onClick={() => handleClick(3)}
+              onClick={() => handleRegionClick(3)}
               d="M1928.05,754.541L1950.28,1116.41L2413.34,1091.05L2392.24,727.594L1928.05,754.541Z"
-              style={{
-                fill: "rgb(0,255,0)",
-                fillOpacity: 0,
-                stroke: "rgb(55,228,0)",
-                strokeOpacity:
-                  (selected === 3 || selected === null) && !found.includes(3)
-                    ? 0.9
-                    : 0,
-                strokeWidth: "18px",
-                strokeLinejoin: "miter",
-                strokeDasharray: selected === 3 ? "0" : "30, 15",
-                cursor: isPanning ? "grabbing" : "pointer",
-              }}
+              style={regionStyle(3)}
             />
             {found.includes(3) && (
               <g transform="matrix(1,0,0,1,1617.22,803.661)">
@@ -734,21 +731,9 @@ export function Map({ found, selected, setSelected }: MapProps) {
               </g>
             )}
             <path
-              onClick={() => handleClick(4)}
+              onClick={() => handleRegionClick(4)}
               d="M2429.85,725.475L2451.83,1088.71L2828.6,1068.06L2907.41,1091.13L3010.8,1074.84L3008.88,1056.49L3042.51,1052.88L2976.51,647.499L2522.63,720.498L2429.85,725.475Z"
-              style={{
-                fill: "rgb(0,255,236)",
-                fillOpacity: 0,
-                stroke: "rgb(0,228,207)",
-                strokeOpacity:
-                  (selected === 4 || selected === null) && !found.includes(4)
-                    ? 0.9
-                    : 0,
-                strokeWidth: "18px",
-                strokeLinejoin: "miter",
-                strokeDasharray: selected === 4 ? "0" : "30, 15",
-                cursor: isPanning ? "grabbing" : "pointer",
-              }}
+              style={regionStyle(4)}
             />
             {found.includes(4) && (
               <g transform="matrix(1,0,0,1,2146.2,771.816)">
