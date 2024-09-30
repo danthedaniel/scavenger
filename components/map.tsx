@@ -39,6 +39,20 @@ const MAX_PAN_X = 110;
 const MIN_PAN_Y = -25;
 const MAX_PAN_Y = 20;
 
+const getDistance = (touches: TouchList) => {
+  const dx = touches[0].clientX - touches[1].clientX;
+  const dy = touches[0].clientY - touches[1].clientY;
+
+  return Math.hypot(dx, dy);
+};
+
+const limitPan = (newPan: Position): Position => {
+  return {
+    x: Math.min(Math.max(newPan.x, MIN_PAN_X), MAX_PAN_X),
+    y: Math.min(Math.max(newPan.y, MIN_PAN_Y), MAX_PAN_Y),
+  };
+};
+
 interface MapProps {
   found: number[];
   selected: number | null;
@@ -62,6 +76,7 @@ export function Map({ found, selected, setSelected }: MapProps) {
   const [initialDistance, setInitialDistance] = useState(0);
   const [initialScale, setInitialScale] = useState(scale);
 
+  // Disable fullscreen view on region selection.
   useEffect(() => {
     if (selected === null) return;
     if (!isFullscreen) return;
@@ -69,6 +84,7 @@ export function Map({ found, selected, setSelected }: MapProps) {
     setIsFullscreen(false);
   }, [selected]);
 
+  // Center on region when selected.
   useEffect(() => {
     if (selected === null) return;
     if (selected >= SVG_REGION_CENTERS.length) return;
@@ -87,29 +103,37 @@ export function Map({ found, selected, setSelected }: MapProps) {
     const svg = svgRef.current;
     if (!svg) return;
 
-    const handleWheel = (event: WheelEvent) => {
-      if (event.ctrlKey) {
-        // Handle zooming
-        event.preventDefault();
-        setIsZooming(true);
-        const scaleChange = event.deltaY * -0.02;
-        setScale((prevScale) =>
-          Math.min(Math.max(MIN_ZOOM, prevScale + scaleChange), MAX_ZOOM)
-        );
+    svg.style.transform = `scale(${scale}) translate(${pan.x}px, ${pan.y}px)`;
+  }, [scale, pan]);
 
-        setTimeout(() => {
-          setIsZooming(false);
-        }, 1000);
-      } else {
-        // Handle scrolling
-        setPan((prevPan) =>
-          limitPan({
-            x: prevPan.x - event.deltaX / scale,
-            y: prevPan.y - event.deltaY / scale,
-          })
-        );
-      }
+  // Event handler for scroll zoom.
+  useEffect(() => {
+    const svg = svgRef.current;
+    if (!svg) return;
+
+    const handleWheel = (event: WheelEvent) => {
+      event.preventDefault();
+
+      // Handle zooming
+      setIsZooming(true);
+      const scaleChange = event.deltaY * -0.02;
+      setScale((prevScale) =>
+        Math.min(Math.max(MIN_ZOOM, prevScale + scaleChange), MAX_ZOOM)
+      );
+
+      setTimeout(() => {
+        setIsZooming(false);
+      }, 1000);
     };
+
+    svg.addEventListener("wheel", handleWheel);
+    return () => svg.removeEventListener("wheel", handleWheel);
+  }, [scale]);
+
+  // Event handler for mouse click.
+  useEffect(() => {
+    const svg = svgRef.current;
+    if (!svg) return;
 
     const handleMouseDown = (event: MouseEvent) => {
       setIsPanning(true);
@@ -117,6 +141,12 @@ export function Map({ found, selected, setSelected }: MapProps) {
       setHasPanned(false);
     };
 
+    svg.addEventListener("mousedown", handleMouseDown);
+    return () => svg.removeEventListener("mousedown", handleMouseDown);
+  }, []);
+
+  // Event handler for mouse dragging (panning).
+  useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
       if (!isPanning) return;
 
@@ -128,9 +158,24 @@ export function Map({ found, selected, setSelected }: MapProps) {
       setHasPanned(true);
     };
 
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [isPanning, pan, scale]);
+
+  // Event handler for mouse release.
+  useEffect(() => {
     const handleMouseUp = () => {
       setIsPanning(false);
     };
+
+    window.addEventListener("mouseup", handleMouseUp);
+    return () => window.removeEventListener("mouseup", handleMouseUp);
+  }, []);
+
+  // Event handler for touch pan/zoom start.
+  useEffect(() => {
+    const svg = svgRef.current;
+    if (!svg) return;
 
     const handleTouchStart = (event: TouchEvent) => {
       if (event.touches.length === 1) {
@@ -148,6 +193,12 @@ export function Map({ found, selected, setSelected }: MapProps) {
       }
     };
 
+    svg.addEventListener("touchstart", handleTouchStart);
+    return () => svg.removeEventListener("touchstart", handleTouchStart);
+  }, [scale]);
+
+  // Event handler for touch pan/zoom.
+  useEffect(() => {
     const handleTouchMove = (event: TouchEvent) => {
       if (event.touches.length === 1 && isPanning) {
         // Single touch, continue panning
@@ -157,7 +208,7 @@ export function Map({ found, selected, setSelected }: MapProps) {
         setPan(limitPan({ x: pan.x + dx, y: pan.y + dy }));
         setStart({ x: event.touches[0].clientX, y: event.touches[0].clientY });
         setHasPanned(true);
-      } else if (event.touches.length === 2) {
+      } else if (event.touches.length === 2 && isZooming) {
         // Two touches, continue zooming
         setIsZooming(true);
         const distance = getDistance(event.touches);
@@ -168,51 +219,23 @@ export function Map({ found, selected, setSelected }: MapProps) {
       }
     };
 
+    window.addEventListener("touchmove", handleTouchMove);
+    return () => window.removeEventListener("touchmove", handleTouchMove);
+  }, [isPanning, isZooming, scale, pan, initialDistance, initialScale]);
+
+  // Event handler for touch pan/zoom end.
+  useEffect(() => {
+    const svg = svgRef.current;
+    if (!svg) return;
+
     const handleTouchEnd = () => {
       setIsPanning(false);
       setIsZooming(false);
     };
 
-    const getDistance = (touches: TouchList) => {
-      const dx = touches[0].clientX - touches[1].clientX;
-      const dy = touches[0].clientY - touches[1].clientY;
-
-      return Math.hypot(dx, dy);
-    };
-
-    const limitPan = (newPan: { x: number; y: number }): Position => {
-      return {
-        x: Math.min(Math.max(newPan.x, MIN_PAN_X), MAX_PAN_X),
-        y: Math.min(Math.max(newPan.y, MIN_PAN_Y), MAX_PAN_Y),
-      };
-    };
-
-    svg.addEventListener("wheel", handleWheel);
-    svg.addEventListener("mousedown", handleMouseDown);
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
-    svg.addEventListener("touchstart", handleTouchStart);
-    window.addEventListener("touchmove", handleTouchMove);
     window.addEventListener("touchend", handleTouchEnd);
-
-    return () => {
-      svg.removeEventListener("wheel", handleWheel);
-      svg.removeEventListener("mousedown", handleMouseDown);
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
-      svg.removeEventListener("touchstart", handleTouchStart);
-      window.removeEventListener("touchmove", handleTouchMove);
-      window.removeEventListener("touchend", handleTouchEnd);
-    };
-  }, [isPanning, pan, start, scale, initialDistance, initialScale]);
-
-  useEffect(() => {
-    const svg = svgRef.current;
-    if (!svg) return;
-
-    svg.style.transform = `scale(${scale}) translate(${pan.x}px, ${pan.y}px)`;
-    svg.style.transformOrigin = "center center";
-  }, [scale, pan]);
+    return () => window.removeEventListener("touchend", handleTouchEnd);
+  }, []);
 
   const handleClick = (index: number) => {
     if (isPanning || hasPanned) return;
@@ -232,14 +255,14 @@ export function Map({ found, selected, setSelected }: MapProps) {
         <ArrowsPointingOutIcon
           className="absolute z-10 top-4 left-4 w-8 h-8 cursor-pointer"
           onClick={() => setIsFullscreen(true)}
-          aria-label="Fullscreen"
+          aria-label="Enter Fullscreen Map"
         />
       )}
       {isFullscreen && (
         <ArrowsPointingInIcon
           className="absolute z-10 top-4 left-4 w-8 h-8 cursor-pointer"
           onClick={() => setIsFullscreen(false)}
-          aria-label="Exit fullscreen"
+          aria-label="Exit Fullscreen Map"
         />
       )}
       <svg
@@ -258,6 +281,7 @@ export function Map({ found, selected, setSelected }: MapProps) {
           border: "1px solid red",
           cursor: isPanning ? "grabbing" : "grab",
           touchAction: "none",
+          transformOrigin: "center center",
         }}
       >
         <g transform="matrix(1,0,0,1,-380.586,-603.087)">
