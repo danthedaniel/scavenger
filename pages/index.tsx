@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { Map, REGIONS } from "../components/map";
-import { useState } from "react";
+import { useAppContext } from "../components/app_context";
+import { useEffect, useState } from "react";
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
@@ -123,7 +124,9 @@ function Menu() {
 }
 
 export default function Home() {
-  const [found, _setFound] = useState<number[]>([]);
+  const {
+    state: { found },
+  } = useAppContext();
   const [selected, setSelected] = useState<number | null>(null);
 
   return (
