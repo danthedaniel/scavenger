@@ -275,10 +275,11 @@ export function Map({ found, selected, setSelected }: MapProps) {
   };
 
   const regionHasBorder = (index: number) => {
+    if (selected === index) return true;
     if (found.includes(index)) return false;
-    if (selected === null) true;
+    if (selected === null) return true;
 
-    return selected === 0;
+    return false;
   };
 
   const regionStyle = (index: number): CSSProperties => {
