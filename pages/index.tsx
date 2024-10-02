@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { Map, REGIONS } from "../components/map";
 import { useAppContext } from "../components/app_context";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
