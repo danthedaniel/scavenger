@@ -1,13 +1,15 @@
 import Head from "next/head";
 import { Map, REGIONS } from "../components/map";
 import { useAppContext } from "../components/app_context";
-import { useState } from "react";
+import { useWindowSize } from "../components/hooks/use_window_size";
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
   Bars3Icon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import Confetti from "react-confetti";
+import { useEffect, useState } from "react";
 
 interface ZoneInfoProps {
   selected: number;
@@ -123,11 +125,40 @@ function Menu() {
   );
 }
 
+// Draws a star shape on the confetti canvas.
+function drawStar(ctx: CanvasRenderingContext2D): void {
+  ctx.beginPath();
+
+  const outerRadius = 10;
+  const innerRadius = 5;
+  const numPoints = 5;
+
+  for (let i = 0; i < 2 * numPoints + 1; i++) {
+    const radius = i % 2 === 0 ? outerRadius : innerRadius;
+    const angle = i * (Math.PI / numPoints);
+    const x = radius * Math.cos(angle);
+    const y = radius * Math.sin(angle);
+    ctx.lineTo(x, y);
+  }
+
+  ctx.stroke();
+  ctx.fill();
+  ctx.closePath();
+}
+
 export default function Home() {
   const {
     state: { found },
   } = useAppContext();
+  const { width: windowWidth, height: windowHeight } = useWindowSize();
   const [selected, setSelected] = useState<number | null>(null);
+  const [showConfetti, setShowConfetti] = useState(false);
+
+  useEffect(() => {
+    if (found.length === 0) return;
+
+    setShowConfetti(true);
+  }, [JSON.stringify(found)]);
 
   return (
     <div className="min-w-screen min-h-screen flex flex-col justify-between items-center bg-gray-100">
@@ -145,6 +176,16 @@ export default function Home() {
           <ZoneInfo selected={selected} setSelected={setSelected} />
         )}
       </div>
+
+      {showConfetti && (
+        <Confetti
+          recycle={false}
+          width={windowWidth}
+          height={windowHeight}
+          drawShape={drawStar}
+          onConfettiComplete={() => setShowConfetti(false)}
+        />
+      )}
 
       <Footer />
     </div>
