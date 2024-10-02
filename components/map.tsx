@@ -125,12 +125,13 @@ export function Map({ found, selected, setSelected }: MapProps) {
     setPan({ x: regionCenter.x / newScale, y: regionCenter.y / newScale });
   }, [selected]);
 
+  // Update transform on scale/pan change.
   useEffect(() => {
     const svg = svgRef.current;
     if (!svg) return;
 
     svg.style.transform = `scale(${scale}) translate(${pan.x}px, ${pan.y}px)`;
-  }, [scale, pan]);
+  }, [svgRef.current, scale, pan]);
 
   // Event handler for scroll zoom.
   useEffect(() => {
@@ -154,7 +155,7 @@ export function Map({ found, selected, setSelected }: MapProps) {
 
     svg.addEventListener("wheel", handleWheel);
     return () => svg.removeEventListener("wheel", handleWheel);
-  }, [scale]);
+  }, [svgRef.current, scale]);
 
   // Event handler for mouse click.
   useEffect(() => {
@@ -221,7 +222,7 @@ export function Map({ found, selected, setSelected }: MapProps) {
 
     svg.addEventListener("touchstart", handleTouchStart);
     return () => svg.removeEventListener("touchstart", handleTouchStart);
-  }, [scale]);
+  }, [svgRef.current, scale]);
 
   // Event handler for touch pan/zoom.
   useEffect(() => {
@@ -261,7 +262,7 @@ export function Map({ found, selected, setSelected }: MapProps) {
 
     window.addEventListener("touchend", handleTouchEnd);
     return () => window.removeEventListener("touchend", handleTouchEnd);
-  }, []);
+  }, [svgRef.current]);
 
   const handleRegionClick = (index: number) => {
     if (isPanning || hasPanned) return;
