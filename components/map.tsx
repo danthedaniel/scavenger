@@ -105,14 +105,6 @@ export function Map({ found, selected, setSelected }: MapProps) {
 
   const resetZooming = useDebounce(() => setIsZooming(false), 250);
 
-  // Disable fullscreen view on region selection.
-  useEffect(() => {
-    if (selected === null) return;
-    if (!isFullscreen) return;
-
-    setIsFullscreen(false);
-  }, [selected]);
-
   useEffect(() => {
     if (selected === null) {
       // Restore original pan/scale on deselect.
@@ -274,6 +266,7 @@ export function Map({ found, selected, setSelected }: MapProps) {
       setSelected(null);
     } else {
       setSelected(index);
+      setIsFullscreen(false);
     }
   };
 
