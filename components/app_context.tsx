@@ -39,8 +39,8 @@ const appReducer = (state: AppState, action: Action): AppState => {
     case "ADD_FOUND":
       return {
         ...state,
-        found: Array.from(new Set([...state.found, action.payload])),
         confettiOnScreen: !state.found.includes(action.payload),
+        found: Array.from(new Set([...state.found, action.payload])),
       };
     case "RESET_FOUND":
       return { ...state, found: [] };

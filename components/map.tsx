@@ -110,14 +110,16 @@ export function Map({ found, selected, setSelected }: MapProps) {
     setIsFullscreen(false);
   }, [selected]);
 
-  // Center on region when selected.
   useEffect(() => {
-    if (selected === null) return;
+    if (selected === null) {
+      // Restore original pan/scale on deselect.
+      setPan({ x: 0, y: 0 });
+      setScale(3);
+      return;
+    }
     if (selected >= REGIONS.length) return;
 
-    const svg = svgRef.current;
-    if (!svg) return;
-
+    // Center on region when selected.
     const regionCenter = REGIONS[selected].center;
     const newScale = 8;
 
