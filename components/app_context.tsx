@@ -7,15 +7,18 @@ import React, {
 } from "react";
 
 interface AppState {
+  confettiOnScreen: boolean;
   found: number[];
 }
 
 type Action =
   | { type: "LOAD_STATE"; payload: AppState }
   | { type: "ADD_FOUND"; payload: number }
-  | { type: "RESET_FOUND" };
+  | { type: "RESET_FOUND" }
+  | { type: "HIDE_CONFETTI" };
 
 const initialState: AppState = {
+  confettiOnScreen: false,
   found: [],
 };
 
@@ -24,6 +27,7 @@ interface AppContextType {
   dispatch: React.Dispatch<Action>;
   addFound: (index: number) => void;
   resetFound: () => void;
+  hideConfetti: () => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -36,9 +40,12 @@ const appReducer = (state: AppState, action: Action): AppState => {
       return {
         ...state,
         found: Array.from(new Set([...state.found, action.payload])),
+        confettiOnScreen: !state.found.includes(action.payload),
       };
     case "RESET_FOUND":
       return { ...state, found: [] };
+    case "HIDE_CONFETTI":
+      return { ...state, confettiOnScreen: false };
     default:
       return state;
   }
@@ -93,14 +100,23 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
     dispatch({ type: "RESET_FOUND" });
   };
 
-  const value = {
-    state,
-    dispatch,
-    addFound,
-    resetFound,
+  const hideConfetti = () => {
+    dispatch({ type: "HIDE_CONFETTI" });
   };
 
-  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+  return (
+    <AppContext.Provider
+      value={{
+        state,
+        dispatch,
+        addFound,
+        resetFound,
+        hideConfetti,
+      }}
+    >
+      {children}
+    </AppContext.Provider>
+  );
 };
 
 export const useAppContext = () => {
