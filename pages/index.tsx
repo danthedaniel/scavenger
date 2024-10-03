@@ -91,7 +91,7 @@ function Menu() {
 
   return (
     <div
-      className={`flex flex-col bg-white ${isMenuOpen ? "fixed top-0 left-0 z-50 h-screen w-screen" : "border-b-6 border-black w-full h-auto"}`}
+      className={`flex flex-col bg-white ${isMenuOpen ? "fixed inset-0 z-50 h-screen w-screen" : "border-b-6 border-black w-full h-auto"}`}
     >
       <div className="flex flex-row w-full h-20 justify-between items-center px-8">
         <h1 className="text-2xl font-bold">Park Scavenger Hunt</h1>
