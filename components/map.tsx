@@ -3,6 +3,7 @@ import {
   ArrowsPointingOutIcon,
 } from "@heroicons/react/24/outline";
 import { useState, useRef, useEffect, CSSProperties } from "react";
+import { useDebounce } from "./hooks/use_debounce";
 
 interface RegionInfo {
   name: string;
@@ -102,6 +103,8 @@ export function Map({ found, selected, setSelected }: MapProps) {
   const [initialDistance, setInitialDistance] = useState(0);
   const [initialScale, setInitialScale] = useState(scale);
 
+  const resetZooming = useDebounce(() => setIsZooming(false), 250);
+
   // Disable fullscreen view on region selection.
   useEffect(() => {
     if (selected === null) return;
@@ -150,9 +153,7 @@ export function Map({ found, selected, setSelected }: MapProps) {
         Math.min(Math.max(MIN_ZOOM, prevScale + scaleChange), MAX_ZOOM)
       );
 
-      setTimeout(() => {
-        setIsZooming(false);
-      }, 1000);
+      resetZooming();
     };
 
     svg.addEventListener("wheel", handleWheel);
