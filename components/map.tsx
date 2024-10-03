@@ -140,7 +140,7 @@ export function Map({ found, selected, setSelected }: MapProps) {
 
       // Handle zooming
       setIsZooming(true);
-      const scaleChange = event.deltaY * -0.02;
+      const scaleChange = event.deltaY * -0.04;
       setScale((prevScale) =>
         Math.min(Math.max(MIN_ZOOM, prevScale + scaleChange), MAX_ZOOM)
       );
