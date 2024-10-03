@@ -95,22 +95,27 @@ function Menu() {
     >
       <div className="flex flex-row w-full h-20 justify-between items-center px-8">
         <h1 className="text-2xl font-bold">Park Scavenger Hunt</h1>
-        <div
-          className="flex flex-row items-center"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
-          {isMenuOpen ? (
+        {isMenuOpen ? (
+          <div
+            className="flex flex-row items-center"
+            onClick={() => setIsMenuOpen(false)}
+          >
             <XMarkIcon
               className="w-8 h-8 cursor-pointer"
               aria-label="Close menu"
             />
-          ) : (
+          </div>
+        ) : (
+          <div
+            className="flex flex-row items-center"
+            onClick={() => setIsMenuOpen(true)}
+          >
             <Bars3Icon
               className="w-8 h-8 cursor-pointer"
               aria-label="Open menu"
             />
-          )}
-        </div>
+          </div>
+        )}
       </div>
       {isMenuOpen && (
         <div className="flex flex-col space-y-8 px-8">
