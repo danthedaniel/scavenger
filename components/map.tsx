@@ -298,18 +298,17 @@ export function Map({ found, selected, setSelected }: MapProps) {
     <div
       className={`bg-blue-200 overflow-hidden ${isFullscreen ? "fixed inset-0 h-screen w-screen" : "relative w-full h-64"}`}
     >
-      {!isFullscreen && (
-        <ArrowsPointingOutIcon
-          className="absolute z-10 top-4 left-4 w-8 h-8 cursor-pointer"
-          onClick={() => setIsFullscreen(true)}
-          aria-label="Enter Fullscreen Map"
-        />
-      )}
-      {isFullscreen && (
+      {isFullscreen ? (
         <ArrowsPointingInIcon
           className="absolute z-10 top-4 left-4 w-8 h-8 cursor-pointer"
           onClick={() => setIsFullscreen(false)}
           aria-label="Exit Fullscreen Map"
+        />
+      ) : (
+        <ArrowsPointingOutIcon
+          className="absolute z-10 top-4 left-4 w-8 h-8 cursor-pointer"
+          onClick={() => setIsFullscreen(true)}
+          aria-label="Enter Fullscreen Map"
         />
       )}
       <svg
