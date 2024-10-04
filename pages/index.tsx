@@ -10,6 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import Button from "../components/button";
 import { NextRouter, useRouter } from "next/router";
+import Input from "../components/input";
 
 const paragraphs = (text: string) => {
   return text.split("\n").map((line) => (
@@ -53,9 +54,70 @@ function HintBox({ region, hint, revealed, reveal, found }: HintBoxProps) {
     <div className="flex flex-row justify-center w-full">
       <Button
         text={!pressed ? "Show Hint" : "Are you sure?"}
-        className="active:bg-gray-300 border-black rounded-lg border-4 font-chakra-petch font-bold text-xl w-full max-w-72 my-4"
+        className="w-full max-w-72 my-4"
         onClick={clickHandler}
       />
+    </div>
+  );
+}
+
+interface CodeFormProps {
+  selected: number;
+  correctCode: string;
+}
+
+function CodeForm({ selected, correctCode }: CodeFormProps) {
+  const { addFound } = useAppContext();
+  const [code, setCode] = useState("");
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setCode("");
+  }, [selected]);
+
+  useEffect(() => {
+    setError(null);
+  }, [code]);
+
+  function submitHandler() {
+    if (code === "") {
+      setError("Empty code");
+      return;
+    }
+
+    if (code !== correctCode) {
+      setError("Invalid code");
+      return;
+    }
+
+    addFound(selected);
+  }
+
+  return (
+    <div className="flex flex-col mb-6">
+      <div className="flex flex-row space-x-4 max-w-screen-md justify-center align-middle mb-2">
+        <Input
+          className={`border-4 w-48 flex-grow rounded-lg placeholder:text-gray-600 placeholder:text-lg ${error === null ? "border-black" : "border-red-600"}`}
+          placeholder="Zone code"
+          onKeyDown={(event) => {
+            if (event.key === "Enter") {
+              submitHandler();
+            }
+          }}
+          onChange={(event) =>
+            setCode(event.target.value.trim().toLocaleUpperCase())
+          }
+          value={code}
+        />
+        <Button text="Submit" className="" onClick={() => submitHandler()} />
+      </div>
+      {error !== null && (
+        <span className="text-sm text-red-600 mb-2">{error}</span>
+      )}
+      <span className="text-sm text-gray-700">
+        You can either enter the zone code in the field above or scan the QR
+        code on the sticker.
+      </span>
     </div>
   );
 }
@@ -77,7 +139,7 @@ function ZoneInfo({ selected, setSelected }: ZoneInfoProps) {
 
   return (
     <div className="w-full h-full p-8 overflow-hidden max-w-screen-md">
-      <div className="flex flex-row justify-between items-center pb-6 select-none">
+      <div className="flex flex-row justify-between items-center pb-8 select-none">
         <ArrowLeftIcon
           className={`w-8 h-8 mr-4 ${selected === 0 ? "opacity-0" : "hover:cursor-pointer hover:text-blue-400"}`}
           onClick={() => selected > 0 && setSelected(selected - 1)}
@@ -90,6 +152,12 @@ function ZoneInfo({ selected, setSelected }: ZoneInfoProps) {
           onClick={() => selected < 4 && setSelected(selected + 1)}
         />
       </div>
+
+      {isFound ? (
+        <h2 className="text-2xl mb-6 font-bold">You found this zone!</h2>
+      ) : (
+        <CodeForm selected={selected} correctCode={regionInfo.code} />
+      )}
 
       {paragraphs(regionInfo.hints["none"])}
 

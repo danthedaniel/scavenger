@@ -38,7 +38,7 @@ const SVG_HEIGHT = 642;
 export const REGIONS: RegionInfo[] = [
   {
     name: "Red",
-    code: "transit-couture-pacific",
+    code: "PACIFIC",
     color: "rgb(244,28,41)",
     center: { x: 390, y: -25 },
     hints: {
@@ -50,7 +50,7 @@ export const REGIONS: RegionInfo[] = [
   },
   {
     name: "Orange",
-    code: "scoffing-lala-towel",
+    code: "TOWEL",
     color: "rgb(234,173,0)",
     center: { x: 210, y: -10 },
     hints: {
@@ -62,7 +62,7 @@ export const REGIONS: RegionInfo[] = [
   },
   {
     name: "Yellow",
-    code: "cows-mansion-slender",
+    code: "MANSION",
     color: "rgb(225,220,0)",
     center: { x: 25, y: -5 },
     hints: {
@@ -74,7 +74,7 @@ export const REGIONS: RegionInfo[] = [
   },
   {
     name: "Green",
-    code: "cited-defense-package",
+    code: "CITED",
     color: "rgb(55,228,0)",
     center: { x: -150, y: 5 },
     hints: {
@@ -86,7 +86,7 @@ export const REGIONS: RegionInfo[] = [
   },
   {
     name: "Blue",
-    code: "platform-hindu-tame",
+    code: "PLATFORM",
     color: "rgb(0,228,207)",
     center: { x: -355, y: 15 },
     hints: {
