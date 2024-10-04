@@ -97,7 +97,7 @@ function CodeForm({ selected, correctCode }: CodeFormProps) {
     <div className="flex flex-col mb-6">
       <div className="flex flex-row space-x-4 max-w-screen-md justify-center align-middle mb-2">
         <Input
-          className={`border-4 w-48 flex-grow rounded-lg placeholder:text-gray-600 placeholder:text-lg ${error === null ? "border-black" : "border-red-600"}`}
+          className={error === null ? "border-black" : "border-red-600"}
           placeholder="Zone code"
           onKeyDown={(event) => {
             if (event.key === "Enter") {
