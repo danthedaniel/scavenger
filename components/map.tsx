@@ -5,11 +5,14 @@ import {
 import { useState, useRef, useEffect, CSSProperties } from "react";
 import { useDebounce } from "./hooks/use_debounce";
 import { useWindowSize } from "./hooks/use_window_size";
+import { HintLevel } from "./app_context";
 
 interface RegionInfo {
   name: string;
+  code: string;
   color: string;
   center: Position;
+  hints: Record<HintLevel, string>;
 }
 
 interface Position {
@@ -35,28 +38,63 @@ const SVG_HEIGHT = 642;
 export const REGIONS: RegionInfo[] = [
   {
     name: "Red",
+    code: "transit-couture-pacific",
     color: "rgb(244,28,41)",
     center: { x: 390, y: -25 },
+    hints: {
+      none: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at leo at augue iaculis molestie sed vel odio.\nAliquam erat volutpat. Suspendisse lacinia pretium interdum. Integer pulvinar lectus lorem, id vehicula magna pretium vitae.",
+      small:
+        "Suspendisse sollicitudin libero libero, a condimentum ex congue vitae.",
+      big: "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
+    },
   },
   {
     name: "Orange",
+    code: "scoffing-lala-towel",
     color: "rgb(234,173,0)",
     center: { x: 210, y: -10 },
+    hints: {
+      none: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at leo at augue iaculis molestie sed vel odio.\nAliquam erat volutpat. Suspendisse lacinia pretium interdum. Integer pulvinar lectus lorem, id vehicula magna pretium vitae.",
+      small:
+        "Suspendisse sollicitudin libero libero, a condimentum ex congue vitae.",
+      big: "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
+    },
   },
   {
     name: "Yellow",
+    code: "cows-mansion-slender",
     color: "rgb(225,220,0)",
     center: { x: 25, y: -5 },
+    hints: {
+      none: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at leo at augue iaculis molestie sed vel odio.\nAliquam erat volutpat. Suspendisse lacinia pretium interdum. Integer pulvinar lectus lorem, id vehicula magna pretium vitae.",
+      small:
+        "Suspendisse sollicitudin libero libero, a condimentum ex congue vitae.",
+      big: "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
+    },
   },
   {
     name: "Green",
+    code: "cited-defense-package",
     color: "rgb(55,228,0)",
     center: { x: -150, y: 5 },
+    hints: {
+      none: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at leo at augue iaculis molestie sed vel odio.\nAliquam erat volutpat. Suspendisse lacinia pretium interdum. Integer pulvinar lectus lorem, id vehicula magna pretium vitae.",
+      small:
+        "Suspendisse sollicitudin libero libero, a condimentum ex congue vitae.",
+      big: "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
+    },
   },
   {
     name: "Blue",
+    code: "platform-hindu-tame",
     color: "rgb(0,228,207)",
     center: { x: -355, y: 15 },
+    hints: {
+      none: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at leo at augue iaculis molestie sed vel odio.\nAliquam erat volutpat. Suspendisse lacinia pretium interdum. Integer pulvinar lectus lorem, id vehicula magna pretium vitae.",
+      small:
+        "Suspendisse sollicitudin libero libero, a condimentum ex congue vitae.",
+      big: "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
+    },
   },
 ] as const;
 

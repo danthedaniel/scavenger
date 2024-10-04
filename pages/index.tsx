@@ -7,7 +7,58 @@ import {
   Bars3Icon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Button from "../components/button";
+import { NextRouter, useRouter } from "next/router";
+
+const paragraphs = (text: string) => {
+  return text.split("\n").map((line) => (
+    <p key={line} className="text-lg mb-4">
+      {line}
+    </p>
+  ));
+};
+
+interface HintBoxProps {
+  region: number;
+  hint: string;
+  revealed: boolean;
+  reveal: () => void;
+  found: boolean;
+}
+
+function HintBox({ region, hint, revealed, reveal, found }: HintBoxProps) {
+  const [pressed, setPressed] = useState(false);
+
+  useEffect(() => {
+    setPressed(false);
+  }, [region]);
+
+  function clickHandler() {
+    if (!pressed) {
+      setPressed(true);
+      return;
+    }
+
+    reveal();
+  }
+
+  if (revealed) {
+    return paragraphs(hint);
+  }
+
+  if (found) return null;
+
+  return (
+    <div className="flex flex-row justify-center w-full">
+      <Button
+        text={!pressed ? "Show Hint" : "Are you sure?"}
+        className="active:bg-gray-300 border-black rounded-lg border-4 font-chakra-petch font-bold text-xl w-full max-w-72 my-4"
+        onClick={clickHandler}
+      />
+    </div>
+  );
+}
 
 interface ZoneInfoProps {
   selected: number;
@@ -15,6 +66,15 @@ interface ZoneInfoProps {
 }
 
 function ZoneInfo({ selected, setSelected }: ZoneInfoProps) {
+  const {
+    state: { hints, found },
+    increaseHint,
+  } = useAppContext();
+
+  const regionInfo = REGIONS[selected];
+  const hintLevel = hints[selected];
+  const isFound = found.includes(selected);
+
   return (
     <div className="w-full h-full p-8 overflow-hidden max-w-screen-md">
       <div className="flex flex-row justify-between items-center pb-6 select-none">
@@ -23,38 +83,33 @@ function ZoneInfo({ selected, setSelected }: ZoneInfoProps) {
           onClick={() => selected > 0 && setSelected(selected - 1)}
         />
         <h1 className="text-4xl font-bold text-white text-outline font-chakra-petch">
-          {REGIONS[selected].name} Zone
+          {regionInfo.name} Zone
         </h1>
         <ArrowRightIcon
           className={`w-8 h-8 ml-4 ${selected === 4 ? "opacity-0" : "hover:cursor-pointer hover:text-blue-400"}`}
           onClick={() => selected < 4 && setSelected(selected + 1)}
         />
       </div>
-      <p className="pb-4 text-xl">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at leo at
-        augue iaculis molestie sed vel odio. Aliquam erat volutpat. Suspendisse
-        lacinia pretium interdum. Integer pulvinar lectus lorem, id vehicula
-        magna pretium vitae. Phasellus porttitor hendrerit ultricies. Fusce
-        lobortis urna in quam egestas, nec posuere dui pulvinar. Praesent
-        tincidunt enim non ipsum imperdiet, sit amet imperdiet nulla mollis.
-        Quisque tincidunt blandit elit, vitae gravida lectus tristique non.
-        Praesent turpis enim, aliquet ut ullamcorper quis, ultrices vitae
-        tellus. In tempor suscipit orci eget sagittis. Aenean posuere feugiat
-        lorem sed mattis. Quisque commodo feugiat turpis a fermentum. Maecenas
-        ut quam aliquam, sodales ex ut, finibus arcu. Praesent consectetur
-        pharetra ante eget lobortis.
-      </p>
-      <p className="pb-4 text-xl">
-        Fusce nec pharetra lectus. Nullam at sem interdum, pellentesque mi id,
-        dictum nisl. Morbi at lectus convallis, fringilla ex eu, accumsan
-        tortor. Morbi tempor metus eget turpis fringilla interdum. Suspendisse
-        sollicitudin libero libero, a condimentum ex congue vitae. Proin et
-        fermentum dolor, vel auctor nisl. Duis hendrerit efficitur orci,
-        consectetur mattis arcu egestas a. Aliquam felis erat, ultrices sit amet
-        eleifend ac, aliquam ac libero. Mauris viverra vulputate ligula, quis
-        dignissim nisi. Proin scelerisque nec dolor in fringilla. Nunc non
-        commodo odio.
-      </p>
+
+      {paragraphs(regionInfo.hints["none"])}
+
+      <HintBox
+        region={selected}
+        hint={regionInfo.hints["small"]}
+        revealed={["small", "big"].includes(hintLevel)}
+        reveal={() => increaseHint(selected)}
+        found={isFound}
+      />
+
+      {["small", "big"].includes(hintLevel) && (
+        <HintBox
+          region={selected}
+          hint={regionInfo.hints["small"]}
+          revealed={hintLevel === "big"}
+          reveal={() => increaseHint(selected)}
+          found={isFound}
+        />
+      )}
     </div>
   );
 }
@@ -87,7 +142,27 @@ function Footer() {
 }
 
 function Menu() {
+  const router = useRouter();
+  const { resetFound, resetHints } = useAppContext();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const discover = async (code: string) => {
+    await router.push({
+      pathname: "/",
+      query: {
+        ...router.query,
+        code,
+      },
+    });
+
+    setIsMenuOpen(false);
+  };
+
+  const reset = () => {
+    resetFound();
+    resetHints();
+    setIsMenuOpen(false);
+  };
 
   return (
     <div
@@ -119,20 +194,49 @@ function Menu() {
       </div>
       {isMenuOpen && (
         <div className="flex flex-col space-y-8 px-8">
-          <span className="text-md font-bold">Item 1</span>
-          <span className="text-md font-bold">Item 2</span>
-          <span className="text-md font-bold">Item 3</span>
+          {REGIONS.map((region, index) => (
+            <span
+              key={index}
+              className="text-md font-bold cursor-pointer"
+              onClick={() => discover(region.code)}
+            >
+              Discover {region.name}
+            </span>
+          ))}
+          <span
+            className="text-md font-bold cursor-pointer"
+            onClick={() => reset()}
+          >
+            Reset
+          </span>
         </div>
       )}
     </div>
   );
 }
 
+function useQuery(router: NextRouter, key: string) {
+  return [router.query[key]].flat()[0];
+}
+
 export default function Home() {
+  const router = useRouter();
+  const code = useQuery(router, "code");
+
   const {
     state: { found },
+    addFound,
   } = useAppContext();
   const [selected, setSelected] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (code === undefined) return;
+
+    const index = REGIONS.findIndex((region) => region.code === code);
+    if (index === -1) return;
+
+    addFound(index);
+  }, [code]);
 
   return (
     <div className="min-w-screen min-h-screen flex flex-col justify-between items-center bg-gray-100">

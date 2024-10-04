@@ -6,20 +6,39 @@ import React, {
   useEffect,
 } from "react";
 
+export type HintLevel = "none" | "small" | "big";
+
+const increaseHint = (currentLevel: HintLevel): HintLevel => {
+  switch (currentLevel) {
+    case "none":
+      return "small";
+    case "small":
+      return "big";
+    case "big":
+      return "big";
+    default:
+      return "none";
+  }
+};
+
 interface AppState {
   confettiOnScreen: boolean;
   found: number[];
+  hints: [HintLevel, HintLevel, HintLevel, HintLevel, HintLevel];
 }
 
 type Action =
   | { type: "LOAD_STATE"; payload: AppState }
   | { type: "ADD_FOUND"; payload: number }
   | { type: "RESET_FOUND" }
+  | { type: "INCREASE_HINT"; payload: number }
+  | { type: "RESET_HINTS" }
   | { type: "HIDE_CONFETTI" };
 
 const initialState: AppState = {
   confettiOnScreen: false,
   found: [],
+  hints: ["none", "none", "none", "none", "none"],
 };
 
 interface AppContextType {
@@ -27,6 +46,8 @@ interface AppContextType {
   dispatch: React.Dispatch<Action>;
   addFound: (index: number) => void;
   resetFound: () => void;
+  increaseHint: (index: number) => void;
+  resetHints: () => void;
   hideConfetti: () => void;
 }
 
@@ -44,6 +65,12 @@ const appReducer = (state: AppState, action: Action): AppState => {
       };
     case "RESET_FOUND":
       return { ...state, found: [] };
+    case "INCREASE_HINT":
+      const newHints = [...state.hints] as typeof state.hints;
+      newHints[action.payload] = increaseHint(state.hints[action.payload]);
+      return { ...state, hints: newHints };
+    case "RESET_HINTS":
+      return { ...state, hints: initialState.hints };
     case "HIDE_CONFETTI":
       return { ...state, confettiOnScreen: false };
     default:
@@ -92,12 +119,20 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
     saveState(state);
   }, [JSON.stringify(state)]);
 
-  const addFound = (item: number) => {
-    dispatch({ type: "ADD_FOUND", payload: item });
+  const addFound = (index: number) => {
+    dispatch({ type: "ADD_FOUND", payload: index });
   };
 
   const resetFound = () => {
     dispatch({ type: "RESET_FOUND" });
+  };
+
+  const increaseHint = (index: number) => {
+    dispatch({ type: "INCREASE_HINT", payload: index });
+  };
+
+  const resetHints = () => {
+    dispatch({ type: "RESET_HINTS" });
   };
 
   const hideConfetti = () => {
@@ -111,6 +146,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
         dispatch,
         addFound,
         resetFound,
+        increaseHint,
+        resetHints,
         hideConfetti,
       }}
     >
