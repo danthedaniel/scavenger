@@ -144,7 +144,7 @@ function ZoneInfo({ selected, setSelected }: ZoneInfoProps) {
           className={`w-8 h-8 mr-4 ${selected === 0 ? "opacity-0" : "hover:cursor-pointer hover:text-blue-400"}`}
           onClick={() => selected > 0 && setSelected(selected - 1)}
         />
-        <h1 className="text-4xl font-bold text-white text-outline font-chakra-petch">
+        <h1 className="text-3xl font-bold text-white text-outline font-chakra-petch">
           {regionInfo.name} Zone
         </h1>
         <ArrowRightIcon
@@ -183,16 +183,24 @@ function ZoneInfo({ selected, setSelected }: ZoneInfoProps) {
 }
 
 function ZonePlaceholder() {
+  const {
+    state: { found },
+  } = useAppContext();
+
+  const foundThemAll = found.length === 5;
+
   return (
     <div className="w-full h-full p-8 overflow-hidden max-w-screen-md">
       <div className="flex flex-col justify-center items-center pb-6 select-none">
-        <h1 className="text-4xl font-bold text-white text-outline font-chakra-petch">
-          Select a Zone
+        <h1 className="text-3xl font-bold text-white text-outline font-chakra-petch">
+          {foundThemAll ? "Hunt Completed!" : "Select a Zone"}
         </h1>
       </div>
-      <p className="pb-4 text-xl">
-        Click on a zone to see more information about it.
-      </p>
+      {!foundThemAll && (
+        <p className="pb-4 text-xl">
+          Click on a zone to see more information about it.
+        </p>
+      )}
     </div>
   );
 }
