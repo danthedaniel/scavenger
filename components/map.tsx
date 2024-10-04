@@ -4,6 +4,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useState, useRef, useEffect, CSSProperties } from "react";
 import { useDebounce } from "./hooks/use_debounce";
+import { useWindowSize } from "./hooks/use_window_size";
 
 interface RegionInfo {
   name: string;
@@ -89,6 +90,8 @@ interface MapProps {
 export function Map({ found, selected, setSelected }: MapProps) {
   const svgRef = useRef<SVGSVGElement>(null);
 
+  const { width: windowWidth } = useWindowSize();
+
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [scale, setScale] = useState(3);
   const [pan, setPan] = useState<Position>({ x: 0, y: 0 });
@@ -127,8 +130,9 @@ export function Map({ found, selected, setSelected }: MapProps) {
     const svg = svgRef.current;
     if (!svg) return;
 
-    svg.style.transform = `scale(${scale}) translate(${pan.x}px, ${pan.y}px)`;
-  }, [scale, pan]);
+    const scaleAdjustment = 375 / windowWidth;
+    svg.style.transform = `scale(${scale * scaleAdjustment}) translate(${pan.x}px, ${pan.y}px)`;
+  }, [scale, pan, windowWidth]);
 
   // Event handler for scroll zoom.
   useEffect(() => {
