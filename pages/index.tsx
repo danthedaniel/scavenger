@@ -311,6 +311,7 @@ export default function Home() {
     const index = REGIONS.findIndex((region) => region.code === code);
     if (index === -1) return;
 
+    setSelected(index);
     addFound(index);
   }, [code]);
 
