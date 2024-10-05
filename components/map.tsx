@@ -168,7 +168,8 @@ export function Map({ found, selected, setSelected }: MapProps) {
     const svg = svgRef.current;
     if (!svg) return;
 
-    const scaleAdjustment = 375 / windowWidth;
+    // The page has a max width of 768 due to the max-w-screen-md class
+    const scaleAdjustment = 375 / Math.min(windowWidth, 768);
     svg.style.transform = `scale(${scale * scaleAdjustment}) translate(${pan.x}px, ${pan.y}px)`;
   }, [scale, pan, windowWidth]);
 

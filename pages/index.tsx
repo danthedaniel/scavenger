@@ -325,23 +325,25 @@ export default function Home() {
   }, [code]);
 
   return (
-    <div className="min-w-screen min-h-screen flex flex-col justify-between items-center bg-gray-100">
-      <Head>
-        <title>Zen Masters of Golden Gate Park</title>
-      </Head>
+    <div className="flex flex-col items-center bg-gray-200">
+      <div className="max-w-screen-md min-h-screen flex flex-col justify-between items-center bg-gray-100">
+        <Head>
+          <title>Zen Masters of Golden Gate Park</title>
+        </Head>
 
-      <Menu />
+        <Menu />
 
-      <Map found={found} selected={selected} setSelected={setSelected} />
+        <Map found={found} selected={selected} setSelected={setSelected} />
 
-      <div className="flex flex-col w-full flex-grow justify-start items-center border-t-6 border-black text-black">
-        {selected === null && <ZonePlaceholder />}
-        {selected !== null && (
-          <ZoneInfo selected={selected} setSelected={setSelected} />
-        )}
+        <div className="flex flex-col w-full flex-grow justify-start items-center border-t-6 border-black text-black">
+          {selected === null && <ZonePlaceholder />}
+          {selected !== null && (
+            <ZoneInfo selected={selected} setSelected={setSelected} />
+          )}
+        </div>
+
+        <Footer />
       </div>
-
-      <Footer />
     </div>
   );
 }
