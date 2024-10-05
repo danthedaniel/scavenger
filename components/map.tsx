@@ -369,7 +369,7 @@ export function Map({ found, selected, setSelected }: MapProps) {
         }}
       >
         <defs>
-          <filter id="dropShadow" x="-50%" y="-50%" width="200%" height="200%">
+          <filter id="fillShadow" x="-50%" y="-50%" width="200%" height="200%">
             <feDropShadow
               dx="18"
               dy="24"
@@ -377,12 +377,26 @@ export function Map({ found, selected, setSelected }: MapProps) {
               floodColor="rgba(0,0,0,0.6)"
             />
           </filter>
+          <filter
+            id="regionShadow"
+            x="-50%"
+            y="-50%"
+            width="200%"
+            height="200%"
+          >
+            <feDropShadow
+              dx="3"
+              dy="5"
+              stdDeviation="5"
+              floodColor="rgba(0,0,0,0.4)"
+            />
+          </filter>
         </defs>
         <g transform="matrix(1,0,0,1,-380.586,-603.087)">
           <g
             id="Fill"
             transform="matrix(1,0,0,1,2.10788,-3.93284)"
-            filter="url(#dropShadow)"
+            filter="url(#fillShadow)"
           >
             <path
               d="M387.478,817.436L2512.49,692.84L3000.14,616.02L3076.47,1086.91L3036.35,1091.17L3036.91,1105.18L2902.54,1126.64L2822.2,1104.36L417.241,1238.17C417.241,1238.17 407.718,1141.55 405.719,1099.76C403.72,1057.98 401.496,1017.93 398.744,957.307C396.053,898.044 387.478,817.436 387.478,817.436Z"
@@ -663,6 +677,7 @@ export function Map({ found, selected, setSelected }: MapProps) {
                       fill: "rgb(245,27,41)",
                       fillOpacity: 0.75,
                     }}
+                    filter="url(#regionShadow)"
                   />
                 </g>
                 <g transform="matrix(1,0,0,1,-60.4697,-447.886)">
@@ -683,6 +698,7 @@ export function Map({ found, selected, setSelected }: MapProps) {
               onClick={() => handleRegionClick(0)}
               d="M425.581,844.811L448.075,1200.79L931.507,1174.14L911.877,815.325L425.581,844.811Z"
               style={regionStyle(0)}
+              filter="url(#regionShadow)"
             />
             {found.includes(1) && (
               <g transform="matrix(1,0,0,1,608,861.233)">
@@ -696,6 +712,7 @@ export function Map({ found, selected, setSelected }: MapProps) {
                       fill: "rgb(234,172,0)",
                       fillOpacity: 0.75,
                     }}
+                    filter="url(#regionShadow)"
                   />
                 </g>
                 <g transform="matrix(1,0,0,1,-60.4697,-447.886)">
@@ -716,6 +733,7 @@ export function Map({ found, selected, setSelected }: MapProps) {
               onClick={() => handleRegionClick(1)}
               d="M947.761,813.617L967.279,1171.4L1385.03,1148.07L1365.81,788.263L947.761,813.617Z"
               style={regionStyle(1)}
+              filter="url(#regionShadow)"
             />
             {found.includes(2) && (
               <g transform="matrix(1,0,0,1,1103.55,834.01)">
@@ -729,6 +747,7 @@ export function Map({ found, selected, setSelected }: MapProps) {
                       fill: "rgb(226,220,0)",
                       fillOpacity: 0.75,
                     }}
+                    filter="url(#regionShadow)"
                   />
                 </g>
                 <g transform="matrix(1,0,0,1,-60.4697,-447.886)">
@@ -749,6 +768,7 @@ export function Map({ found, selected, setSelected }: MapProps) {
               onClick={() => handleRegionClick(2)}
               d="M1401.44,785.695L1422.79,1146.28L1912.92,1119.02L1890.95,757.414L1401.44,785.695Z"
               style={regionStyle(2)}
+              filter="url(#regionShadow)"
             />
             {found.includes(3) && (
               <g transform="matrix(1,0,0,1,1617.22,803.661)">
@@ -762,6 +782,7 @@ export function Map({ found, selected, setSelected }: MapProps) {
                       fill: "rgb(54,228,0)",
                       fillOpacity: 0.75,
                     }}
+                    filter="url(#regionShadow)"
                   />
                 </g>
                 <g transform="matrix(1,0,0,1,-60.4697,-447.886)">
@@ -782,6 +803,7 @@ export function Map({ found, selected, setSelected }: MapProps) {
               onClick={() => handleRegionClick(3)}
               d="M1928.05,754.541L1950.28,1116.41L2413.34,1091.05L2392.24,727.594L1928.05,754.541Z"
               style={regionStyle(3)}
+              filter="url(#regionShadow)"
             />
             {found.includes(4) && (
               <g transform="matrix(1,0,0,1,2146.2,771.816)">
@@ -795,6 +817,7 @@ export function Map({ found, selected, setSelected }: MapProps) {
                       fill: "rgb(0,229,207)",
                       fillOpacity: 0.75,
                     }}
+                    filter="url(#regionShadow)"
                   />
                 </g>
                 <g transform="matrix(1,0,0,1,-60.4697,-447.886)">
@@ -815,6 +838,7 @@ export function Map({ found, selected, setSelected }: MapProps) {
               onClick={() => handleRegionClick(4)}
               d="M2429.85,725.475L2451.83,1088.71L2828.6,1068.06L2907.41,1091.13L3010.8,1074.84L3008.88,1056.49L3042.51,1052.88L2976.51,647.499L2522.63,720.498L2429.85,725.475Z"
               style={regionStyle(4)}
+              filter="url(#regionShadow)"
             />
           </g>
         </g>
