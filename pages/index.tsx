@@ -313,6 +313,15 @@ export default function Home() {
 
     setSelected(index);
     addFound(index);
+
+    // Clear code query parameter
+    const newQuery = router.query;
+    delete newQuery["code"];
+
+    router.replace({
+      pathname: router.pathname,
+      query: newQuery,
+    });
   }, [code]);
 
   return (
