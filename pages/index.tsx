@@ -269,7 +269,7 @@ function Menu() {
         )}
       </div>
       {isMenuOpen && (
-        <div className="flex flex-col space-y-8 px-8">
+        <div className="flex flex-col space-y-8 px-8 mt-4">
           {REGIONS.map((region, index) => (
             <span
               key={index}
