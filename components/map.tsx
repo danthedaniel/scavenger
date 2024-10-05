@@ -368,8 +368,22 @@ export function Map({ found, selected, setSelected }: MapProps) {
           transformOrigin: "center center",
         }}
       >
+        <defs>
+          <filter id="dropShadow" x="-50%" y="-50%" width="200%" height="200%">
+            <feDropShadow
+              dx="18"
+              dy="24"
+              stdDeviation="24"
+              floodColor="rgba(0,0,0,0.6)"
+            />
+          </filter>
+        </defs>
         <g transform="matrix(1,0,0,1,-380.586,-603.087)">
-          <g id="Fill" transform="matrix(1,0,0,1,2.10788,-3.93284)">
+          <g
+            id="Fill"
+            transform="matrix(1,0,0,1,2.10788,-3.93284)"
+            filter="url(#dropShadow)"
+          >
             <path
               d="M387.478,817.436L2512.49,692.84L3000.14,616.02L3076.47,1086.91L3036.35,1091.17L3036.91,1105.18L2902.54,1126.64L2822.2,1104.36L417.241,1238.17C417.241,1238.17 407.718,1141.55 405.719,1099.76C403.72,1057.98 401.496,1017.93 398.744,957.307C396.053,898.044 387.478,817.436 387.478,817.436Z"
               style={{ fill: "rgb(154,199,107)" }}
