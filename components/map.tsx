@@ -393,7 +393,7 @@ export function Map({ found, selected, setSelected }: MapProps) {
           <filter id="fillShadow" x="-50%" y="-50%" width="200%" height="200%">
             <feDropShadow
               dx={(-pan.x * scale) / 16}
-              dy={((-pan.y + 16) * scale) / 4}
+              dy={((-pan.y + 32) * scale) / 8}
               stdDeviation={scale * 2}
               floodColor="rgba(0,0,0,0.4)"
             />
