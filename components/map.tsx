@@ -7,14 +7,6 @@ import { useDebounce } from "./hooks/use_debounce";
 import { useWindowSize } from "./hooks/use_window_size";
 import { HintLevel } from "./app_context";
 
-interface RegionInfo {
-  name: string;
-  code: string;
-  color: string;
-  center: Position;
-  hints: Record<HintLevel, string>;
-}
-
 interface Position {
   x: number;
   y: number;
@@ -35,6 +27,16 @@ const SVG_PADDING_X = 3000;
 const SVG_WIDTH = 2707;
 const SVG_HEIGHT = 642;
 
+interface RegionInfo {
+  name: string;
+  code: string;
+  color: string;
+  center: Position;
+  hints: Record<HintLevel, string>;
+  image: string;
+  image_description: string;
+}
+
 export const REGIONS: RegionInfo[] = [
   {
     name: "Red",
@@ -47,6 +49,9 @@ export const REGIONS: RegionInfo[] = [
         "Suspendisse sollicitudin libero libero, a condimentum ex congue vitae.",
       big: "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
     },
+    image: "/placeholder.png",
+    image_description:
+      "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
   },
   {
     name: "Orange",
@@ -59,6 +64,9 @@ export const REGIONS: RegionInfo[] = [
         "Suspendisse sollicitudin libero libero, a condimentum ex congue vitae.",
       big: "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
     },
+    image: "/placeholder.png",
+    image_description:
+      "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
   },
   {
     name: "Yellow",
@@ -71,6 +79,9 @@ export const REGIONS: RegionInfo[] = [
         "Suspendisse sollicitudin libero libero, a condimentum ex congue vitae.",
       big: "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
     },
+    image: "/placeholder.png",
+    image_description:
+      "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
   },
   {
     name: "Green",
@@ -83,6 +94,9 @@ export const REGIONS: RegionInfo[] = [
         "Suspendisse sollicitudin libero libero, a condimentum ex congue vitae.",
       big: "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
     },
+    image: "/placeholder.png",
+    image_description:
+      "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
   },
   {
     name: "Blue",
@@ -95,6 +109,9 @@ export const REGIONS: RegionInfo[] = [
         "Suspendisse sollicitudin libero libero, a condimentum ex congue vitae.",
       big: "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
     },
+    image: "/placeholder.png",
+    image_description:
+      "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
   },
 ] as const;
 
@@ -333,6 +350,9 @@ export function Map({ found, selected, setSelected }: MapProps) {
     };
   };
 
+  const panPercent =
+    100 - ((pan.x - MIN_PAN_X) / (MAX_PAN_X - MIN_PAN_X)) * 100;
+
   return (
     <div
       className={`bg-blue-200 overflow-hidden ${isFullscreen ? "fixed inset-0 h-screen w-screen" : "relative w-full h-64"}`}
@@ -392,6 +412,25 @@ export function Map({ found, selected, setSelected }: MapProps) {
               floodColor="rgba(0,0,0,0.4)"
             />
           </filter>
+          <linearGradient
+            id="borderGradient"
+            x1="-75%"
+            y1="0%"
+            x2="190%"
+            y2="100%"
+          >
+            <stop offset="0%" style={{ stopColor: "#000" }} />
+            <stop
+              offset={`${Math.max(panPercent - 1, 0)}%`}
+              style={{ stopColor: "#333" }}
+            />
+            <stop offset={`${panPercent}%`} style={{ stopColor: "#888" }} />
+            <stop
+              offset={`${Math.min(panPercent + 1, 100)}%`}
+              style={{ stopColor: "#333" }}
+            />
+            <stop offset="100%" style={{ stopColor: "#000" }} />
+          </linearGradient>
         </defs>
         <g transform="matrix(1,0,0,1,-380.586,-603.087)">
           <g
@@ -659,10 +698,10 @@ export function Map({ found, selected, setSelected }: MapProps) {
               style={{
                 fill: "rgb(154,199,107)",
                 fillOpacity: 0,
-                stroke: "black",
                 strokeWidth: "18px",
                 strokeLinecap: "round",
               }}
+              stroke="url(#borderGradient)"
             />
           </g>
           <g id="Regions">

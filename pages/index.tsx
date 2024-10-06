@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import Button from "../components/button";
 import { NextRouter, useRouter } from "next/router";
 import Input from "../components/input";
+import Image from "../components/image";
 
 const paragraphs = (text: string) => {
   return text.split("\n").map((line) => (
@@ -159,24 +160,39 @@ function ZoneInfo({ selected, setSelected }: ZoneInfoProps) {
         <CodeForm selected={selected} correctCode={regionInfo.code} />
       )}
 
-      {paragraphs(regionInfo.hints["none"])}
+      {isFound && (
+        <div className="flex flex-col justify-center my-8 space-y-4">
+          <Image
+            url={regionInfo.image}
+            alt={`${regionInfo.name} Zone Image`}
+            className="w-full aspect-square"
+          />
+          <span className="text-md">{regionInfo.image_description}</span>
+        </div>
+      )}
 
-      <HintBox
-        region={selected}
-        hint={regionInfo.hints["small"]}
-        revealed={["small", "big"].includes(hintLevel)}
-        reveal={() => increaseHint(selected)}
-        found={isFound}
-      />
+      {!isFound && (
+        <>
+          {paragraphs(regionInfo.hints["none"])}
 
-      {["small", "big"].includes(hintLevel) && (
-        <HintBox
-          region={selected}
-          hint={regionInfo.hints["small"]}
-          revealed={hintLevel === "big"}
-          reveal={() => increaseHint(selected)}
-          found={isFound}
-        />
+          <HintBox
+            region={selected}
+            hint={regionInfo.hints["small"]}
+            revealed={["small", "big"].includes(hintLevel)}
+            reveal={() => increaseHint(selected)}
+            found={isFound}
+          />
+
+          {["small", "big"].includes(hintLevel) && (
+            <HintBox
+              region={selected}
+              hint={regionInfo.hints["big"]}
+              revealed={hintLevel === "big"}
+              reveal={() => increaseHint(selected)}
+              found={isFound}
+            />
+          )}
+        </>
       )}
     </div>
   );
@@ -187,6 +203,7 @@ function ZonePlaceholder() {
     state: { found },
   } = useAppContext();
 
+  const foundAny = found.length > 0;
   const foundThemAll = found.length === 5;
 
   return (
@@ -196,10 +213,23 @@ function ZonePlaceholder() {
           {foundThemAll ? "Hunt Completed!" : "Select a Zone"}
         </h1>
       </div>
-      {!foundThemAll && (
+      {!foundAny ? (
         <p className="pb-4 text-xl">
           Click on a zone to see more information about it.
         </p>
+      ) : (
+        <div className="flex flex-col">
+          <h2 className="text-2xl font-bold mb-4">
+            Your discovered zen masters
+          </h2>
+          {found.map((index) => (
+            <Image
+              url={REGIONS[index].image}
+              alt={`${REGIONS} Zone Image`}
+              className="mt-4"
+            />
+          ))}
+        </div>
       )}
     </div>
   );
