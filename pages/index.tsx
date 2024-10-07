@@ -21,15 +21,30 @@ interface RegionImageProps {
 
 function RegionImage({ revealed, reveal, info }: RegionImageProps) {
   return (
-    <div className="flex flex-col justify-center items-center space-y-4 my-8">
-      <Image
-        url={!revealed ? "/unrevealed.png" : info.image}
-        alt={`${info.name} Zone Image`}
-        className="w-full aspect-square cursor-pointer"
-        onClick={reveal}
-      />
+    <div className="flex flex-col w-full justify-center items-center space-y-4 my-6">
+      <div
+        className={`flip-card cursor-pointer ${revealed ? "flipped" : ""}`}
+        onClick={!revealed ? reveal : undefined} // Only clickable if not revealed
+      >
+        <div className="flip-card-inner">
+          <div className="flip-card-back">
+            <Image
+              url="/unrevealed.png"
+              alt="Unrevealed Image"
+              className="w-full aspect-square"
+            />
+          </div>
+          <div className="flip-card-front">
+            <Image
+              url={info.image}
+              alt={`${info.name} Zone Image`}
+              className="w-full aspect-square"
+            />
+          </div>
+        </div>
+      </div>
       <p className="text-md">
-        {!revealed ? "Tap the image above to reveal" : info.image_description}
+        {!revealed ? "Tap the card above to reveal" : info.image_description}
       </p>
     </div>
   );
@@ -194,7 +209,7 @@ function ZoneInfo({ selected, setSelected }: ZoneInfoProps) {
           <h2 className="text-2xl font-bold text-center">
             You found this zone!
           </h2>
-          <p className="text-md mb-6 text-center">
+          <p className="text-md mb-14 text-center">
             ({hintCount(hintLevel)} hints used)
           </p>
         </>
@@ -237,7 +252,7 @@ function ZoneInfo({ selected, setSelected }: ZoneInfoProps) {
   );
 }
 
-function ZonePlaceholder() {
+function ZoneSummary() {
   const {
     state: { found, revealedImages, hints },
     revealImage,
@@ -268,7 +283,7 @@ function ZonePlaceholder() {
               ? "You've found all of the zen masters"
               : "Your discovered zen masters"}
           </h2>
-          <p className="text-md">({hintsUsed} hints used)</p>
+          <p className="text-md pb-8">({hintsUsed} hints used)</p>
 
           {found
             .sort((a, b) => a - b)
@@ -417,8 +432,9 @@ export default function Home() {
         <Map found={found} selected={selected} setSelected={setSelected} />
 
         <div className="flex flex-col w-full flex-grow justify-start items-center border-t-6 border-black text-black">
-          {selected === null && <ZonePlaceholder />}
-          {selected !== null && (
+          {selected === null ? (
+            <ZoneSummary />
+          ) : (
             <ZoneInfo selected={selected} setSelected={setSelected} />
           )}
         </div>
