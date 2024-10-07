@@ -355,7 +355,7 @@ export function Map({ found, selected, setSelected }: MapProps) {
 
   return (
     <div
-      className={`bg-blue-200 overflow-hidden ${isFullscreen ? "fixed inset-0 h-screen w-screen" : "relative w-full h-64"}`}
+      className={`bg-blue-200 overflow-hidden ${isFullscreen ? "fixed z-10 inset-0 h-screen w-screen" : "relative w-full h-64"}`}
     >
       {isFullscreen ? (
         <ArrowsPointingInIcon

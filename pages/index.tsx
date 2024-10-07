@@ -23,7 +23,7 @@ function RegionImage({ revealed, reveal, info }: RegionImageProps) {
   return (
     <div className="flex flex-col w-full justify-center items-center space-y-4 my-6">
       <div
-        className={`flip-card cursor-pointer ${revealed ? "flipped" : ""}`}
+        className={`flip-card z-0 cursor-pointer ${revealed ? "flipped" : ""}`}
         onClick={!revealed ? reveal : undefined} // Only clickable if not revealed
       >
         <div className="flip-card-inner">
