@@ -23,31 +23,37 @@ const increaseHint = (currentLevel: HintLevel): HintLevel => {
 
 interface AppState {
   confettiOnScreen: boolean;
-  found: number[];
   hints: [HintLevel, HintLevel, HintLevel, HintLevel, HintLevel];
+  found: number[];
+  revealedImages: number[];
 }
 
 type Action =
   | { type: "LOAD_STATE"; payload: AppState }
-  | { type: "ADD_FOUND"; payload: number }
-  | { type: "RESET_FOUND" }
   | { type: "INCREASE_HINT"; payload: number }
   | { type: "RESET_HINTS" }
+  | { type: "ADD_FOUND"; payload: number }
+  | { type: "RESET_FOUND" }
+  | { type: "REVEAL_IMAGE"; payload: number }
+  | { type: "RESET_REVEALED" }
   | { type: "HIDE_CONFETTI" };
 
 const initialState: AppState = {
   confettiOnScreen: false,
-  found: [],
   hints: ["none", "none", "none", "none", "none"],
+  found: [],
+  revealedImages: [],
 };
 
 interface AppContextType {
   state: AppState;
   dispatch: React.Dispatch<Action>;
-  addFound: (index: number) => void;
-  resetFound: () => void;
   increaseHint: (index: number) => void;
   resetHints: () => void;
+  addFound: (index: number) => void;
+  resetFound: () => void;
+  revealImage: (index: number) => void;
+  resetRevealed: () => void;
   hideConfetti: () => void;
 }
 
@@ -57,6 +63,12 @@ const appReducer = (state: AppState, action: Action): AppState => {
   switch (action.type) {
     case "LOAD_STATE":
       return { ...action.payload };
+    case "INCREASE_HINT":
+      const newHints = [...state.hints] as typeof state.hints;
+      newHints[action.payload] = increaseHint(state.hints[action.payload]);
+      return { ...state, hints: newHints };
+    case "RESET_HINTS":
+      return { ...state, hints: initialState.hints };
     case "ADD_FOUND":
       return {
         ...state,
@@ -65,12 +77,18 @@ const appReducer = (state: AppState, action: Action): AppState => {
       };
     case "RESET_FOUND":
       return { ...state, found: [] };
-    case "INCREASE_HINT":
-      const newHints = [...state.hints] as typeof state.hints;
-      newHints[action.payload] = increaseHint(state.hints[action.payload]);
-      return { ...state, hints: newHints };
-    case "RESET_HINTS":
-      return { ...state, hints: initialState.hints };
+    case "REVEAL_IMAGE":
+      return {
+        ...state,
+        revealedImages: Array.from(
+          new Set([...state.revealedImages, action.payload])
+        ),
+      };
+    case "RESET_REVEALED":
+      return {
+        ...state,
+        revealedImages: [],
+      };
     case "HIDE_CONFETTI":
       return { ...state, confettiOnScreen: false };
     default:
@@ -119,6 +137,14 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
     saveState(state);
   }, [JSON.stringify(state)]);
 
+  const increaseHint = (index: number) => {
+    dispatch({ type: "INCREASE_HINT", payload: index });
+  };
+
+  const resetHints = () => {
+    dispatch({ type: "RESET_HINTS" });
+  };
+
   const addFound = (index: number) => {
     dispatch({ type: "ADD_FOUND", payload: index });
   };
@@ -127,12 +153,12 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
     dispatch({ type: "RESET_FOUND" });
   };
 
-  const increaseHint = (index: number) => {
-    dispatch({ type: "INCREASE_HINT", payload: index });
+  const revealImage = (index: number) => {
+    dispatch({ type: "REVEAL_IMAGE", payload: index });
   };
 
-  const resetHints = () => {
-    dispatch({ type: "RESET_HINTS" });
+  const resetRevealed = () => {
+    dispatch({ type: "RESET_REVEALED" });
   };
 
   const hideConfetti = () => {
@@ -144,10 +170,12 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
       value={{
         state,
         dispatch,
-        addFound,
-        resetFound,
         increaseHint,
         resetHints,
+        addFound,
+        resetFound,
+        revealImage,
+        resetRevealed,
         hideConfetti,
       }}
     >

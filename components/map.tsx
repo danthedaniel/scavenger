@@ -1,11 +1,11 @@
+import { useState, useRef, useEffect, CSSProperties } from "react";
 import {
   ArrowsPointingInIcon,
   ArrowsPointingOutIcon,
 } from "@heroicons/react/24/outline";
-import { useState, useRef, useEffect, CSSProperties } from "react";
+import { HintLevel } from "./app_context";
 import { useDebounce } from "./hooks/use_debounce";
 import { useWindowSize } from "./hooks/use_window_size";
-import { HintLevel } from "./app_context";
 
 interface Position {
   x: number;

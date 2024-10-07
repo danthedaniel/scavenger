@@ -1,31 +1,36 @@
+import { useEffect, useState } from "react";
 import Head from "next/head";
-import { Map, RegionInfo, REGIONS } from "../components/map";
-import { useAppContext } from "../components/app_context";
+import { NextRouter, useRouter } from "next/router";
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
   Bars3Icon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { useEffect, useState } from "react";
+import { HintLevel, useAppContext } from "../components/app_context";
 import Button from "../components/button";
-import { NextRouter, useRouter } from "next/router";
-import Input from "../components/input";
 import Image from "../components/image";
+import Input from "../components/input";
+import { Map, RegionInfo, REGIONS } from "../components/map";
 
 interface RegionImageProps {
+  revealed: boolean;
+  reveal: () => void;
   info: RegionInfo;
 }
 
-function RegionImage({ info }: RegionImageProps) {
+function RegionImage({ revealed, reveal, info }: RegionImageProps) {
   return (
     <div className="flex flex-col justify-center items-center space-y-4 my-8">
       <Image
-        url={info.image}
+        url={!revealed ? "/unrevealed.png" : info.image}
         alt={`${info.name} Zone Image`}
-        className="w-full aspect-square"
+        className="w-full aspect-square cursor-pointer"
+        onClick={reveal}
       />
-      <p className="text-md">{info.image_description}</p>
+      <p className="text-md">
+        {!revealed ? "Tap the image above to reveal" : info.image_description}
+      </p>
     </div>
   );
 }
@@ -140,6 +145,17 @@ function CodeForm({ selected, correctCode }: CodeFormProps) {
   );
 }
 
+function hintCount(hintLevel: HintLevel): number {
+  switch (hintLevel) {
+    case "none":
+      return 0;
+    case "small":
+      return 1;
+    case "big":
+      return 2;
+  }
+}
+
 interface ZoneInfoProps {
   selected: number;
   setSelected: (index: number | null) => void;
@@ -147,13 +163,15 @@ interface ZoneInfoProps {
 
 function ZoneInfo({ selected, setSelected }: ZoneInfoProps) {
   const {
-    state: { hints, found },
+    state: { hints, found, revealedImages },
     increaseHint,
+    revealImage,
   } = useAppContext();
 
   const regionInfo = REGIONS[selected];
   const hintLevel = hints[selected];
   const isFound = found.includes(selected);
+  const imageRevealed = revealedImages.includes(selected);
 
   return (
     <div className="w-full h-full p-8 overflow-hidden max-w-screen-md">
@@ -172,14 +190,25 @@ function ZoneInfo({ selected, setSelected }: ZoneInfoProps) {
       </div>
 
       {isFound ? (
-        <h2 className="text-2xl mb-6 font-bold text-center">
-          You found this zone!
-        </h2>
+        <>
+          <h2 className="text-2xl font-bold text-center">
+            You found this zone!
+          </h2>
+          <p className="text-md mb-6 text-center">
+            ({hintCount(hintLevel)} hints used)
+          </p>
+        </>
       ) : (
         <CodeForm selected={selected} correctCode={regionInfo.code} />
       )}
 
-      {isFound && <RegionImage info={regionInfo} />}
+      {isFound && (
+        <RegionImage
+          revealed={imageRevealed}
+          reveal={() => revealImage(selected)}
+          info={regionInfo}
+        />
+      )}
 
       {!isFound && (
         <>
@@ -210,11 +239,16 @@ function ZoneInfo({ selected, setSelected }: ZoneInfoProps) {
 
 function ZonePlaceholder() {
   const {
-    state: { found },
+    state: { found, revealedImages, hints },
+    revealImage,
   } = useAppContext();
 
   const foundAny = found.length > 0;
   const foundThemAll = found.length === 5;
+  const hintsUsed = hints.reduce(
+    (acc, hintLevel) => acc + hintCount(hintLevel),
+    0
+  );
 
   return (
     <div className="w-full h-full p-8 overflow-hidden max-w-screen-md">
@@ -224,7 +258,7 @@ function ZonePlaceholder() {
         </h1>
       </div>
       {!foundAny ? (
-        <p className="pb-4 text-xl">
+        <p className="pb-4 text-xl text-center">
           Click on a zone to see more information about it.
         </p>
       ) : (
@@ -234,10 +268,17 @@ function ZonePlaceholder() {
               ? "You've found all of the zen masters"
               : "Your discovered zen masters"}
           </h2>
+          <p className="text-md">({hintsUsed} hints used)</p>
 
-          {found.map((index) => (
-            <RegionImage info={REGIONS[index]} />
-          ))}
+          {found
+            .sort((a, b) => a - b)
+            .map((index) => (
+              <RegionImage
+                revealed={revealedImages.includes(index)}
+                reveal={() => revealImage(index)}
+                info={REGIONS[index]}
+              />
+            ))}
         </div>
       )}
     </div>
@@ -258,7 +299,7 @@ function Footer() {
 
 function Menu() {
   const router = useRouter();
-  const { resetFound, resetHints } = useAppContext();
+  const { resetFound, resetHints, resetRevealed } = useAppContext();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const discover = async (code: string) => {
@@ -274,8 +315,9 @@ function Menu() {
   };
 
   const reset = () => {
-    resetFound();
     resetHints();
+    resetFound();
+    resetRevealed();
     setIsMenuOpen(false);
   };
 
