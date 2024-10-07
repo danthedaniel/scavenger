@@ -424,8 +424,8 @@ export default function Home() {
   }, [code]);
 
   return (
-    <div className="flex flex-col items-center bg-gray-200">
-      <div className="max-w-screen-md min-h-screen flex flex-col justify-between items-center bg-gray-100">
+    <div className="flex flex-col w-full max-w-screen-md min-h-screen items-center bg-gray-200">
+      <div className="flex flex-col justify-between items-center bg-gray-100">
         <Head>
           <title>Zen Masters of Golden Gate Park</title>
         </Head>
