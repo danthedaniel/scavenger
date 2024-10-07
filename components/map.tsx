@@ -27,7 +27,7 @@ const SVG_PADDING_X = 3000;
 const SVG_WIDTH = 2707;
 const SVG_HEIGHT = 642;
 
-interface RegionInfo {
+export interface RegionInfo {
   name: string;
   code: string;
   color: string;

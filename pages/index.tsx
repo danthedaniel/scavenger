@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { Map, REGIONS } from "../components/map";
+import { Map, RegionInfo, REGIONS } from "../components/map";
 import { useAppContext } from "../components/app_context";
 import {
   ArrowLeftIcon,
@@ -12,6 +12,23 @@ import Button from "../components/button";
 import { NextRouter, useRouter } from "next/router";
 import Input from "../components/input";
 import Image from "../components/image";
+
+interface RegionImageProps {
+  info: RegionInfo;
+}
+
+function RegionImage({ info }: RegionImageProps) {
+  return (
+    <div className="flex flex-col justify-center items-center space-y-4 my-8">
+      <Image
+        url={info.image}
+        alt={`${info.name} Zone Image`}
+        className="w-full aspect-square"
+      />
+      <p className="text-md">{info.image_description}</p>
+    </div>
+  );
+}
 
 const paragraphs = (text: string) => {
   return text.split("\n").map((line) => (
@@ -155,21 +172,14 @@ function ZoneInfo({ selected, setSelected }: ZoneInfoProps) {
       </div>
 
       {isFound ? (
-        <h2 className="text-2xl mb-6 font-bold">You found this zone!</h2>
+        <h2 className="text-2xl mb-6 font-bold text-center">
+          You found this zone!
+        </h2>
       ) : (
         <CodeForm selected={selected} correctCode={regionInfo.code} />
       )}
 
-      {isFound && (
-        <div className="flex flex-col justify-center my-8 space-y-4">
-          <Image
-            url={regionInfo.image}
-            alt={`${regionInfo.name} Zone Image`}
-            className="w-full aspect-square"
-          />
-          <span className="text-md">{regionInfo.image_description}</span>
-        </div>
-      )}
+      {isFound && <RegionImage info={regionInfo} />}
 
       {!isFound && (
         <>
@@ -208,7 +218,7 @@ function ZonePlaceholder() {
 
   return (
     <div className="w-full h-full p-8 overflow-hidden max-w-screen-md">
-      <div className="flex flex-col justify-center items-center pb-6 select-none">
+      <div className="flex flex-col justify-center items-center pb-8 select-none">
         <h1 className="text-3xl font-bold text-white text-outline font-chakra-petch">
           {foundThemAll ? "Hunt Completed!" : "Select a Zone"}
         </h1>
@@ -218,16 +228,15 @@ function ZonePlaceholder() {
           Click on a zone to see more information about it.
         </p>
       ) : (
-        <div className="flex flex-col">
-          <h2 className="text-2xl font-bold mb-4">
-            Your discovered zen masters
+        <div className="flex flex-col items-center">
+          <h2 className="text-2xl font-bold text-center">
+            {foundThemAll
+              ? "You've found all of the zen masters"
+              : "Your discovered zen masters"}
           </h2>
+
           {found.map((index) => (
-            <Image
-              url={REGIONS[index].image}
-              alt={`${REGIONS} Zone Image`}
-              className="mt-4"
-            />
+            <RegionImage info={REGIONS[index]} />
           ))}
         </div>
       )}
