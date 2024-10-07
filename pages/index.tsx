@@ -187,6 +187,7 @@ function ZoneInfo({ selected, setSelected }: ZoneInfoProps) {
   const hintLevel = hints[selected];
   const isFound = found.includes(selected);
   const imageRevealed = revealedImages.includes(selected);
+  const hintsUsed = hintCount(hintLevel);
 
   return (
     <div className="w-full h-full p-8 overflow-hidden max-w-screen-md">
@@ -210,7 +211,7 @@ function ZoneInfo({ selected, setSelected }: ZoneInfoProps) {
             You found this zone!
           </h2>
           <p className="text-md mb-14 text-center">
-            ({hintCount(hintLevel)} hints used)
+            ({hintsUsed} {hintsUsed === 1 ? "hint" : "hints"} used)
           </p>
         </>
       ) : (
@@ -283,7 +284,9 @@ function ZoneSummary() {
               ? "You've found all of the zen masters"
               : "Your discovered zen masters"}
           </h2>
-          <p className="text-md pb-8">({hintsUsed} hints used)</p>
+          <p className="text-md pb-8">
+            ({hintsUsed} {hintsUsed === 1 ? "hint" : "hints"} used)
+          </p>
 
           {found
             .sort((a, b) => a - b)
