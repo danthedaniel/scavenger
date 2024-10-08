@@ -356,7 +356,12 @@ function Menu() {
 
   return (
     <div
-      className={`flex flex-col bg-white ${isMenuOpen ? "fixed top-0 left-0 right-0 mx-auto z-50 h-screen max-w-screen-md" : "border-b-6 border-black w-full h-auto"}`}
+      className={[
+        "flex flex-col bg-white",
+        isMenuOpen
+          ? "fixed top-0 left-0 right-0 mx-auto z-50 h-screen max-w-screen-md"
+          : "border-b-6 border-black w-full h-auto",
+      ].join(" ")}
     >
       <div className="flex flex-row w-full h-20 justify-between items-center px-8">
         <h1 className="text-2xl font-bold">Park Scavenger Hunt</h1>
