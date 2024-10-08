@@ -20,25 +20,38 @@ interface RegionImageProps {
 }
 
 function RegionImage({ revealed, reveal, info }: RegionImageProps) {
+  const [isFlipped, setIsFlipped] = useState(revealed);
+
+  useEffect(() => {
+    setIsFlipped(revealed);
+  }, [revealed]);
+
+  const handleClick = () => {
+    if (!revealed) {
+      setIsFlipped(true);
+      reveal();
+    }
+  };
+
   return (
     <div className="flex flex-col w-full justify-center items-center space-y-4 my-6">
       <div
-        className={`flip-card z-0 ${revealed ? "flipped" : "cursor-pointer"}`}
-        onClick={!revealed ? reveal : undefined} // Only clickable if not revealed
+        className={`flip-card z-0 ${isFlipped ? "flipped" : "cursor-pointer"}`}
+        onClick={handleClick}
       >
         <div className="flip-card-inner">
           <div className="flip-card-back">
             <Image
               url="/unrevealed.png"
               alt="Unrevealed Image"
-              className="w-full aspect-square"
+              className="w-full aspect-square border-4 border-black"
             />
           </div>
           <div className="flip-card-front">
             <Image
               url={info.image}
               alt={`${info.name} Zone Image`}
-              className="w-full aspect-square"
+              className="w-full aspect-square border-4 border-black"
             />
           </div>
         </div>
@@ -424,8 +437,8 @@ export default function Home() {
   }, [code]);
 
   return (
-    <div className="flex flex-col w-full max-w-screen-md min-h-screen items-center bg-gray-200">
-      <div className="flex flex-col justify-between items-center bg-gray-100">
+    <div className="mx-auto max-w-screen-md">
+      <div className="flex flex-col justify-between items-center h-full min-h-screen">
         <Head>
           <title>Zen Masters of Golden Gate Park</title>
         </Head>
