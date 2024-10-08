@@ -233,6 +233,7 @@ function ZoneInfo({ selected, setSelected }: ZoneInfoProps) {
 
       {isFound && (
         <RegionImage
+          key={selected}
           revealed={imageRevealed}
           reveal={() => revealImage(selected)}
           info={regionInfo}
@@ -305,6 +306,7 @@ function ZoneSummary() {
             .sort((a, b) => a - b)
             .map((index) => (
               <RegionImage
+                key={index}
                 revealed={revealedImages.includes(index)}
                 reveal={() => revealImage(index)}
                 info={REGIONS[index]}
