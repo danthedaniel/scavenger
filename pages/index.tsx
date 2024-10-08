@@ -27,10 +27,10 @@ function RegionImage({ revealed, reveal, info }: RegionImageProps) {
   }, [revealed]);
 
   const handleClick = () => {
-    if (!revealed) {
-      setIsFlipped(true);
-      reveal();
-    }
+    if (revealed) return;
+
+    setIsFlipped(true);
+    reveal();
   };
 
   return (
