@@ -12,6 +12,7 @@ import Button from "../components/button";
 import Image from "../components/image";
 import Input from "../components/input";
 import { Map, RegionInfo, REGIONS } from "../components/map";
+import clsx from "clsx";
 
 interface RegionImageProps {
   revealed: boolean;
@@ -356,12 +357,12 @@ function Menu() {
 
   return (
     <div
-      className={[
+      className={clsx(
         "flex flex-col bg-white",
         isMenuOpen
           ? "fixed top-0 left-0 right-0 mx-auto z-50 h-screen max-w-screen-md"
-          : "border-b-6 border-black w-full h-auto",
-      ].join(" ")}
+          : "border-b-6 border-black w-full h-auto"
+      )}
     >
       <div className="flex flex-row w-full h-20 justify-between items-center px-8">
         <h1 className="text-2xl font-bold">Park Scavenger Hunt</h1>
