@@ -1,4 +1,5 @@
 import "../styles/globals.css";
+import "../styles/chakra_petch.css";
 import type { AppProps } from "next/app";
 import { AppProvider, useAppContext } from "../components/app_context";
 import { useWindowSize } from "../components/hooks/use_window_size";

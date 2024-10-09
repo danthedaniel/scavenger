@@ -43,7 +43,7 @@ function RegionImage({ revealed, reveal, info }: RegionImageProps) {
         <div className="flip-card-inner">
           <div className="flip-card-back">
             <Image
-              url="/unrevealed.png"
+              url="/images/unrevealed.png"
               alt="Unrevealed Image"
               className="w-full aspect-square border-4 border-black"
             />
@@ -365,7 +365,9 @@ function Menu() {
       )}
     >
       <div className="flex flex-row w-full h-20 justify-between items-center px-8">
-        <h1 className="text-2xl font-bold">Park Scavenger Hunt</h1>
+        <h1 className="text-2xl font-bold font-chakra-petch">
+          Park Scavenger Hunt
+        </h1>
         {isMenuOpen ? (
           <div
             className="flex flex-row items-center"

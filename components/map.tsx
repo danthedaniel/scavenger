@@ -49,7 +49,7 @@ export const REGIONS: RegionInfo[] = [
         "Suspendisse sollicitudin libero libero, a condimentum ex congue vitae.",
       big: "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
     },
-    image: "/placeholder.png",
+    image: "/images/placeholder.png",
     image_description:
       "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
   },
@@ -64,7 +64,7 @@ export const REGIONS: RegionInfo[] = [
         "Suspendisse sollicitudin libero libero, a condimentum ex congue vitae.",
       big: "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
     },
-    image: "/placeholder.png",
+    image: "/images/placeholder.png",
     image_description:
       "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
   },
@@ -79,7 +79,7 @@ export const REGIONS: RegionInfo[] = [
         "Suspendisse sollicitudin libero libero, a condimentum ex congue vitae.",
       big: "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
     },
-    image: "/placeholder.png",
+    image: "/images/placeholder.png",
     image_description:
       "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
   },
@@ -94,7 +94,7 @@ export const REGIONS: RegionInfo[] = [
         "Suspendisse sollicitudin libero libero, a condimentum ex congue vitae.",
       big: "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
     },
-    image: "/placeholder.png",
+    image: "/images/placeholder.png",
     image_description:
       "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
   },
@@ -109,7 +109,7 @@ export const REGIONS: RegionInfo[] = [
         "Suspendisse sollicitudin libero libero, a condimentum ex congue vitae.",
       big: "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
     },
-    image: "/placeholder.png",
+    image: "/images/placeholder.png",
     image_description:
       "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
   },
