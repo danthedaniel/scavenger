@@ -16,7 +16,8 @@
     "next": "^14.2.0",
     "react": "^18.2.0",
     "react-confetti": "^6.1.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "ua-parser-js": "^1.0.39"
   },
   "engines": {
     "node": ">=20"
@@ -26,6 +27,7 @@
     "@types/mixpanel-browser": "^2",
     "@types/node": "^22.5.5",
     "@types/react": "^18.3.8",
+    "@types/ua-parser-js": "^0.7.39",
     "autoprefixer": "^10.4.20",
     "eslint": "^9.11.1",
     "eslint-config-prettier": "^9.1.0",

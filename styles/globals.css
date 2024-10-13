@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+#map-container {
+  transition: height 0.5s ease;
+}
+
+.h-30vh {
+  height: 30vh;
+}
+
+.h-65vh {
+  height: 65vh;
+}
+
 .animate-park-map {
   transition: transform 0.5s ease;
 }
