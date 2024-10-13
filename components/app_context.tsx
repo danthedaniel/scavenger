@@ -5,10 +5,53 @@ import React, {
   ReactNode,
   useEffect,
 } from "react";
+import mixpanel from "mixpanel-browser";
+import { nanoid } from "nanoid";
+import { REGIONS } from "./map";
+
+function trackFound(
+  userId: string | null,
+  index: number,
+  foundCount: number,
+  hintLevel: HintLevel
+) {
+  if (foundCount === 0) return;
+
+  const regionInfo = REGIONS[index];
+  if (!regionInfo) return;
+
+  const eventName = [
+    `Found First Region`,
+    `Found Second Region`,
+    `Found Third Region`,
+    `Found Fourth Region`,
+    `Found Fifth Region`,
+  ][foundCount - 1];
+
+  mixpanel.track(eventName, {
+    color: regionInfo.name,
+    hintsCount: hintCount(hintLevel),
+    distinct_id: userId,
+    $insert_id: `${userId}-${eventName}`,
+  });
+}
+
+function trackHint(
+  userId: string | null,
+  regionIndex: number,
+  hintLevel: HintLevel
+) {
+  mixpanel.track("Hint Used", {
+    color: REGIONS[regionIndex].name,
+    hintsCount: hintCount(hintLevel),
+    distinct_id: userId,
+    $insert_id: `${userId}-Hint Used-${regionIndex}-${hintLevel}`,
+  });
+}
 
 export type HintLevel = "none" | "small" | "big";
 
-const increaseHint = (currentLevel: HintLevel): HintLevel => {
+const incrementHint = (currentLevel: HintLevel): HintLevel => {
   switch (currentLevel) {
     case "none":
       return "small";
@@ -21,7 +64,19 @@ const increaseHint = (currentLevel: HintLevel): HintLevel => {
   }
 };
 
+export function hintCount(hintLevel: HintLevel): number {
+  switch (hintLevel) {
+    case "none":
+      return 0;
+    case "small":
+      return 1;
+    case "big":
+      return 2;
+  }
+}
+
 interface AppState {
+  userId: string | null;
   confettiOnScreen: boolean;
   hints: [HintLevel, HintLevel, HintLevel, HintLevel, HintLevel];
   found: number[];
@@ -30,6 +85,8 @@ interface AppState {
 
 type Action =
   | { type: "LOAD_STATE"; payload: AppState }
+  | { type: "SET_USER_ID"; payload: string }
+  | { type: "RESET_USER_ID" }
   | { type: "INCREASE_HINT"; payload: number }
   | { type: "RESET_HINTS" }
   | { type: "ADD_FOUND"; payload: number }
@@ -39,6 +96,7 @@ type Action =
   | { type: "HIDE_CONFETTI" };
 
 const initialState: AppState = {
+  userId: null,
   confettiOnScreen: false,
   hints: ["none", "none", "none", "none", "none"],
   found: [],
@@ -48,6 +106,8 @@ const initialState: AppState = {
 interface AppContextType {
   state: AppState;
   dispatch: React.Dispatch<Action>;
+  setUserId: (userId: string) => void;
+  resetUserId: () => void;
   increaseHint: (index: number) => void;
   resetHints: () => void;
   addFound: (index: number) => void;
@@ -63,9 +123,13 @@ const appReducer = (state: AppState, action: Action): AppState => {
   switch (action.type) {
     case "LOAD_STATE":
       return { ...action.payload };
+    case "SET_USER_ID":
+      return { ...state, userId: action.payload };
+    case "RESET_USER_ID":
+      return { ...state, userId: null };
     case "INCREASE_HINT":
       const newHints = [...state.hints] as typeof state.hints;
-      newHints[action.payload] = increaseHint(state.hints[action.payload]);
+      newHints[action.payload] = incrementHint(state.hints[action.payload]);
       return { ...state, hints: newHints };
     case "RESET_HINTS":
       return { ...state, hints: initialState.hints };
@@ -137,7 +201,23 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
     saveState(state);
   }, [JSON.stringify(state)]);
 
+  useEffect(() => {
+    if (state.userId) return;
+
+    const userId = nanoid(12);
+    dispatch({ type: "SET_USER_ID", payload: userId });
+  }, [state.userId]);
+
+  const setUserId = (userId: string) => {
+    dispatch({ type: "SET_USER_ID", payload: userId });
+  };
+
+  const resetUserId = () => {
+    dispatch({ type: "RESET_USER_ID" });
+  };
+
   const increaseHint = (index: number) => {
+    trackHint(state.userId, index, incrementHint(state.hints[index]));
     dispatch({ type: "INCREASE_HINT", payload: index });
   };
 
@@ -146,6 +226,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const addFound = (index: number) => {
+    trackFound(state.userId, index, state.found.length + 1, state.hints[index]);
     dispatch({ type: "ADD_FOUND", payload: index });
   };
 
@@ -170,6 +251,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
       value={{
         state,
         dispatch,
+        setUserId,
+        resetUserId,
         increaseHint,
         resetHints,
         addFound,

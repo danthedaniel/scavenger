@@ -4,6 +4,8 @@ import type { AppProps } from "next/app";
 import { AppProvider, useAppContext } from "../components/app_context";
 import { useWindowSize } from "../components/hooks/use_window_size";
 import Confetti from "react-confetti";
+import mixpanel from "mixpanel-browser";
+import { useEffect } from "react";
 
 function ConfettiWrapper() {
   const {
@@ -46,11 +48,34 @@ function ConfettiWrapper() {
   );
 }
 
+function Mixpanel() {
+  const {
+    state: { userId },
+  } = useAppContext();
+
+  useEffect(() => {
+    mixpanel.init("d888b461be283ac47786adab009a401b", {
+      debug: true,
+      track_pageview: true,
+      persistence: "localStorage",
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!userId) return;
+
+    mixpanel.identify(userId);
+  }, [userId]);
+
+  return null;
+}
+
 function App({ Component, pageProps }: AppProps) {
   return (
     <AppProvider>
       <Component {...pageProps} />
       <ConfettiWrapper />
+      <Mixpanel />
     </AppProvider>
   );
 }

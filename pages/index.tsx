@@ -7,7 +7,7 @@ import {
   Bars3Icon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { HintLevel, useAppContext } from "../components/app_context";
+import { hintCount, useAppContext } from "../components/app_context";
 import Button from "../components/button";
 import Image from "../components/image";
 import Input from "../components/input";
@@ -174,17 +174,6 @@ function CodeForm({ selected, correctCode }: CodeFormProps) {
   );
 }
 
-function hintCount(hintLevel: HintLevel): number {
-  switch (hintLevel) {
-    case "none":
-      return 0;
-    case "small":
-      return 1;
-    case "big":
-      return 2;
-  }
-}
-
 interface ZoneInfoProps {
   selected: number;
   setSelected: (index: number | null) => void;
@@ -333,7 +322,8 @@ function Footer() {
 
 function Menu() {
   const router = useRouter();
-  const { resetFound, resetHints, resetRevealed } = useAppContext();
+  const { resetFound, resetHints, resetRevealed, resetUserId } =
+    useAppContext();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const discover = async (code: string) => {
@@ -352,6 +342,7 @@ function Menu() {
     resetHints();
     resetFound();
     resetRevealed();
+    resetUserId();
     setIsMenuOpen(false);
   };
 
