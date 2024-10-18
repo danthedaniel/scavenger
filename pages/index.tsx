@@ -451,7 +451,7 @@ export default function Home() {
 
         <Map found={found} selected={selected} setSelected={setSelected} />
 
-        <div className="flex flex-col w-full flex-grow justify-start items-center border-t-6 border-black text-black">
+        <div className="flex flex-col w-full justify-start items-center border-t-6 border-black text-black">
           {selected === null ? (
             <ZoneSummary setSelected={setSelected} />
           ) : (
