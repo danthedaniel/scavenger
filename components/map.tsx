@@ -118,7 +118,7 @@ export const REGIONS: RegionInfo[] = [
 ] as const;
 
 const MIN_ZOOM = 3;
-const MAX_ZOOM = 9;
+const MAX_ZOOM = 10;
 const MIN_PAN_X = -110;
 const MAX_PAN_X = 110;
 const MIN_PAN_Y = -25;
@@ -166,6 +166,7 @@ export function Map({ found, selected, setSelected }: MapProps) {
 
   const resetZooming = useDebounce(() => setIsZooming(false), 250);
 
+  // Center on region when selected.
   useEffect(() => {
     if (selected === null) {
       // Restore original pan/scale on deselect.
@@ -175,13 +176,23 @@ export function Map({ found, selected, setSelected }: MapProps) {
     }
     if (selected >= REGIONS.length) return;
 
-    // Center on region when selected.
-    const regionCenter = REGIONS[selected].center;
-    const newScale = 8;
-
-    setScale(newScale);
-    setPan({ x: regionCenter.x / newScale, y: regionCenter.y / newScale });
+    centerOnRegion(selected);
   }, [selected]);
+
+  // Restore original pan/scale when exiting fullscreen.
+  useEffect(() => {
+    if (isFullscreen) return;
+    if (selected === null) {
+      setPan({ x: 0, y: 0 });
+      setScale(3);
+      return;
+    }
+    if (selected >= REGIONS.length) return;
+
+    setHasPanned(false);
+    setIsPanning(false);
+    centerOnRegion(selected);
+  }, [isFullscreen]);
 
   // Update transform on scale/pan change.
   useEffect(() => {
@@ -339,6 +350,14 @@ export function Map({ found, selected, setSelected }: MapProps) {
     window.addEventListener("touchend", handleTouchEnd);
     return () => window.removeEventListener("touchend", handleTouchEnd);
   }, []);
+
+  function centerOnRegion(index: number) {
+    const regionCenter = REGIONS[index].center;
+    const newScale = 8;
+
+    setScale(newScale);
+    setPan({ x: regionCenter.x / newScale, y: regionCenter.y / newScale });
+  }
 
   const handleRegionClick = (index: number) => {
     if (isPanning || hasPanned) return;
