@@ -519,10 +519,10 @@ function Map({ found, selected, setSelected }: MapProps) {
 
               @keyframes pulse {
                 0%, 100% {
-                  stroke-width: 4px;
+                  stroke-width: 6px;
                 }
                 50% {
-                  stroke-width: 20px;
+                  stroke-width: 14px;
                 }
               }
             `}
@@ -1025,8 +1025,7 @@ function Map({ found, selected, setSelected }: MapProps) {
                   r="27.737"
                   style={{
                     fill: "rgb(0,175,230)",
-                    stroke: "rgb(80,197,235)",
-                    strokeOpacity: 0.75,
+                    stroke: "white",
                   }}
                 />
               </g>
