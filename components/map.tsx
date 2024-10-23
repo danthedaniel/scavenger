@@ -391,7 +391,7 @@ function Map({ found, selected, setSelected }: MapProps) {
         isFullscreen
           ? "fixed z-10 inset-0 min-h-screen min-w-screen"
           : "animate-map-container relative w-full flex-grow",
-        selected === null ? "h-80" : "h-56",
+        selected === null ? "h-80" : "h-60",
       ])}
     >
       {isFullscreen ? (
