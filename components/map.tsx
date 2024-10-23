@@ -148,6 +148,7 @@ function Map({ found, selected, setSelected }: MapProps) {
 
   const isWebKit = useIsWebKit();
 
+  const [latLong, setLatLong] = useState<Position | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [scale, setScale] = useState(INIT_ZOOM);
   const [pan, setPan] = useState<Position>(INIT_PAN);
@@ -163,6 +164,17 @@ function Map({ found, selected, setSelected }: MapProps) {
   const [initialScale, setInitialScale] = useState(scale);
 
   const resetZooming = useDebounce(() => setIsZooming(false), 250);
+
+  useEffect(() => {
+    const watchId = navigator.geolocation.watchPosition((position) => {
+      setLatLong({
+        y: position.coords.latitude,
+        x: position.coords.longitude,
+      });
+    });
+
+    return () => navigator.geolocation.clearWatch(watchId);
+  }, []);
 
   // Center on region when selected.
   useEffect(() => {
@@ -378,6 +390,33 @@ function Map({ found, selected, setSelected }: MapProps) {
     };
   };
 
+  const latLongToSVG = (latLong: Position | null): Position | null => {
+    if (!latLong) return null;
+
+    const upperRightLatLong: Position = { y: 37.774673, x: -122.4557844 };
+    const upperRightSVG: Position = { x: 2989.5151, y: 627.4388 };
+    const lowerLeftLatLong: Position = { y: 37.764193, x: -122.5117196 };
+    const lowerLeftSVG: Position = { x: 426.07, y: 1219.975 };
+
+    if (latLong.y > upperRightLatLong.y) return null;
+    if (latLong.y < lowerLeftLatLong.y) return null;
+    if (latLong.x > upperRightLatLong.x) return null;
+    if (latLong.x < lowerLeftLatLong.x) return null;
+
+    const xMultiplier =
+      (upperRightSVG.x - lowerLeftSVG.x) /
+      (upperRightLatLong.x - lowerLeftLatLong.x);
+    const x = xMultiplier * (latLong.x - lowerLeftLatLong.x) + lowerLeftSVG.x;
+
+    const yMultiplier =
+      (upperRightSVG.y - lowerLeftSVG.y) /
+      (upperRightLatLong.y - lowerLeftLatLong.y);
+    const y = yMultiplier * (latLong.y - lowerLeftLatLong.y) + lowerLeftSVG.y;
+
+    return { x, y };
+  };
+
+  const markerPosition = latLongToSVG(latLong);
   const containerWidth = containerRef.current?.clientWidth ?? 0;
   const svgAspectRatio =
     (SVG_WIDTH + 2 * SVG_PADDING_X) / (SVG_HEIGHT + 2 * SVG_PADDING_Y);
@@ -431,6 +470,22 @@ function Map({ found, selected, setSelected }: MapProps) {
         }}
       >
         <defs>
+          <style>
+            {`
+              #Marker circle {
+                animation: pulse 3s infinite;
+              }
+
+              @keyframes pulse {
+                0%, 100% {
+                  stroke-width: 4px;
+                }
+                50% {
+                  stroke-width: 20px;
+                }
+              }
+            `}
+          </style>
           <filter id="fillShadow" x="-50%" y="-50%" width="200%" height="200%">
             <feDropShadow
               dx={(-pan.x * scale) / 16}
@@ -921,6 +976,20 @@ function Map({ found, selected, setSelected }: MapProps) {
               style={regionStyle(4)}
               filter={isWebKit ? undefined : "url(#regionShadow)"}
             />
+            {markerPosition && (
+              <g id="Marker">
+                <circle
+                  cx={markerPosition.x}
+                  cy={markerPosition.y}
+                  r="27.737"
+                  style={{
+                    fill: "rgb(0,175,230)",
+                    stroke: "rgb(80,197,235)",
+                    strokeOpacity: 0.75,
+                  }}
+                />
+              </g>
+            )}
           </g>
         </g>
       </svg>
