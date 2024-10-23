@@ -5,7 +5,6 @@ import {
 } from "@heroicons/react/24/outline";
 import { HintLevel } from "./app_context";
 import { useDebounce } from "./hooks/use_debounce";
-import { useWindowSize } from "./hooks/use_window_size";
 import useIsWebKit from "./hooks/use_is_web_kit";
 import clsx from "clsx";
 
@@ -24,7 +23,7 @@ const waterStyle: CSSProperties = {
   fillOpacity: 0.65,
 };
 
-const SVG_PADDING_Y = 500;
+const SVG_PADDING_Y = 3000;
 const SVG_PADDING_X = 3000;
 const SVG_WIDTH = 2707;
 const SVG_HEIGHT = 642;
@@ -117,12 +116,11 @@ export const REGIONS: RegionInfo[] = [
   },
 ] as const;
 
+const INIT_ZOOM = 3;
+const INIT_PAN: Position = { x: 0, y: 0 } as const;
+
 const MIN_ZOOM = 3;
 const MAX_ZOOM = 10;
-const MIN_PAN_X = -110;
-const MAX_PAN_X = 110;
-const MIN_PAN_Y = -25;
-const MAX_PAN_Y = 20;
 
 const getDistance = (touches: TouchList) => {
   const dx = touches[0].clientX - touches[1].clientX;
@@ -133,8 +131,8 @@ const getDistance = (touches: TouchList) => {
 
 const limitPan = (newPan: Position): Position => {
   return {
-    x: Math.min(Math.max(newPan.x, MIN_PAN_X), MAX_PAN_X),
-    y: Math.min(Math.max(newPan.y, MIN_PAN_Y), MAX_PAN_Y),
+    x: newPan.x,
+    y: newPan.y,
   };
 };
 
@@ -145,14 +143,14 @@ interface MapProps {
 }
 
 export function Map({ found, selected, setSelected }: MapProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
 
-  const { width: windowWidth } = useWindowSize();
   const isWebKit = useIsWebKit();
 
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [scale, setScale] = useState(3);
-  const [pan, setPan] = useState<Position>({ x: 0, y: 0 });
+  const [scale, setScale] = useState(INIT_ZOOM);
+  const [pan, setPan] = useState<Position>(INIT_PAN);
   const [isPanning, setIsPanning] = useState(false);
   const [isZooming, setIsZooming] = useState(false);
 
@@ -170,8 +168,8 @@ export function Map({ found, selected, setSelected }: MapProps) {
   useEffect(() => {
     if (selected === null) {
       // Restore original pan/scale on deselect.
-      setPan({ x: 0, y: 0 });
-      setScale(3);
+      setPan(INIT_PAN);
+      setScale(INIT_ZOOM);
       return;
     }
     if (selected >= REGIONS.length) return;
@@ -183,8 +181,8 @@ export function Map({ found, selected, setSelected }: MapProps) {
   useEffect(() => {
     if (isFullscreen) return;
     if (selected === null) {
-      setPan({ x: 0, y: 0 });
-      setScale(3);
+      setPan(INIT_PAN);
+      setScale(INIT_ZOOM);
       return;
     }
     if (selected >= REGIONS.length) return;
@@ -193,16 +191,6 @@ export function Map({ found, selected, setSelected }: MapProps) {
     setIsPanning(false);
     centerOnRegion(selected);
   }, [isFullscreen]);
-
-  // Update transform on scale/pan change.
-  useEffect(() => {
-    const svg = svgRef.current;
-    if (!svg) return;
-
-    // The page has a max width of 768 due to the max-w-screen-md class
-    const scaleAdjustment = 375 / Math.min(windowWidth, 768);
-    svg.style.transform = `scale(${scale * scaleAdjustment}) translate(${pan.x}px, ${pan.y}px)`;
-  }, [scale, pan, windowWidth]);
 
   // Event handler for scroll zoom.
   useEffect(() => {
@@ -390,11 +378,14 @@ export function Map({ found, selected, setSelected }: MapProps) {
     };
   };
 
-  const panPercent =
-    100 - ((pan.x - MIN_PAN_X) / (MAX_PAN_X - MIN_PAN_X)) * 100;
+  const containerWidth = containerRef.current?.clientWidth ?? 0;
+  const svgAspectRatio =
+    (SVG_WIDTH + 2 * SVG_PADDING_X) / (SVG_HEIGHT + 2 * SVG_PADDING_Y);
+  const panPercent = 100 - (pan.x * scale + 400) / 8;
 
   return (
     <div
+      ref={containerRef}
       className={clsx([
         "bg-blue-200 overflow-hidden",
         isFullscreen
@@ -419,12 +410,16 @@ export function Map({ found, selected, setSelected }: MapProps) {
       <svg
         ref={svgRef}
         className={isPanning || isZooming ? "" : "animate-park-map"}
-        width="100%"
-        height="100%"
+        height={`${(containerWidth / svgAspectRatio) * scale}px`}
+        width={`${containerWidth * scale}px`}
         viewBox={`${-SVG_PADDING_X} ${-SVG_PADDING_Y} ${SVG_WIDTH + 2 * SVG_PADDING_X} ${SVG_HEIGHT + 2 * SVG_PADDING_Y}`}
         version="1.1"
         xmlns="http://www.w3.org/2000/svg"
         style={{
+          position: "absolute",
+          top: `calc(50% + ${pan.y * scale}px)`,
+          left: `calc(50% + ${pan.x * scale}px)`,
+          transform: `translate(-50%, -50%)`,
           fillRule: "evenodd",
           clipRule: "evenodd",
           strokeLinejoin: "round",

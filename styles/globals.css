@@ -15,7 +15,11 @@
 }
 
 .animate-park-map {
-  transition: transform 0.5s ease;
+  transition:
+    width 0.5s ease,
+    height 0.5s ease,
+    top 0.5s ease,
+    left 0.5s ease;
 }
 
 .border-t-6 {
