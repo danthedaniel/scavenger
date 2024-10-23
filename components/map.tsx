@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, CSSProperties } from "react";
 import {
   ArrowsPointingInIcon,
   ArrowsPointingOutIcon,
+  MapPinIcon,
 } from "@heroicons/react/24/outline";
 import { HintLevel } from "./app_context";
 import { useDebounce } from "./hooks/use_debounce";
@@ -148,7 +149,9 @@ function Map({ found, selected, setSelected }: MapProps) {
 
   const isWebKit = useIsWebKit();
 
+  const [locationEnabled, setLocationEnabled] = useState(false);
   const [latLong, setLatLong] = useState<Position | null>(null);
+
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [scale, setScale] = useState(INIT_ZOOM);
   const [pan, setPan] = useState<Position>(INIT_PAN);
@@ -166,15 +169,24 @@ function Map({ found, selected, setSelected }: MapProps) {
   const resetZooming = useDebounce(() => setIsZooming(false), 250);
 
   useEffect(() => {
-    const watchId = navigator.geolocation.watchPosition((position) => {
+    if (!locationEnabled) {
+      setLatLong(null);
+      return;
+    }
+
+    const onSuccess = (position: GeolocationPosition) => {
       setLatLong({
         y: position.coords.latitude,
         x: position.coords.longitude,
       });
-    });
+    };
+    const onError = (_error: GeolocationPositionError) => {
+      setLocationEnabled(false);
+    };
+    const watchId = navigator.geolocation.watchPosition(onSuccess, onError);
 
     return () => navigator.geolocation.clearWatch(watchId);
-  }, []);
+  }, [locationEnabled]);
 
   // Center on region when selected.
   useEffect(() => {
@@ -444,6 +456,19 @@ function Map({ found, selected, setSelected }: MapProps) {
           className="absolute z-10 top-4 left-4 w-8 h-8 cursor-pointer"
           onClick={() => setIsFullscreen(true)}
           aria-label="Enter Fullscreen Map"
+        />
+      )}
+      {locationEnabled ? (
+        <MapPinIcon
+          className="absolute z-10 top-4 right-4 w-8 h-8 cursor-pointer text-black"
+          onClick={() => setLocationEnabled(false)}
+          aria-label="Disable Location Services"
+        />
+      ) : (
+        <MapPinIcon
+          className="absolute z-10 top-4 right-4 w-8 h-8 cursor-pointer text-slate-400"
+          onClick={() => setLocationEnabled(true)}
+          aria-label="Enable Location Services"
         />
       )}
       <svg
