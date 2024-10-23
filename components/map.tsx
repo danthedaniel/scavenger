@@ -180,7 +180,16 @@ function Map({ found, selected, setSelected }: MapProps) {
         x: position.coords.longitude,
       });
     };
-    const onError = (_error: GeolocationPositionError) => {
+    const onError = (error: GeolocationPositionError) => {
+      const codeName = {
+        1: "Permission Denied",
+        2: "Position Unavailable",
+        3: "Timeout",
+      };
+
+      alert(
+        `Error getting location: ${codeName[error.code as 1 | 2 | 3]} ${error.message}`
+      );
       setLocationEnabled(false);
     };
     const watchId = navigator.geolocation.watchPosition(onSuccess, onError);
