@@ -142,7 +142,7 @@ interface MapProps {
   setSelected: (index: number | null) => void;
 }
 
-export function Map({ found, selected, setSelected }: MapProps) {
+function Map({ found, selected, setSelected }: MapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
 
@@ -927,3 +927,5 @@ export function Map({ found, selected, setSelected }: MapProps) {
     </div>
   );
 }
+
+export default Map;
