@@ -150,6 +150,7 @@ function Map({ found, selected, setSelected }: MapProps) {
   const isWebKit = useIsWebKit();
 
   const [locationEnabled, setLocationEnabled] = useState(false);
+  const [locationError, setLocationError] = useState<boolean>(false);
   const [latLong, setLatLong] = useState<Position | null>(null);
 
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -168,6 +169,7 @@ function Map({ found, selected, setSelected }: MapProps) {
 
   const resetZooming = useDebounce(() => setIsZooming(false), 250);
 
+  // Subscribe to location updates.
   useEffect(() => {
     if (!locationEnabled) {
       setLatLong(null);
@@ -175,6 +177,7 @@ function Map({ found, selected, setSelected }: MapProps) {
     }
 
     const onSuccess = (position: GeolocationPosition) => {
+      setLocationError(false);
       setLatLong({
         y: position.coords.latitude,
         x: position.coords.longitude,
@@ -191,6 +194,7 @@ function Map({ found, selected, setSelected }: MapProps) {
         `Error getting location: ${codeName[error.code as 1 | 2 | 3]} ${error.message}`
       );
       setLocationEnabled(false);
+      setLocationError(true);
     };
     const watchId = navigator.geolocation.watchPosition(onSuccess, onError);
 
@@ -475,7 +479,10 @@ function Map({ found, selected, setSelected }: MapProps) {
         />
       ) : (
         <MapPinIcon
-          className="absolute z-10 top-4 right-4 w-8 h-8 cursor-pointer text-slate-400"
+          className={clsx([
+            "absolute z-10 top-4 right-4 w-8 h-8 cursor-pointer",
+            locationError ? "text-red-500" : "text-slate-400",
+          ])}
           onClick={() => setLocationEnabled(true)}
           aria-label="Enable Location Services"
         />
