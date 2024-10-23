@@ -44,14 +44,14 @@ function RegionImage({ revealed, reveal, info }: RegionImageProps) {
           <div className="flip-card-back">
             <Image
               url="/images/unrevealed.png"
-              alt="Unrevealed Image"
+              ariaLabel="Unrevealed Image"
               className="w-full aspect-square border-4 border-black"
             />
           </div>
           <div className="flip-card-front">
             <Image
               url={info.image}
-              alt={`${info.name} Zone Image`}
+              ariaLabel={`${info.name} Zone Image`}
               className="w-full aspect-square border-4 border-black"
             />
           </div>
