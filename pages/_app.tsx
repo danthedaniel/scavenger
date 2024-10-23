@@ -39,6 +39,7 @@ function ConfettiWrapper() {
 
   return (
     <Confetti
+      numberOfPieces={100}
       recycle={false}
       width={windowWidth}
       height={windowHeight}
