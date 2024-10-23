@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import Image from "../components/image";
-import { RegionInfo } from "../components/map";
+import Image from "./image";
+import { RegionInfo } from "./map";
 
 interface RegionImageProps {
   revealed: boolean;

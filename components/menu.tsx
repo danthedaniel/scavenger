@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useAppContext } from "../components/app_context";
-import { REGIONS } from "../components/map";
+import { useAppContext } from "./app_context";
+import { REGIONS } from "./map";
 import clsx from "clsx";
 
 function Menu() {

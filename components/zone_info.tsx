@@ -1,10 +1,10 @@
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
-import { hintCount, useAppContext } from "../components/app_context";
-import CodeForm from "../components/code_form";
-import HintBox from "../components/hint_box";
-import RegionImage from "../components/region_image";
-import paragraphs from "../components/paragraphs";
-import { REGIONS } from "../components/map";
+import { hintCount, useAppContext } from "./app_context";
+import CodeForm from "./code_form";
+import HintBox from "./hint_box";
+import RegionImage from "./region_image";
+import paragraphs from "./paragraphs";
+import { REGIONS } from "./map";
 
 interface ZoneInfoProps {
   selected: number;

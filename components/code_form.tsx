@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useAppContext } from "../components/app_context";
-import Button from "../components/button";
-import Input from "../components/input";
+import { useAppContext } from "./app_context";
+import Button from "./button";
+import Input from "./input";
 
 interface CodeFormProps {
   selected: number;
