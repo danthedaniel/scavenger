@@ -204,8 +204,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   useEffect(() => {
     if (state.userId) return;
 
-    const userId = nanoid(12);
-    dispatch({ type: "SET_USER_ID", payload: userId });
+    setUserId(nanoid(12));
   }, [state.userId]);
 
   const setUserId = (userId: string) => {

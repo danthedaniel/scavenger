@@ -415,9 +415,8 @@ function Map({ found, selected, setSelected }: MapProps) {
     };
   };
 
-  const latLongToSVG = (latLong: Position | null): Position | null => {
-    if (!latLong) return null;
-
+  // Convert lat/long to SVG coordinates.
+  const latLongToSVG = (latLong: Position): Position | null => {
     const upperRightLatLong: Position = { y: 37.774673, x: -122.4557844 };
     const upperRightSVG: Position = { x: 2989.5151, y: 627.4388 };
     const lowerLeftLatLong: Position = { y: 37.764193, x: -122.5117196 };
@@ -441,7 +440,7 @@ function Map({ found, selected, setSelected }: MapProps) {
     return { x, y };
   };
 
-  const markerPosition = latLongToSVG(latLong);
+  const markerPosition = latLong && latLongToSVG(latLong);
   const containerWidth = containerRef.current?.clientWidth ?? 0;
   const svgAspectRatio =
     (SVG_WIDTH + 2 * SVG_PADDING_X) / (SVG_HEIGHT + 2 * SVG_PADDING_Y);
@@ -1022,7 +1021,7 @@ function Map({ found, selected, setSelected }: MapProps) {
                 <circle
                   cx={markerPosition.x}
                   cy={markerPosition.y}
-                  r="27.737"
+                  r="30"
                   style={{
                     fill: "rgb(0,175,230)",
                     stroke: "white",
