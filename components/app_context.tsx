@@ -217,6 +217,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const increaseHint = (index: number) => {
+    if (state.hints[index] === "big") return;
+
     trackHint(state.userId, index, incrementHint(state.hints[index]));
     dispatch({ type: "INCREASE_HINT", payload: index });
   };
@@ -226,6 +228,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const addFound = (index: number) => {
+    if (state.found.includes(index)) return;
+
     trackFound(state.userId, index, state.found.length + 1, state.hints[index]);
     dispatch({ type: "ADD_FOUND", payload: index });
   };
