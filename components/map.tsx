@@ -526,7 +526,13 @@ function Map({ found, selected, setSelected }: MapProps) {
               }
             `}
           </style>
-          <filter id="fillShadow" x="-50%" y="-50%" width="200%" height="200%">
+          <filter
+            id="perspectiveShadow"
+            x="-50%"
+            y="-50%"
+            width="200%"
+            height="200%"
+          >
             <feDropShadow
               dx={(-pan.x * scale) / 16}
               dy={((-pan.y + 32) * scale) / 8}
@@ -534,13 +540,7 @@ function Map({ found, selected, setSelected }: MapProps) {
               floodColor="rgba(0,0,0,0.4)"
             />
           </filter>
-          <filter
-            id="regionShadow"
-            x="-50%"
-            y="-50%"
-            width="200%"
-            height="200%"
-          >
+          <filter id="dropShadow" x="-50%" y="-50%" width="200%" height="200%">
             <feDropShadow
               dx="3"
               dy="5"
@@ -572,7 +572,7 @@ function Map({ found, selected, setSelected }: MapProps) {
           <g
             id="Fill"
             transform="matrix(1,0,0,1,2.10788,-3.93284)"
-            filter={isWebKit ? undefined : "url(#fillShadow)"}
+            filter={isWebKit ? undefined : "url(#perspectiveShadow)"}
           >
             <path
               d="M387.478,817.436L2512.49,692.84L3000.14,616.02L3076.47,1086.91L3036.35,1091.17L3036.91,1105.18L2902.54,1126.64L2822.2,1104.36L417.241,1238.17C417.241,1238.17 407.718,1141.55 405.719,1099.76C403.72,1057.98 401.496,1017.93 398.744,957.307C396.053,898.044 387.478,817.436 387.478,817.436Z"
@@ -853,7 +853,7 @@ function Map({ found, selected, setSelected }: MapProps) {
                       fill: "rgb(245,27,41)",
                       fillOpacity: 0.75,
                     }}
-                    filter={isWebKit ? undefined : "url(#regionShadow)"}
+                    filter={isWebKit ? undefined : "url(#dropShadow)"}
                   />
                 </g>
                 <g transform="matrix(1,0,0,1,-60.4697,-447.886)">
@@ -874,7 +874,7 @@ function Map({ found, selected, setSelected }: MapProps) {
               onClick={() => handleRegionClick(0)}
               d="M425.581,844.811L448.075,1200.79L931.507,1174.14L911.877,815.325L425.581,844.811Z"
               style={regionStyle(0)}
-              filter={isWebKit ? undefined : "url(#regionShadow)"}
+              filter={isWebKit ? undefined : "url(#dropShadow)"}
             />
             {found.includes(1) && (
               <g transform="matrix(1,0,0,1,608,861.233)">
@@ -888,7 +888,7 @@ function Map({ found, selected, setSelected }: MapProps) {
                       fill: "rgb(234,172,0)",
                       fillOpacity: 0.75,
                     }}
-                    filter={isWebKit ? undefined : "url(#regionShadow)"}
+                    filter={isWebKit ? undefined : "url(#dropShadow)"}
                   />
                 </g>
                 <g transform="matrix(1,0,0,1,-60.4697,-447.886)">
@@ -909,7 +909,7 @@ function Map({ found, selected, setSelected }: MapProps) {
               onClick={() => handleRegionClick(1)}
               d="M947.761,813.617L967.279,1171.4L1385.03,1148.07L1365.81,788.263L947.761,813.617Z"
               style={regionStyle(1)}
-              filter={isWebKit ? undefined : "url(#regionShadow)"}
+              filter={isWebKit ? undefined : "url(#dropShadow)"}
             />
             {found.includes(2) && (
               <g transform="matrix(1,0,0,1,1103.55,834.01)">
@@ -923,7 +923,7 @@ function Map({ found, selected, setSelected }: MapProps) {
                       fill: "rgb(226,220,0)",
                       fillOpacity: 0.75,
                     }}
-                    filter={isWebKit ? undefined : "url(#regionShadow)"}
+                    filter={isWebKit ? undefined : "url(#dropShadow)"}
                   />
                 </g>
                 <g transform="matrix(1,0,0,1,-60.4697,-447.886)">
@@ -944,7 +944,7 @@ function Map({ found, selected, setSelected }: MapProps) {
               onClick={() => handleRegionClick(2)}
               d="M1401.44,785.695L1422.79,1146.28L1912.92,1119.02L1890.95,757.414L1401.44,785.695Z"
               style={regionStyle(2)}
-              filter={isWebKit ? undefined : "url(#regionShadow)"}
+              filter={isWebKit ? undefined : "url(#dropShadow)"}
             />
             {found.includes(3) && (
               <g transform="matrix(1,0,0,1,1617.22,803.661)">
@@ -958,7 +958,7 @@ function Map({ found, selected, setSelected }: MapProps) {
                       fill: "rgb(54,228,0)",
                       fillOpacity: 0.75,
                     }}
-                    filter={isWebKit ? undefined : "url(#regionShadow)"}
+                    filter={isWebKit ? undefined : "url(#dropShadow)"}
                   />
                 </g>
                 <g transform="matrix(1,0,0,1,-60.4697,-447.886)">
@@ -979,7 +979,7 @@ function Map({ found, selected, setSelected }: MapProps) {
               onClick={() => handleRegionClick(3)}
               d="M1928.05,754.541L1950.28,1116.41L2413.34,1091.05L2392.24,727.594L1928.05,754.541Z"
               style={regionStyle(3)}
-              filter={isWebKit ? undefined : "url(#regionShadow)"}
+              filter={isWebKit ? undefined : "url(#dropShadow)"}
             />
             {found.includes(4) && (
               <g transform="matrix(1,0,0,1,2146.2,771.816)">
@@ -993,7 +993,7 @@ function Map({ found, selected, setSelected }: MapProps) {
                       fill: "rgb(0,229,207)",
                       fillOpacity: 0.75,
                     }}
-                    filter={isWebKit ? undefined : "url(#regionShadow)"}
+                    filter={isWebKit ? undefined : "url(#dropShadow)"}
                   />
                 </g>
                 <g transform="matrix(1,0,0,1,-60.4697,-447.886)">
@@ -1014,7 +1014,7 @@ function Map({ found, selected, setSelected }: MapProps) {
               onClick={() => handleRegionClick(4)}
               d="M2429.85,725.475L2451.83,1088.71L2828.6,1068.06L2907.41,1091.13L3010.8,1074.84L3008.88,1056.49L3042.51,1052.88L2976.51,647.499L2522.63,720.498L2429.85,725.475Z"
               style={regionStyle(4)}
-              filter={isWebKit ? undefined : "url(#regionShadow)"}
+              filter={isWebKit ? undefined : "url(#dropShadow)"}
             />
             {markerPosition && (
               <g id="Marker">
@@ -1026,6 +1026,7 @@ function Map({ found, selected, setSelected }: MapProps) {
                     fill: "rgb(0,175,230)",
                     stroke: "white",
                   }}
+                  filter={isWebKit ? undefined : "url(#dropShadow)"}
                 />
               </g>
             )}
