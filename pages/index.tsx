@@ -9,7 +9,7 @@ import ZoneInfo from "../components/zone_info";
 import ZoneSummary from "../components/zone_summary";
 import { useQuery } from "../components/hooks/use_query";
 
-export default function Home() {
+function MapPage() {
   const router = useRouter();
   const code = useQuery("code");
 
@@ -62,3 +62,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default MapPage;
