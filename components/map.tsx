@@ -155,7 +155,7 @@ function Map({ found, selected, setSelected }: MapProps) {
 
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [scale, setScale] = useState(INIT_ZOOM);
-  const [pan, setPan] = useState<Position>(INIT_PAN);
+  const [pan, setPan] = useState(INIT_PAN);
   const [isPanning, setIsPanning] = useState(false);
   const [isZooming, setIsZooming] = useState(false);
 
@@ -196,7 +196,11 @@ function Map({ found, selected, setSelected }: MapProps) {
       setLocationEnabled(false);
       setLocationError(true);
     };
-    const watchId = navigator.geolocation.watchPosition(onSuccess, onError);
+    const watchId = navigator.geolocation.watchPosition(onSuccess, onError, {
+      maximumAge: 10000,
+      timeout: 10000,
+      enableHighAccuracy: true,
+    });
 
     return () => navigator.geolocation.clearWatch(watchId);
   }, [locationEnabled]);
