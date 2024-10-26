@@ -5,6 +5,7 @@ import HintBox from "./hint_box";
 import RegionImage from "./region_image";
 import paragraphs from "./paragraphs";
 import { REGIONS } from "./map";
+import clsx from "clsx";
 
 interface ZoneInfoProps {
   selected: number;
@@ -28,14 +29,24 @@ function ZoneInfo({ selected, setSelected }: ZoneInfoProps) {
     <div className="w-full h-full p-8 overflow-hidden max-w-screen-md">
       <div className="flex flex-row justify-between items-center pb-8 select-none">
         <ArrowLeftIcon
-          className={`w-8 h-8 mr-4 ${selected === 0 ? "opacity-0" : "hover:cursor-pointer hover:text-blue-400"}`}
+          className={clsx([
+            "w-8 h-8 mr-4",
+            selected === 0
+              ? "opacity-0"
+              : "hover:cursor-pointer hover:text-blue-400",
+          ])}
           onClick={() => selected > 0 && setSelected(selected - 1)}
         />
         <h1 className="text-3xl font-bold text-white text-outline font-chakra-petch">
           {regionInfo.name} Zone
         </h1>
         <ArrowRightIcon
-          className={`w-8 h-8 ml-4 ${selected === 4 ? "opacity-0" : "hover:cursor-pointer hover:text-blue-400"}`}
+          className={clsx([
+            "w-8 h-8 ml-4",
+            selected === REGIONS.length - 1
+              ? "opacity-0"
+              : "hover:cursor-pointer hover:text-blue-400",
+          ])}
           onClick={() => selected < 4 && setSelected(selected + 1)}
         />
       </div>

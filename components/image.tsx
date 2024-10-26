@@ -1,3 +1,5 @@
+import clsx from "clsx";
+
 interface ImageProps {
   url: string;
   alt?: string;
@@ -12,7 +14,7 @@ function Image({ url, alt, ariaLabel, className, onClick }: ImageProps) {
       src={url}
       alt={alt}
       aria-label={ariaLabel}
-      className={`rounded-xl ${className}`}
+      className={clsx(["rounded-xl", className])}
       onClick={() => onClick?.()}
     />
   );

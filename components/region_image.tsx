@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Image from "./image";
 import { RegionInfo } from "./map";
+import clsx from "clsx";
 
 interface RegionImageProps {
   revealed: boolean;
@@ -25,7 +26,10 @@ function RegionImage({ revealed, reveal, info }: RegionImageProps) {
   return (
     <div className="flex flex-col w-full justify-center items-center space-y-4 my-6">
       <div
-        className={`flip-card z-0 ${isFlipped ? "flipped" : "cursor-pointer"}`}
+        className={clsx([
+          "flip-card z-0",
+          isFlipped ? "flipped" : "cursor-pointer",
+        ])}
         onClick={handleClick}
       >
         <div className="flip-card-inner">

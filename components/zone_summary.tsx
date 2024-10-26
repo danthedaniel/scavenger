@@ -62,7 +62,12 @@ function ZoneSummary({ setSelected }: ZoneSummaryProps) {
   return (
     <div className="w-full h-full p-8 overflow-hidden max-w-screen-md">
       <div
-        className={`flex flex-col justify-center items-center pb-4 select-none ${foundThemAll ? "cursor-default" : "hover:cursor-pointer hover:text-blue-400"}`}
+        className={clsx([
+          "flex flex-col justify-center items-center pb-4 select-none",
+          foundThemAll
+            ? "cursor-default"
+            : "hover:cursor-pointer hover:text-blue-400",
+        ])}
         onClick={clickHandler}
       >
         <h1 className="text-3xl font-bold text-white text-outline font-chakra-petch">
