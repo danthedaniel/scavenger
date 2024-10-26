@@ -16,7 +16,7 @@ function ZoneSummary({ setSelected }: ZoneSummaryProps) {
   const [shareError, setShareError] = useState(false);
 
   const foundAny = found.length > 0;
-  const foundThemAll = found.length === 5;
+  const foundThemAll = found.length === REGIONS.length;
 
   const hintsUsed = hints.reduce(
     (acc, hintLevel) => acc + hintCount(hintLevel),
@@ -82,7 +82,7 @@ function ZoneSummary({ setSelected }: ZoneSummaryProps) {
         <>
           <p className="pb text-md text-center">
             <span className="font-bold">{found.length}</span> /{" "}
-            <span className="font-bold">5</span> zones found
+            <span className="font-bold">{REGIONS.length}</span> zones found
           </p>
           <p className="pb-4text-md text-center">
             <span className="text-gray-500">
