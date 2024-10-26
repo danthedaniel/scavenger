@@ -1,4 +1,8 @@
+import { ArrowUpOnSquareIcon } from "@heroicons/react/24/outline";
 import { hintCount, useAppContext } from "./app_context";
+import { REGIONS } from "./map";
+import { useState } from "react";
+import clsx from "clsx";
 
 interface ZoneSummaryProps {
   setSelected: (index: number | null) => void;
@@ -8,6 +12,8 @@ function ZoneSummary({ setSelected }: ZoneSummaryProps) {
   const {
     state: { found, hints },
   } = useAppContext();
+
+  const [shareError, setShareError] = useState(false);
 
   const foundAny = found.length > 0;
   const foundThemAll = found.length === 5;
@@ -22,6 +28,37 @@ function ZoneSummary({ setSelected }: ZoneSummaryProps) {
 
     setSelected(0);
   }
+
+  async function shareHandler() {
+    if (!foundThemAll) return;
+
+    const shareText = [
+      `I completed the Golden Gate Park Scavenger Hunt!`,
+      "",
+      found
+        .map(
+          (index) =>
+            `${"💡".repeat(hintCount(hints[index]))}${REGIONS[index].emoji}`
+        )
+        .join(""),
+      "",
+      "https://sfpark.gold",
+    ].join("\n");
+
+    if (!navigator.canShare({ text: shareText })) {
+      setShareError(true);
+      return;
+    }
+
+    setShareError(false);
+
+    try {
+      await navigator.share({ text: shareText });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <div className="w-full h-full p-8 overflow-hidden max-w-screen-md">
       <div
@@ -49,6 +86,18 @@ function ZoneSummary({ setSelected }: ZoneSummaryProps) {
             </span>
           </p>
         </>
+      )}
+      {foundThemAll && (
+        <div
+          className={clsx([
+            "flex flex-col justify-center items-center pt-8 cursor-pointer",
+            shareError ? "text-red-400" : "text-black",
+          ])}
+          onClick={shareHandler}
+        >
+          <ArrowUpOnSquareIcon className="w-12 h-12" />
+          <p className="text-md text-center">Share your results!</p>
+        </div>
       )}
     </div>
   );

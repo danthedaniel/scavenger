@@ -31,6 +31,7 @@ const SVG_HEIGHT = 642;
 
 export interface RegionInfo {
   name: string;
+  emoji: string;
   code: string;
   color: string;
   center: Position;
@@ -42,6 +43,7 @@ export interface RegionInfo {
 export const REGIONS: RegionInfo[] = [
   {
     name: "Red",
+    emoji: "🟥",
     code: "PACIFIC",
     color: "rgb(244,28,41)",
     center: { x: 390, y: -25 },
@@ -57,6 +59,7 @@ export const REGIONS: RegionInfo[] = [
   },
   {
     name: "Orange",
+    emoji: "🟧",
     code: "TOWEL",
     color: "rgb(234,173,0)",
     center: { x: 210, y: -10 },
@@ -72,6 +75,7 @@ export const REGIONS: RegionInfo[] = [
   },
   {
     name: "Yellow",
+    emoji: "🟨",
     code: "MANSION",
     color: "rgb(225,220,0)",
     center: { x: 25, y: -5 },
@@ -87,6 +91,7 @@ export const REGIONS: RegionInfo[] = [
   },
   {
     name: "Green",
+    emoji: "🟩",
     code: "CITED",
     color: "rgb(55,228,0)",
     center: { x: -150, y: 5 },
@@ -102,6 +107,7 @@ export const REGIONS: RegionInfo[] = [
   },
   {
     name: "Blue",
+    emoji: "🟦",
     code: "PLATFORM",
     color: "rgb(0,228,207)",
     center: { x: -355, y: 15 },
