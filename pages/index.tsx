@@ -96,7 +96,12 @@ function MapPage() {
   }, [code]);
 
   useEffect(() => {
-    fetch("/api/timestamps")
+    fetch("/api/timestamps", {
+      headers: {
+        "Cache-Control": "no-cache",
+        Pragma: "no-cache",
+      },
+    })
       .then((res) => res.json())
       .then((data) => setZoneStatuses(data))
       .catch((err) => {

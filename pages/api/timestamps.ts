@@ -13,8 +13,9 @@ const supabase = createClient(
 );
 
 async function handler(_req: NextApiRequest, res: NextApiResponse) {
-  // Add cache-control header for 60 seconds
-  res.setHeader("Cache-Control", "s-maxage=60, stale-while-revalidate");
+  // Set cache control headers
+  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+  res.setHeader("Pragma", "no-cache");
 
   const { data, error } = await supabase.from("zones").select("*");
   if (error) {
