@@ -21,7 +21,7 @@
     "ua-parser-js": "^1.0.39"
   },
   "engines": {
-    "node": ">=20"
+    "node": "20.x"
   },
   "packageManager": "yarn@4.5.0",
   "devDependencies": {
