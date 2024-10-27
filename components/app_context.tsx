@@ -5,49 +5,7 @@ import React, {
   ReactNode,
   useEffect,
 } from "react";
-import mixpanel from "mixpanel-browser";
 import { nanoid } from "nanoid";
-import { REGIONS } from "./map";
-
-function trackFound(
-  userId: string | null,
-  index: number,
-  foundCount: number,
-  hintLevel: HintLevel
-) {
-  if (foundCount === 0) return;
-
-  const regionInfo = REGIONS[index];
-  if (!regionInfo) return;
-
-  const eventName = [
-    `Found First Region`,
-    `Found Second Region`,
-    `Found Third Region`,
-    `Found Fourth Region`,
-    `Found Fifth Region`,
-  ][foundCount - 1];
-
-  mixpanel.track(eventName, {
-    color: regionInfo.name,
-    hintsCount: hintCount(hintLevel),
-    distinct_id: userId,
-    $insert_id: `${userId}-${eventName}`,
-  });
-}
-
-function trackHint(
-  userId: string | null,
-  regionIndex: number,
-  hintLevel: HintLevel
-) {
-  mixpanel.track("Hint Used", {
-    color: REGIONS[regionIndex].name,
-    hintsCount: hintCount(hintLevel),
-    distinct_id: userId,
-    $insert_id: `${userId}-Hint Used-${regionIndex}-${hintLevel}`,
-  });
-}
 
 export type HintLevel = "none" | "small" | "big";
 
@@ -216,9 +174,6 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const increaseHint = (index: number) => {
-    if (state.hints[index] === "big") return;
-
-    trackHint(state.userId, index, incrementHint(state.hints[index]));
     dispatch({ type: "INCREASE_HINT", payload: index });
   };
 
@@ -227,9 +182,6 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const addFound = (index: number) => {
-    if (state.found.includes(index)) return;
-
-    trackFound(state.userId, index, state.found.length + 1, state.hints[index]);
     dispatch({ type: "ADD_FOUND", payload: index });
   };
 

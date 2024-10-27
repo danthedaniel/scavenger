@@ -55,7 +55,7 @@ function Mixpanel() {
   } = useAppContext();
 
   useEffect(() => {
-    mixpanel.init("d888b461be283ac47786adab009a401b", {
+    mixpanel.init(process.env.NEXT_PUBLIC_MIXPANEL_TOKEN!, {
       debug: true,
       track_pageview: true,
       persistence: "localStorage",

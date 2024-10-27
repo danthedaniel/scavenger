@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.1.5",
+    "@supabase/supabase-js": "^2.45.6",
     "clsx": "^2.1.1",
     "mixpanel-browser": "^2.55.1",
     "nanoid": "^5.0.7",
@@ -29,6 +30,7 @@
     "@types/react": "^18.3.8",
     "@types/ua-parser-js": "^0.7.39",
     "autoprefixer": "^10.4.20",
+    "dotenv": "^16.4.5",
     "eslint": "^9.11.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
