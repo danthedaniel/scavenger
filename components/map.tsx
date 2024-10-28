@@ -20,8 +20,8 @@ const waterStyle: CSSProperties = {
   fillOpacity: 0.65,
 };
 
-const SVG_PADDING_Y = 3000;
-const SVG_PADDING_X = 3000;
+const SVG_PADDING_Y = 100;
+const SVG_PADDING_X = 100;
 const SVG_WIDTH = 2707;
 const SVG_HEIGHT = 642;
 
@@ -38,8 +38,9 @@ export interface ZoneInfo {
 
 export const ZONES: ZoneInfo[] = zones;
 
-const INIT_ZOOM = 3;
+const INIT_ZOOM = 1.0;
 const INIT_PAN: Position = { x: 0, y: 0 } as const;
+const FOCUS_ZOOM = 2.9;
 
 interface MapProps {
   found: number[];
@@ -111,10 +112,9 @@ function Map({ found, selected, setSelected }: MapProps) {
 
   function centerOnZone(index: number) {
     const zoneCenter = ZONES[index].center;
-    const newScale = 8;
 
-    setScale(newScale);
-    setPan({ x: zoneCenter.x / newScale, y: zoneCenter.y / newScale });
+    setScale(FOCUS_ZOOM);
+    setPan({ x: zoneCenter.x / FOCUS_ZOOM, y: zoneCenter.y / FOCUS_ZOOM });
   }
 
   const handleZoneClick = (index: number) => {
