@@ -2,22 +2,22 @@ import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import { hintCount, HintLevel, useAppContext } from "./app_context";
 import CodeForm from "./code_form";
 import HintBox from "./hint_box";
-import RegionImage from "./region_image";
+import ZoneImage from "./zone_image";
 import paragraphs from "./paragraphs";
-import { REGIONS } from "./map";
+import { ZONES } from "./map";
 import clsx from "clsx";
 import mixpanel from "mixpanel-browser";
 
 function trackHint(
   userId: string | null,
-  regionIndex: number,
+  zoneIndex: number,
   hintLevel: HintLevel
 ) {
   mixpanel.track("Hint Used", {
-    color: REGIONS[regionIndex].name,
+    color: ZONES[zoneIndex].name,
     hintsCount: hintCount(hintLevel),
     distinct_id: userId,
-    $insert_id: `${userId}-Hint Used-${regionIndex}-${hintLevel}`,
+    $insert_id: `${userId}-Hint Used-${zoneIndex}-${hintLevel}`,
   });
 }
 
@@ -58,7 +58,7 @@ function ZoneInfo({ selected, setSelected, discoveredOn }: ZoneInfoProps) {
     revealImage,
   } = useAppContext();
 
-  const regionInfo = REGIONS[selected];
+  const zoneInfo = ZONES[selected];
   const hintLevel = hints[selected];
   const isFound = found.includes(selected);
   const imageRevealed = revealedImages.includes(selected);
@@ -84,12 +84,12 @@ function ZoneInfo({ selected, setSelected, discoveredOn }: ZoneInfoProps) {
           onClick={() => selected > 0 && setSelected(selected - 1)}
         />
         <h1 className="text-3xl font-bold text-white text-outline font-chakra-petch">
-          {regionInfo.name} Zone
+          {zoneInfo.name} Zone
         </h1>
         <ArrowRightIcon
           className={clsx([
             "w-8 h-8 ml-4",
-            selected === REGIONS.length - 1
+            selected === ZONES.length - 1
               ? "opacity-0"
               : "hover:cursor-pointer hover:text-blue-400",
           ])}
@@ -109,25 +109,25 @@ function ZoneInfo({ selected, setSelected, discoveredOn }: ZoneInfoProps) {
           </p>
         </>
       ) : (
-        <CodeForm selected={selected} correctCode={regionInfo.code} />
+        <CodeForm selected={selected} correctCode={zoneInfo.code} />
       )}
 
       {isFound && (
-        <RegionImage
+        <ZoneImage
           key={selected}
           revealed={imageRevealed}
           reveal={() => revealImage(selected)}
-          info={regionInfo}
+          info={zoneInfo}
         />
       )}
 
       {!isFound && (
         <>
-          {paragraphs(regionInfo.hints["none"])}
+          {paragraphs(zoneInfo.hints["none"])}
 
           <HintBox
-            region={selected}
-            hint={regionInfo.hints["small"]}
+            zone={selected}
+            hint={zoneInfo.hints["small"]}
             revealed={["small", "big"].includes(hintLevel)}
             reveal={() => revealHint()}
             found={isFound}
@@ -135,8 +135,8 @@ function ZoneInfo({ selected, setSelected, discoveredOn }: ZoneInfoProps) {
 
           {["small", "big"].includes(hintLevel) && (
             <HintBox
-              region={selected}
-              hint={regionInfo.hints["big"]}
+              zone={selected}
+              hint={zoneInfo.hints["big"]}
               revealed={hintLevel === "big"}
               reveal={() => revealHint()}
               found={isFound}

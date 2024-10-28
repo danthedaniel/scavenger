@@ -22,7 +22,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     .from("zones")
     .update({ discovered_on: new Date() })
     .eq("name", name);
-
   if (updateError) {
     return res.status(500).json({ error: updateError.message });
   }

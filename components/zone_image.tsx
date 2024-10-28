@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import Image from "./image";
-import { RegionInfo } from "./map";
+import { ZoneInfo } from "./map";
 import clsx from "clsx";
 
-interface RegionImageProps {
+interface ZoneImageProps {
   revealed: boolean;
   reveal: () => void;
-  info: RegionInfo;
+  info: ZoneInfo;
 }
 
-function RegionImage({ revealed, reveal, info }: RegionImageProps) {
+function ZoneImage({ revealed, reveal, info }: ZoneImageProps) {
   const [isFlipped, setIsFlipped] = useState(revealed);
 
   useEffect(() => {
@@ -56,4 +56,4 @@ function RegionImage({ revealed, reveal, info }: RegionImageProps) {
   );
 }
 
-export default RegionImage;
+export default ZoneImage;

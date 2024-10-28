@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useAppContext } from "./app_context";
-import { REGIONS } from "./map";
+import { ZONES } from "./map";
 import clsx from "clsx";
 
 function Menu() {
@@ -68,13 +68,13 @@ function Menu() {
       </div>
       {isMenuOpen && (
         <div className="flex flex-col space-y-8 px-8 mt-4">
-          {REGIONS.map((region, index) => (
+          {ZONES.map((zoneInfo, index) => (
             <span
               key={index}
               className="text-md font-bold cursor-pointer"
-              onClick={() => discover(region.code)}
+              onClick={() => discover(zoneInfo.code)}
             >
-              Discover {region.name}
+              Discover {zoneInfo.name}
             </span>
           ))}
           <span

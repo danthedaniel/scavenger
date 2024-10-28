@@ -1,6 +1,6 @@
 import { ArrowUpOnSquareIcon } from "@heroicons/react/24/outline";
 import { hintCount, useAppContext } from "./app_context";
-import { REGIONS } from "./map";
+import { ZONES } from "./map";
 import { useState } from "react";
 import clsx from "clsx";
 
@@ -16,7 +16,7 @@ function ZoneSummary({ setSelected }: ZoneSummaryProps) {
   const [shareError, setShareError] = useState(false);
 
   const foundAny = found.length > 0;
-  const foundThemAll = found.length === REGIONS.length;
+  const foundThemAll = found.length === ZONES.length;
 
   const hintsUsed = hints.reduce(
     (acc, hintLevel) => acc + hintCount(hintLevel),
@@ -38,7 +38,7 @@ function ZoneSummary({ setSelected }: ZoneSummaryProps) {
       found
         .map(
           (index) =>
-            `${"💡".repeat(hintCount(hints[index]))}${REGIONS[index].emoji}`
+            `${"💡".repeat(hintCount(hints[index]))}${ZONES[index].emoji}`
         )
         .join(""),
       "",
@@ -82,7 +82,7 @@ function ZoneSummary({ setSelected }: ZoneSummaryProps) {
         <>
           <p className="pb text-md text-center">
             <span className="font-bold">{found.length}</span> /{" "}
-            <span className="font-bold">{REGIONS.length}</span> zones found
+            <span className="font-bold">{ZONES.length}</span> zones found
           </p>
           <p className="pb-4text-md text-center">
             <span className="text-gray-500">

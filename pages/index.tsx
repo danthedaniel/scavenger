@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { hintCount, HintLevel, useAppContext } from "../components/app_context";
 import Footer from "../components/footer";
 import Menu from "../components/menu";
-import Map, { REGIONS } from "../components/map";
+import Map, { ZONES } from "../components/map";
 import ZoneInfo from "../components/zone_info";
 import ZoneSummary from "../components/zone_summary";
 import { useQuery } from "../components/hooks/use_query";
@@ -18,8 +18,8 @@ function trackFound(
 ) {
   if (foundCount === 0) return;
 
-  const regionInfo = REGIONS[index];
-  if (!regionInfo) return;
+  const zoneInfo = ZONES[index];
+  if (!zoneInfo) return;
 
   const eventName = [
     "Found First Region",
@@ -30,7 +30,7 @@ function trackFound(
   ][foundCount - 1];
 
   mixpanel.track(eventName, {
-    color: regionInfo.name,
+    color: zoneInfo.name,
     hintsCount: hintCount(hintLevel),
     distinct_id: userId,
     $insert_id: `${userId}-${eventName}`,
@@ -56,7 +56,7 @@ function MapPage() {
   useEffect(() => {
     if (code === undefined) return;
 
-    const index = REGIONS.findIndex((region) => region.code === code);
+    const index = ZONES.findIndex((zone) => zone.code === code);
     if (index === -1) return;
 
     setSelected(index);
@@ -75,7 +75,7 @@ function MapPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: REGIONS[index].name,
+          name: ZONES[index].name,
         }),
       })
         .then((res) => res.json())
@@ -134,7 +134,7 @@ function MapPage() {
             <ZoneInfo
               selected={selected}
               setSelected={setSelected}
-              discoveredOn={discoveredOn(REGIONS[selected].name)}
+              discoveredOn={discoveredOn(ZONES[selected].name)}
             />
           )}
         </div>

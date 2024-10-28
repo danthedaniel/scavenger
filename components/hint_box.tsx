@@ -3,19 +3,19 @@ import Button from "./button";
 import paragraphs from "./paragraphs";
 
 interface HintBoxProps {
-  region: number;
+  zone: number;
   hint: string;
   revealed: boolean;
   reveal: () => void;
   found: boolean;
 }
 
-function HintBox({ region, hint, revealed, reveal, found }: HintBoxProps) {
+function HintBox({ zone, hint, revealed, reveal, found }: HintBoxProps) {
   const [pressed, setPressed] = useState(false);
 
   useEffect(() => {
     setPressed(false);
-  }, [region]);
+  }, [zone]);
 
   function clickHandler() {
     if (!pressed) {
