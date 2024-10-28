@@ -82,9 +82,7 @@ function Map({ found, selected, setSelected }: MapProps) {
         3: "Timeout",
       };
 
-      alert(
-        `Error getting location: ${codeName[error.code as 1 | 2 | 3]} ${error.message}`
-      );
+      alert(`${codeName[error.code as 1 | 2 | 3]}: ${error.message}`);
       setLocationEnabled(false);
       setLocationError(true);
     };
