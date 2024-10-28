@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, CSSProperties } from "react";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 import { HintLevel } from "./app_context";
 import useIsWebKit from "./hooks/use_is_web_kit";
+import zones from "./zones.json" with { type: "json" };
 import clsx from "clsx";
 
 interface Position {
@@ -35,88 +36,7 @@ export interface ZoneInfo {
   image_description: string;
 }
 
-export const ZONES: ZoneInfo[] = [
-  {
-    name: "Red",
-    emoji: "🟥",
-    code: "PACIFIC",
-    color: "rgb(244,28,41)",
-    center: { x: 390, y: -25 },
-    hints: {
-      none: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at leo at augue iaculis molestie sed vel odio.\nAliquam erat volutpat. Suspendisse lacinia pretium interdum. Integer pulvinar lectus lorem, id vehicula magna pretium vitae.",
-      small:
-        "Suspendisse sollicitudin libero libero, a condimentum ex congue vitae.",
-      big: "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
-    },
-    image: "/images/placeholder.png",
-    image_description:
-      "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
-  },
-  {
-    name: "Orange",
-    emoji: "🟧",
-    code: "TOWEL",
-    color: "rgb(234,173,0)",
-    center: { x: 210, y: -10 },
-    hints: {
-      none: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at leo at augue iaculis molestie sed vel odio.\nAliquam erat volutpat. Suspendisse lacinia pretium interdum. Integer pulvinar lectus lorem, id vehicula magna pretium vitae.",
-      small:
-        "Suspendisse sollicitudin libero libero, a condimentum ex congue vitae.",
-      big: "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
-    },
-    image: "/images/placeholder.png",
-    image_description:
-      "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
-  },
-  {
-    name: "Yellow",
-    emoji: "🟨",
-    code: "MANSION",
-    color: "rgb(225,220,0)",
-    center: { x: 25, y: -5 },
-    hints: {
-      none: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at leo at augue iaculis molestie sed vel odio.\nAliquam erat volutpat. Suspendisse lacinia pretium interdum. Integer pulvinar lectus lorem, id vehicula magna pretium vitae.",
-      small:
-        "Suspendisse sollicitudin libero libero, a condimentum ex congue vitae.",
-      big: "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
-    },
-    image: "/images/placeholder.png",
-    image_description:
-      "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
-  },
-  {
-    name: "Green",
-    emoji: "🟩",
-    code: "CITED",
-    color: "rgb(55,228,0)",
-    center: { x: -150, y: 5 },
-    hints: {
-      none: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at leo at augue iaculis molestie sed vel odio.\nAliquam erat volutpat. Suspendisse lacinia pretium interdum. Integer pulvinar lectus lorem, id vehicula magna pretium vitae.",
-      small:
-        "Suspendisse sollicitudin libero libero, a condimentum ex congue vitae.",
-      big: "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
-    },
-    image: "/images/placeholder.png",
-    image_description:
-      "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
-  },
-  {
-    name: "Blue",
-    emoji: "🟦",
-    code: "PLATFORM",
-    color: "rgb(0,228,207)",
-    center: { x: -355, y: 15 },
-    hints: {
-      none: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at leo at augue iaculis molestie sed vel odio.\nAliquam erat volutpat. Suspendisse lacinia pretium interdum. Integer pulvinar lectus lorem, id vehicula magna pretium vitae.",
-      small:
-        "Suspendisse sollicitudin libero libero, a condimentum ex congue vitae.",
-      big: "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
-    },
-    image: "/images/placeholder.png",
-    image_description:
-      "Morbi at lectus convallis, fringilla ex eu, accumsan tortor.",
-  },
-] as const;
+export const ZONES: ZoneInfo[] = zones;
 
 const INIT_ZOOM = 3;
 const INIT_PAN: Position = { x: 0, y: 0 } as const;
