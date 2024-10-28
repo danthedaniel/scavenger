@@ -91,7 +91,7 @@ function Map({ found, selected, setSelected }: MapProps) {
     const watchId = navigator.geolocation.watchPosition(onSuccess, onError, {
       maximumAge: 10000,
       timeout: 10000,
-      enableHighAccuracy: true,
+      enableHighAccuracy: false,
     });
 
     return () => navigator.geolocation.clearWatch(watchId);
@@ -131,7 +131,7 @@ function Map({ found, selected, setSelected }: MapProps) {
 
   const zoneStyle = (index: number): CSSProperties => {
     return {
-      fill: "rgba(0,0,0,0)",
+      fill: "transparent",
       stroke: ZONES[index].color,
       strokeOpacity: zoneHasBorder(index) ? 0.9 : 0,
       strokeWidth: "18px",
