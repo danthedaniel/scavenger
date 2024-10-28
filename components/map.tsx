@@ -1,11 +1,6 @@
 import { useState, useRef, useEffect, CSSProperties } from "react";
-import {
-  ArrowsPointingInIcon,
-  ArrowsPointingOutIcon,
-  MapPinIcon,
-} from "@heroicons/react/24/outline";
+import { MapPinIcon } from "@heroicons/react/24/outline";
 import { HintLevel } from "./app_context";
-import { useDebounce } from "./hooks/use_debounce";
 import useIsWebKit from "./hooks/use_is_web_kit";
 import clsx from "clsx";
 
@@ -126,23 +121,6 @@ export const REGIONS: RegionInfo[] = [
 const INIT_ZOOM = 3;
 const INIT_PAN: Position = { x: 0, y: 0 } as const;
 
-const MIN_ZOOM = 3;
-const MAX_ZOOM = 10;
-
-const getDistance = (touches: TouchList) => {
-  const dx = touches[0].clientX - touches[1].clientX;
-  const dy = touches[0].clientY - touches[1].clientY;
-
-  return Math.hypot(dx, dy);
-};
-
-const limitPan = (newPan: Position): Position => {
-  return {
-    x: newPan.x,
-    y: newPan.y,
-  };
-};
-
 interface MapProps {
   found: number[];
   selected: number | null;
@@ -159,21 +137,8 @@ function Map({ found, selected, setSelected }: MapProps) {
   const [locationError, setLocationError] = useState<boolean>(false);
   const [latLong, setLatLong] = useState<Position | null>(null);
 
-  const [isFullscreen, setIsFullscreen] = useState(false);
   const [scale, setScale] = useState(INIT_ZOOM);
   const [pan, setPan] = useState(INIT_PAN);
-  const [isPanning, setIsPanning] = useState(false);
-  const [isZooming, setIsZooming] = useState(false);
-
-  // Drag panning state
-  const [start, setStart] = useState<Position>({ x: 0, y: 0 });
-  const [hasPanned, setHasPanned] = useState(false);
-
-  // Pinch-to-zoom state
-  const [initialDistance, setInitialDistance] = useState(0);
-  const [initialScale, setInitialScale] = useState(scale);
-
-  const resetZooming = useDebounce(() => setIsZooming(false), 250);
 
   // Subscribe to location updates.
   useEffect(() => {
@@ -224,168 +189,6 @@ function Map({ found, selected, setSelected }: MapProps) {
     centerOnRegion(selected);
   }, [selected]);
 
-  // Restore original pan/scale when exiting fullscreen.
-  useEffect(() => {
-    if (isFullscreen) return;
-    if (selected === null) {
-      setPan(INIT_PAN);
-      setScale(INIT_ZOOM);
-      return;
-    }
-    if (selected >= REGIONS.length) return;
-
-    setHasPanned(false);
-    setIsPanning(false);
-    centerOnRegion(selected);
-  }, [isFullscreen]);
-
-  // Event handler for scroll zoom.
-  useEffect(() => {
-    const svg = svgRef.current;
-    if (!svg) return;
-
-    if (!isFullscreen) return;
-
-    const handleWheel = (event: WheelEvent) => {
-      event.preventDefault();
-
-      // Handle zooming
-      setIsZooming(true);
-      const scaleChange = event.deltaY * -0.04;
-      setScale((prevScale) =>
-        Math.min(Math.max(MIN_ZOOM, prevScale + scaleChange), MAX_ZOOM)
-      );
-
-      resetZooming();
-    };
-
-    svg.addEventListener("wheel", handleWheel);
-    return () => svg.removeEventListener("wheel", handleWheel);
-  }, [isFullscreen, scale]);
-
-  // Event handler for mouse click.
-  useEffect(() => {
-    const svg = svgRef.current;
-    if (!svg) return;
-
-    if (!isFullscreen) return;
-
-    const handleMouseDown = (event: MouseEvent) => {
-      setIsPanning(true);
-      setStart({ x: event.clientX, y: event.clientY });
-      setHasPanned(false);
-    };
-
-    svg.addEventListener("mousedown", handleMouseDown);
-    return () => svg.removeEventListener("mousedown", handleMouseDown);
-  }, [isFullscreen]);
-
-  // Event handler for mouse dragging (panning).
-  useEffect(() => {
-    if (!isFullscreen) return;
-
-    const handleMouseMove = (event: MouseEvent) => {
-      if (!isPanning) return;
-
-      const dx = (event.clientX - start.x) / scale;
-      const dy = (event.clientY - start.y) / scale;
-
-      setPan(limitPan({ x: pan.x + dx, y: pan.y + dy }));
-      setStart({ x: event.clientX, y: event.clientY });
-      setHasPanned(true);
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [isFullscreen, isPanning, pan, scale]);
-
-  // Event handler for mouse release.
-  useEffect(() => {
-    const handleMouseUp = () => {
-      setIsPanning(false);
-    };
-
-    window.addEventListener("mouseup", handleMouseUp);
-    return () => window.removeEventListener("mouseup", handleMouseUp);
-  }, []);
-
-  // Event handler for touch pan/zoom start.
-  useEffect(() => {
-    const svg = svgRef.current;
-    if (!svg) return;
-
-    if (!isFullscreen) return;
-
-    const handleTouchStart = (event: TouchEvent) => {
-      if (event.touches.length === 1) {
-        // Single touch, start panning
-        setIsPanning(true);
-        setStart({ x: event.touches[0].clientX, y: event.touches[0].clientY });
-        setHasPanned(false);
-      } else if (event.touches.length === 2) {
-        // Two touches, start zooming
-        setIsPanning(false);
-        setIsZooming(true);
-        const distance = getDistance(event.touches);
-        setInitialDistance(distance);
-        setInitialScale(scale);
-      }
-    };
-
-    svg.addEventListener("touchstart", handleTouchStart);
-    return () => svg.removeEventListener("touchstart", handleTouchStart);
-  }, [isFullscreen, scale]);
-
-  // Event handler for touch pan/zoom.
-  useEffect(() => {
-    if (!isFullscreen) return;
-
-    const handleTouchMove = (event: TouchEvent) => {
-      if (event.touches.length === 1 && isPanning) {
-        // Single touch, continue panning
-        const dx = (event.touches[0].clientX - start.x) / scale;
-        const dy = (event.touches[0].clientY - start.y) / scale;
-
-        setPan(limitPan({ x: pan.x + dx, y: pan.y + dy }));
-        setStart({ x: event.touches[0].clientX, y: event.touches[0].clientY });
-        setHasPanned(true);
-      } else if (event.touches.length === 2 && isZooming) {
-        // Two touches, continue zooming
-        setIsZooming(true);
-        const distance = getDistance(event.touches);
-        const scaleChange = distance / initialDistance;
-        setScale(
-          Math.min(Math.max(MIN_ZOOM, initialScale * scaleChange), MAX_ZOOM)
-        );
-      }
-    };
-
-    window.addEventListener("touchmove", handleTouchMove);
-    return () => window.removeEventListener("touchmove", handleTouchMove);
-  }, [
-    isFullscreen,
-    isPanning,
-    isZooming,
-    scale,
-    pan,
-    initialDistance,
-    initialScale,
-  ]);
-
-  // Event handler for touch pan/zoom end.
-  useEffect(() => {
-    const svg = svgRef.current;
-    if (!svg) return;
-
-    const handleTouchEnd = () => {
-      setIsPanning(false);
-      setIsZooming(false);
-    };
-
-    window.addEventListener("touchend", handleTouchEnd);
-    return () => window.removeEventListener("touchend", handleTouchEnd);
-  }, []);
-
   function centerOnRegion(index: number) {
     const regionCenter = REGIONS[index].center;
     const newScale = 8;
@@ -395,14 +198,7 @@ function Map({ found, selected, setSelected }: MapProps) {
   }
 
   const handleRegionClick = (index: number) => {
-    if (isPanning || hasPanned) return;
-
-    if (selected === index) {
-      setSelected(null);
-    } else {
-      setSelected(index);
-      setIsFullscreen(false);
-    }
+    setSelected(selected === index ? null : index);
   };
 
   const regionHasBorder = (index: number) => {
@@ -421,7 +217,7 @@ function Map({ found, selected, setSelected }: MapProps) {
       strokeWidth: "18px",
       strokeLinejoin: "miter",
       strokeDasharray: selected === index ? "0" : "30, 15",
-      cursor: isPanning ? "grabbing" : "pointer",
+      cursor: "pointer",
     };
   };
 
@@ -460,36 +256,20 @@ function Map({ found, selected, setSelected }: MapProps) {
     <div
       ref={containerRef}
       className={clsx([
-        "bg-blue-200 overflow-hidden",
-        isFullscreen
-          ? "fixed z-10 inset-0 min-h-screen min-w-screen"
-          : "animate-map-container relative w-full flex-grow",
+        "bg-blue-200 overflow-hidden animate-map-container relative w-full flex-grow",
         selected === null ? "h-80" : "h-60",
       ])}
     >
-      {isFullscreen ? (
-        <ArrowsPointingInIcon
-          className="absolute z-10 top-4 left-4 w-8 h-8 cursor-pointer"
-          onClick={() => setIsFullscreen(false)}
-          aria-label="Exit Fullscreen Map"
-        />
-      ) : (
-        <ArrowsPointingOutIcon
-          className="absolute z-10 top-4 left-4 w-8 h-8 cursor-pointer"
-          onClick={() => setIsFullscreen(true)}
-          aria-label="Enter Fullscreen Map"
-        />
-      )}
       {locationEnabled ? (
         <MapPinIcon
-          className="absolute z-10 top-4 right-4 w-8 h-8 cursor-pointer text-black"
+          className="absolute z-10 bottom-4 right-4 w-8 h-8 cursor-pointer text-black"
           onClick={() => setLocationEnabled(false)}
           aria-label="Disable Location Services"
         />
       ) : (
         <MapPinIcon
           className={clsx([
-            "absolute z-10 top-4 right-4 w-8 h-8 cursor-pointer",
+            "absolute z-10 bottom-4 right-4 w-8 h-8 cursor-pointer",
             locationError ? "text-red-500" : "text-slate-400",
           ])}
           onClick={() => setLocationEnabled(true)}
@@ -498,7 +278,7 @@ function Map({ found, selected, setSelected }: MapProps) {
       )}
       <svg
         ref={svgRef}
-        className={isPanning || isZooming ? "" : "animate-park-map"}
+        className="animate-park-map"
         height={`${(containerWidth / svgAspectRatio) * scale}px`}
         width={`${containerWidth * scale}px`}
         viewBox={`${-SVG_PADDING_X} ${-SVG_PADDING_Y} ${SVG_WIDTH + 2 * SVG_PADDING_X} ${SVG_HEIGHT + 2 * SVG_PADDING_Y}`}
@@ -513,9 +293,7 @@ function Map({ found, selected, setSelected }: MapProps) {
           clipRule: "evenodd",
           strokeLinejoin: "round",
           strokeMiterlimit: 1.5,
-          border: "1px solid red",
-          cursor: isPanning ? "grabbing" : "grab",
-          touchAction: isFullscreen ? "none" : "auto",
+          cursor: "pointer",
           transformOrigin: "center center",
         }}
       >
