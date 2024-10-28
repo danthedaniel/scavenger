@@ -86,7 +86,7 @@ function MapPage() {
     }
 
     // Clear code query parameter
-    const newQuery = router.query;
+    const newQuery = { ...router.query };
     delete newQuery["code"];
 
     router.replace({
