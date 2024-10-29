@@ -51,7 +51,7 @@ function CodeForm({ selected, correctCode }: CodeFormProps) {
           }
           value={code}
         />
-        <Button text="Submit" className="" onClick={() => submitHandler()} />
+        <Button text="Submit" onClick={() => submitHandler()} />
       </div>
       {error !== null && (
         <span className="text-sm text-red-600 mb-2">{error}</span>
