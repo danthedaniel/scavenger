@@ -124,8 +124,9 @@ function Map({ found, selected, setSelected }: MapProps) {
   function centerOnZone(index: number) {
     const zoneCenter = ZONES[index].center;
 
-    setScale(FOCUS_ZOOM);
-    setPan({ x: zoneCenter.x / FOCUS_ZOOM, y: zoneCenter.y / FOCUS_ZOOM });
+    const zoom = (FOCUS_ZOOM * 400) / containerWidth;
+    setScale(zoom);
+    setPan({ x: zoneCenter.x / zoom, y: zoneCenter.y / zoom });
   }
 
   const handleZoneClick = (index: number) => {
