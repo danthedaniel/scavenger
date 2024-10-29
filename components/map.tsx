@@ -187,8 +187,8 @@ function Map({ found, selected, setSelected }: MapProps) {
     <div
       ref={containerRef}
       className={clsx([
-        "bg-blue-200 overflow-hidden animate-map-container relative w-full flex-grow",
-        selected === null ? "h-80" : "h-60",
+        "bg-blue-200 overflow-hidden animate-map-container relative w-full",
+        selected === null ? "flex-grow h-80" : "h-64",
       ])}
     >
       {locationEnabled ? (

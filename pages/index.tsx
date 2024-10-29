@@ -9,6 +9,7 @@ import ZoneInfo from "../components/zone_info";
 import ZoneSummary from "../components/zone_summary";
 import { useQuery } from "../components/hooks/use_query";
 import mixpanel from "mixpanel-browser";
+import clsx from "clsx";
 
 function trackFound(
   userId: string | null,
@@ -127,7 +128,12 @@ function MapPage() {
 
         <Map found={found} selected={selected} setSelected={setSelected} />
 
-        <div className="flex flex-col w-full justify-start items-center border-t-6 border-black text-black">
+        <div
+          className={clsx([
+            "flex flex-col w-full justify-start items-center border-t-6 border-black text-black",
+            selected !== null && "flex-grow",
+          ])}
+        >
           {selected === null ? (
             <ZoneSummary setSelected={setSelected} />
           ) : (
