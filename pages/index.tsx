@@ -11,6 +11,14 @@ import { useQuery } from "../components/hooks/use_query";
 import mixpanel from "mixpanel-browser";
 import clsx from "clsx";
 
+function throwIfNotOk(res: Response) {
+  if (!res.ok) {
+    throw new Error(`HTTP error! status: ${res.status}`);
+  }
+
+  return res;
+}
+
 function trackFound(
   userId: string | null,
   index: number,
@@ -79,6 +87,7 @@ function MapPage() {
           name: ZONES[index].name,
         }),
       })
+        .then(throwIfNotOk)
         .then((res) => res.json())
         .then((data) => setZoneStatuses(data))
         .catch((err) => {
@@ -103,6 +112,7 @@ function MapPage() {
         Pragma: "no-cache",
       },
     })
+      .then(throwIfNotOk)
       .then((res) => res.json())
       .then((data) => setZoneStatuses(data))
       .catch((err) => {
