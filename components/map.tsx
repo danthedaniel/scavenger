@@ -58,6 +58,7 @@ function Map({ found, selected, setSelected }: MapProps) {
   const [locationError, setLocationError] = useState<boolean>(false);
   const [latLong, setLatLong] = useState<Position | null>(null);
 
+  const [containerWidth, setContainerWidth] = useState(0);
   const [scale, setScale] = useState(INIT_ZOOM);
   const [pan, setPan] = useState(INIT_PAN);
 
@@ -107,6 +108,18 @@ function Map({ found, selected, setSelected }: MapProps) {
 
     centerOnZone(selected);
   }, [selected]);
+
+  // Listen for resize of the container.
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const resizeObserver = new ResizeObserver((_entries, _observer) => {
+      setContainerWidth(containerRef.current?.clientWidth ?? 0);
+    });
+    resizeObserver.observe(containerRef.current);
+
+    return () => resizeObserver.disconnect();
+  }, [!!containerRef.current]);
 
   function centerOnZone(index: number) {
     const zoneCenter = ZONES[index].center;
@@ -165,7 +178,6 @@ function Map({ found, selected, setSelected }: MapProps) {
   };
 
   const markerPosition = latLong && latLongToSVG(latLong);
-  const containerWidth = containerRef.current?.clientWidth ?? 0;
   const svgAspectRatio =
     (SVG_WIDTH + 2 * SVG_PADDING_X) / (SVG_HEIGHT + 2 * SVG_PADDING_Y);
   const panPercent = 100 - (pan.x * scale + 400) / 8;
