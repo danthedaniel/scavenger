@@ -87,13 +87,11 @@ function Map({ found, selected, setSelected }: MapProps) {
       setLocationEnabled(false);
       setLocationError(true);
     };
-    const watchId = navigator.geolocation.watchPosition(onSuccess, onError, {
+    navigator.geolocation.getCurrentPosition(onSuccess, onError, {
       maximumAge: 10000,
       timeout: 10000,
       enableHighAccuracy: false,
     });
-
-    return () => navigator.geolocation.clearWatch(watchId);
   }, [locationEnabled]);
 
   // Center on zone when selected.
