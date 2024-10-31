@@ -12,13 +12,7 @@ function Menu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const discover = async (code: string) => {
-    await router.push({
-      pathname: "/",
-      query: {
-        ...router.query,
-        code,
-      },
-    });
+    await router.push({ pathname: `/${code}` });
 
     setIsMenuOpen(false);
   };

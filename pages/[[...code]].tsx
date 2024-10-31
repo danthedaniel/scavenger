@@ -7,13 +7,20 @@ import Menu from "../components/menu";
 import Map, { ZONES } from "../components/map";
 import ZoneInfo from "../components/zone_info";
 import ZoneSummary from "../components/zone_summary";
-import { useQuery } from "../components/hooks/use_query";
 import mixpanel from "mixpanel-browser";
 import clsx from "clsx";
+import { GetServerSideProps } from "next";
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { code } = context.params ?? {};
+  if (!code) return { props: {} };
+
+  return { props: { code: Array.isArray(code) ? code[0] : code } };
+};
 
 function throwIfNotOk(res: Response) {
   if (!res.ok) {
-    throw new Error(`HTTP error! status: ${res.status}`);
+    throw new Error(`HTTP error: ${res.status}`);
   }
 
   return res;
@@ -51,9 +58,13 @@ interface ZoneStatus {
   discovered_on: string;
 }
 
-function MapPage() {
+interface MapPageProps {
+  // Secret code for a map zone.
+  code?: string;
+}
+
+function MapPage({ code }: MapPageProps) {
   const router = useRouter();
-  const code = useQuery("code");
 
   const {
     state: { found, hints, userId },
@@ -68,6 +79,24 @@ function MapPage() {
     const index = ZONES.findIndex((zone) => zone.code === code);
     if (index === -1) return;
 
+    // A small delay is necessary because of ridiculous iOS Safari issues.
+    setTimeout(() => unlockZone(index), 500);
+  }, [code]);
+
+  useEffect(() => {
+    fetch("/api/timestamps", {
+      headers: {
+        "Cache-Control": "no-cache",
+        Pragma: "no-cache",
+      },
+    })
+      .then(throwIfNotOk)
+      .then((res) => res.json())
+      .then((data) => setZoneStatuses(data))
+      .catch((err) => console.error(err));
+  }, [Math.floor(Date.now() / (60 * 1000))]);
+
+  function unlockZone(index: number) {
     setSelected(index);
 
     if (!found.includes(index)) {
@@ -90,35 +119,11 @@ function MapPage() {
         .then(throwIfNotOk)
         .then((res) => res.json())
         .then((data) => setZoneStatuses(data))
-        .catch((err) => {
-          console.error(err);
-        });
+        .catch((err) => console.error(err));
     }
 
-    // Clear code query parameter
-    const newQuery = { ...router.query };
-    delete newQuery["code"];
-
-    router.replace({
-      pathname: router.pathname,
-      query: newQuery,
-    });
-  }, [code]);
-
-  useEffect(() => {
-    fetch("/api/timestamps", {
-      headers: {
-        "Cache-Control": "no-cache",
-        Pragma: "no-cache",
-      },
-    })
-      .then(throwIfNotOk)
-      .then((res) => res.json())
-      .then((data) => setZoneStatuses(data))
-      .catch((err) => {
-        console.error(err);
-      });
-  }, [Math.floor(Date.now() / (60 * 1000))]);
+    router.replace({ pathname: "/" });
+  }
 
   function discoveredOn(name: string) {
     const zone = zoneStatuses.find((zone) => zone.name === name);

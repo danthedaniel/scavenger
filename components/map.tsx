@@ -123,7 +123,6 @@ function Map({ found, selected, setSelected }: MapProps) {
 
   function centerOnZone(index: number) {
     const zoneCenter = ZONES[index].center;
-
     const zoom = (FOCUS_ZOOM * 400) / containerWidth;
     setScale(zoom);
     setPan({ x: zoneCenter.x / zoom, y: zoneCenter.y / zoom });
