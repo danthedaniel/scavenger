@@ -76,7 +76,7 @@ function MapPage({ code }: MapPageProps) {
   useEffect(() => {
     if (code === undefined) return;
 
-    const index = ZONES.findIndex((zone) => zone.code === code);
+    const index = ZONES.findIndex((zone) => zone.code === code.toUpperCase());
     if (index === -1) return;
 
     // A small delay is necessary because of ridiculous iOS Safari issues.
