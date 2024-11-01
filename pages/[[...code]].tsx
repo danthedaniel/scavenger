@@ -94,7 +94,10 @@ function MapPage({ code }: MapPageProps) {
       .then((res) => res.json())
       .then((data) => setZoneStatuses(data))
       .catch((err) => console.error(err));
-  }, [Math.floor(Date.now() / (60 * 1000))]);
+  }, [
+    // HACK: Rerun on state updates, but only once per minute.
+    Math.floor(Date.now() / (60 * 1000)),
+  ]);
 
   function unlockZone(index: number) {
     setSelected(index);
