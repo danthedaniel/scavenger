@@ -38,6 +38,10 @@ export interface ZoneInfo {
 
 export const ZONES: ZoneInfo[] = zones;
 
+async function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 const INIT_ZOOM = 1.0;
 const INIT_PAN: Position = { x: 0, y: 0 } as const;
 const FOCUS_ZOOM = 2.9;
@@ -87,11 +91,22 @@ function Map({ found, selected, setSelected }: MapProps) {
       setLocationEnabled(false);
       setLocationError(true);
     };
-    navigator.geolocation.getCurrentPosition(onSuccess, onError, {
+    const options: PositionOptions = {
       maximumAge: 10000,
       timeout: 10000,
       enableHighAccuracy: false,
-    });
+    };
+
+    new Promise<GeolocationPosition>((resolve, reject) =>
+      navigator.geolocation.getCurrentPosition(resolve, reject, options)
+    )
+      .then(onSuccess)
+      .then(() => sleep(30000))
+      .then(() => {
+        setLocationEnabled(false);
+        setLatLong(null);
+      })
+      .catch(onError);
   }, [locationEnabled]);
 
   // Center on zone when selected.
