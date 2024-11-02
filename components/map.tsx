@@ -235,9 +235,11 @@ function Map({ found, selected, setSelected }: MapProps) {
               @keyframes pulse {
                 0%, 100% {
                   stroke-width: 6px;
+                  r: 30px;
                 }
                 50% {
-                  stroke-width: 14px;
+                  stroke-width: 12px;
+                  r: 24px;
                 }
               }
             `}
@@ -727,7 +729,6 @@ function Map({ found, selected, setSelected }: MapProps) {
                 <circle
                   cx={markerPosition.x}
                   cy={markerPosition.y}
-                  r="30"
                   style={{
                     fill: "rgb(0,175,230)",
                     stroke: "white",
