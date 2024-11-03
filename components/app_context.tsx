@@ -9,7 +9,7 @@ import { nanoid } from "nanoid";
 
 export type HintLevel = "none" | "small" | "big";
 
-const incrementHint = (currentLevel: HintLevel): HintLevel => {
+function incrementHint(currentLevel: HintLevel): HintLevel {
   switch (currentLevel) {
     case "none":
       return "small";
@@ -20,7 +20,7 @@ const incrementHint = (currentLevel: HintLevel): HintLevel => {
     default:
       return "none";
   }
-};
+}
 
 export function hintCount(hintLevel: HintLevel): number {
   switch (hintLevel) {
@@ -77,7 +77,7 @@ interface AppContextType {
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
-const appReducer = (state: AppState, action: Action): AppState => {
+function appReducer(state: AppState, action: Action): AppState {
   switch (action.type) {
     case "LOAD_STATE":
       return { ...action.payload };
@@ -116,11 +116,11 @@ const appReducer = (state: AppState, action: Action): AppState => {
     default:
       return state;
   }
-};
+}
 
 const LOCAL_STORAGE_KEY = "appState";
 
-const loadState = (): AppState => {
+function loadState(): AppState {
   if (typeof window === "undefined") {
     return initialState;
   }
@@ -134,20 +134,22 @@ const loadState = (): AppState => {
     console.error("Error loading state from localStorage:", err);
     return initialState;
   }
-};
+}
 
-const saveState = (state: AppState) => {
+function saveState(state: AppState) {
   try {
     const serializedState = JSON.stringify(state);
     localStorage.setItem(LOCAL_STORAGE_KEY, serializedState);
   } catch (err) {
     console.error("Error saving state to localStorage:", err);
   }
-};
+}
 
-export const AppProvider: React.FC<{ children: ReactNode }> = ({
-  children,
-}) => {
+interface AppProviderProps {
+  children: ReactNode;
+}
+
+export function AppProvider({ children }: AppProviderProps) {
   const [state, dispatch] = useReducer(appReducer, initialState);
 
   useEffect(() => {
@@ -165,41 +167,41 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
     setUserId(nanoid(12));
   }, [state.userId]);
 
-  const setUserId = (userId: string) => {
+  function setUserId(userId: string) {
     dispatch({ type: "SET_USER_ID", payload: userId });
-  };
+  }
 
-  const resetUserId = () => {
+  function resetUserId() {
     dispatch({ type: "RESET_USER_ID" });
-  };
+  }
 
-  const increaseHint = (index: number) => {
+  function increaseHint(index: number) {
     dispatch({ type: "INCREASE_HINT", payload: index });
-  };
+  }
 
-  const resetHints = () => {
+  function resetHints() {
     dispatch({ type: "RESET_HINTS" });
-  };
+  }
 
-  const addFound = (index: number) => {
+  function addFound(index: number) {
     dispatch({ type: "ADD_FOUND", payload: index });
-  };
+  }
 
-  const resetFound = () => {
+  function resetFound() {
     dispatch({ type: "RESET_FOUND" });
-  };
+  }
 
-  const revealImage = (index: number) => {
+  function revealImage(index: number) {
     dispatch({ type: "REVEAL_IMAGE", payload: index });
-  };
+  }
 
-  const resetRevealed = () => {
+  function resetRevealed() {
     dispatch({ type: "RESET_REVEALED" });
-  };
+  }
 
-  const hideConfetti = () => {
+  function hideConfetti() {
     dispatch({ type: "HIDE_CONFETTI" });
-  };
+  }
 
   return (
     <AppContext.Provider
@@ -220,12 +222,12 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
       {children}
     </AppContext.Provider>
   );
-};
+}
 
-export const useAppContext = () => {
+export function useAppContext() {
   const context = useContext(AppContext);
   if (context === undefined) {
     throw new Error("useAppContext must be used within an AppProvider");
   }
   return context;
-};
+}

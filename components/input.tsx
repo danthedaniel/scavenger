@@ -9,13 +9,13 @@ interface InputProps {
   value: string;
 }
 
-const Input = ({
+function Input({
   placeholder,
   className,
   onKeyDown,
   onChange,
   value,
-}: InputProps) => {
+}: InputProps) {
   return (
     <input
       type="text"
@@ -30,6 +30,6 @@ const Input = ({
       )}
     />
   );
-};
+}
 
 export default Input;

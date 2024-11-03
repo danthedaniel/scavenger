@@ -17,13 +17,13 @@ function Menu() {
     setIsMenuOpen(false);
   };
 
-  const reset = () => {
+  function reset() {
     resetHints();
     resetFound();
     resetRevealed();
     resetUserId();
     setIsMenuOpen(false);
-  };
+  }
 
   return (
     <div

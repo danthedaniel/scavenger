@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, CSSProperties } from "react";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 import { HintLevel } from "./app_context";
 import useIsWebKit from "./hooks/use_is_web_kit";
-import zones from "./zones.json" with { type: "json" };
+import zones from "./map_zones.json" with { type: "json" };
 import clsx from "clsx";
 
 interface Position {
@@ -42,6 +42,12 @@ async function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+const GEOLOCATION_ERROR_CODE_NAME = {
+  1: "Permission Denied",
+  2: "Position Unavailable",
+  3: "Timeout",
+} as const;
+
 const INIT_ZOOM = 1.0;
 const INIT_PAN: Position = { x: 0, y: 0 } as const;
 const FOCUS_ZOOM = 2.9;
@@ -73,40 +79,7 @@ function Map({ found, selected, setSelected }: MapProps) {
       return;
     }
 
-    const onSuccess = (position: GeolocationPosition) => {
-      setLocationError(false);
-      setLatLong({
-        y: position.coords.latitude,
-        x: position.coords.longitude,
-      });
-    };
-    const onError = (error: GeolocationPositionError) => {
-      const codeName = {
-        1: "Permission Denied",
-        2: "Position Unavailable",
-        3: "Timeout",
-      };
-
-      alert(`${codeName[error.code as 1 | 2 | 3]}: ${error.message}`);
-      setLocationEnabled(false);
-      setLocationError(true);
-    };
-    const options: PositionOptions = {
-      maximumAge: 10000,
-      timeout: 10000,
-      enableHighAccuracy: false,
-    };
-
-    new Promise<GeolocationPosition>((resolve, reject) =>
-      navigator.geolocation.getCurrentPosition(resolve, reject, options)
-    )
-      .then(onSuccess)
-      .then(() => sleep(30000))
-      .then(() => {
-        setLocationEnabled(false);
-        setLatLong(null);
-      })
-      .catch(onError);
+    pollLocation();
   }, [locationEnabled]);
 
   // Center on zone when selected.
@@ -136,24 +109,62 @@ function Map({ found, selected, setSelected }: MapProps) {
 
   function centerOnZone(index: number) {
     const zoneCenter = ZONES[index].center;
-    const zoom = (FOCUS_ZOOM * 400) / containerWidth;
+    const zoom = FOCUS_ZOOM * (400 / containerWidth);
     setScale(zoom);
     setPan({ x: zoneCenter.x / zoom, y: zoneCenter.y / zoom });
   }
 
-  const handleZoneClick = (index: number) => {
-    setSelected(selected === index ? null : index);
-  };
+  async function pollLocation() {
+    let position: GeolocationPosition;
 
-  const zoneHasBorder = (index: number) => {
+    try {
+      position = await new Promise<GeolocationPosition>((resolve, reject) =>
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          maximumAge: 10000,
+          timeout: 10000,
+          enableHighAccuracy: false,
+        })
+      );
+    } catch (error: unknown) {
+      setLocationEnabled(false);
+      setLocationError(true);
+
+      if (error instanceof GeolocationPositionError) {
+        const code = error.code as keyof typeof GEOLOCATION_ERROR_CODE_NAME;
+        const message = `${GEOLOCATION_ERROR_CODE_NAME[code]}: ${error.message}`;
+
+        alert(message);
+        console.error(message);
+      }
+
+      return;
+    }
+
+    setLocationError(false);
+    setLatLong({
+      y: position.coords.latitude,
+      x: position.coords.longitude,
+    });
+
+    await sleep(30000);
+
+    setLocationEnabled(false);
+    setLatLong(null);
+  }
+
+  function handleZoneClick(index: number) {
+    setSelected(selected === index ? null : index);
+  }
+
+  function zoneHasBorder(index: number) {
     if (selected === index) return true;
     if (found.includes(index)) return false;
     if (selected === null) return true;
 
     return false;
-  };
+  }
 
-  const zoneStyle = (index: number): CSSProperties => {
+  function zoneStyle(index: number): CSSProperties {
     return {
       fill: "transparent",
       stroke: ZONES[index].color,
@@ -163,10 +174,10 @@ function Map({ found, selected, setSelected }: MapProps) {
       strokeDasharray: selected === index ? "0" : "30, 15",
       cursor: "pointer",
     };
-  };
+  }
 
   // Convert lat/long to SVG coordinates.
-  const latLongToSVG = (latLong: Position): Position | null => {
+  function latLongToSVG(latLong: Position): Position | null {
     const upperRightLatLong: Position = { y: 37.774673, x: -122.4557844 };
     const upperRightSVG: Position = { x: 2989.5151, y: 627.4388 };
     const lowerLeftLatLong: Position = { y: 37.764193, x: -122.5117196 };
@@ -188,7 +199,7 @@ function Map({ found, selected, setSelected }: MapProps) {
     const y = yMultiplier * (latLong.y - lowerLeftLatLong.y) + lowerLeftSVG.y;
 
     return { x, y };
-  };
+  }
 
   const markerPosition = latLong && latLongToSVG(latLong);
   const svgAspectRatio =

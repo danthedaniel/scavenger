@@ -16,12 +16,12 @@ function ZoneImage({ revealed, reveal, info }: ZoneImageProps) {
     setIsFlipped(revealed);
   }, [revealed]);
 
-  const handleClick = () => {
+  function handleClick() {
     if (revealed) return;
 
     setIsFlipped(true);
     reveal();
-  };
+  }
 
   return (
     <div className="flex flex-col w-full justify-center items-center space-y-4 my-6">
