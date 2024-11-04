@@ -36,7 +36,7 @@ function CodeForm({ selected, correctCode }: CodeFormProps) {
   }
 
   return (
-    <div className="mb-6 flex flex-col">
+    <div className="mb-8 flex flex-col">
       <div className="mb-2 flex max-w-screen-md flex-row justify-center space-x-4 align-middle">
         <Input
           className={error === null ? "border-black" : "border-red-600"}

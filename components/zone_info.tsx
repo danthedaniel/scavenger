@@ -123,7 +123,12 @@ function ZoneInfo({ selected, setSelected, discoveredOn }: ZoneInfoProps) {
 
       {!isFound && (
         <>
-          {paragraphs(zoneInfo.hints["none"])}
+          <div className="mb-8 text-center">
+            {paragraphs(
+              zoneInfo.hints["none"],
+              "font-chakra-petch text-lg mb-2"
+            )}
+          </div>
 
           <HintBox
             zone={selected}

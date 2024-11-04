@@ -1,6 +1,6 @@
-function paragraphs(text: string) {
+function paragraphs(text: string, className?: string) {
   return text.split("\n").map((line) => (
-    <p key={line} className="mb-4 text-lg">
+    <p key={line} className={className}>
       {line}
     </p>
   ));

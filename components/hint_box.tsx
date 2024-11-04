@@ -27,7 +27,7 @@ function HintBox({ zone, hint, revealed, reveal, found }: HintBoxProps) {
   }
 
   if (revealed) {
-    return paragraphs(hint);
+    return paragraphs(hint, "text-lg mb-4");
   }
 
   if (found) return null;
