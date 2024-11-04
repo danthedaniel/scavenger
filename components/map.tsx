@@ -59,6 +59,7 @@ function Map({ found, selected, setSelected }: MapProps) {
   const [containerWidth, setContainerWidth] = useState(0);
   const [scale, setScale] = useState(INIT_ZOOM);
   const [pan, setPan] = useState(INIT_PAN);
+  const [touchStart, setTouchStart] = useState<Position | null>(null);
 
   // Center on zone when selected.
   useEffect(() => {
@@ -94,6 +95,36 @@ function Map({ found, selected, setSelected }: MapProps) {
 
   function handleZoneClick(index: number) {
     setSelected(selected === index ? null : index);
+  }
+
+  function handleTouchStart(e: React.TouchEvent) {
+    if (selected === null) return;
+
+    const touch = e.touches[0];
+    setTouchStart({ x: touch.clientX, y: touch.clientY });
+  }
+
+  function handleTouchMove(e: React.TouchEvent) {
+    if (selected === null) return;
+    if (!touchStart) return;
+
+    const touch = e.touches[0];
+    const deltaX = touchStart.x - touch.clientX;
+    const deltaY = touchStart.y - touch.clientY;
+
+    // Only handle horizontal swipes that are more horizontal than vertical
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+      if (deltaX > 0 && selected < ZONES.length - 1) {
+        setSelected(selected + 1);
+      } else if (deltaX < 0 && selected > 0) {
+        setSelected(selected - 1);
+      }
+      setTouchStart(null);
+    }
+  }
+
+  function handleTouchEnd() {
+    setTouchStart(null);
   }
 
   function zoneHasBorder(index: number) {
@@ -153,6 +184,9 @@ function Map({ found, selected, setSelected }: MapProps) {
         "animate-map-container relative w-full overflow-hidden bg-blue-200",
         selected === null ? "h-80 flex-grow" : "h-64",
       ])}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
       <LocationButton setLatLong={setLatLong} />
       <svg
