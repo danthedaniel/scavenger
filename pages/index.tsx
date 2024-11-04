@@ -9,14 +9,6 @@ import ZoneInfo from "../components/zone_info";
 import ZoneSummary from "../components/zone_summary";
 import mixpanel from "mixpanel-browser";
 import clsx from "clsx";
-import { GetServerSideProps } from "next";
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { code } = context.params ?? {};
-  if (!code) return { props: {} };
-
-  return { props: { code: Array.isArray(code) ? code[0] : code } };
-};
 
 function throwIfNotOk(res: Response) {
   if (!res.ok) {
@@ -58,7 +50,7 @@ interface ZoneStatus {
   discovered_on: string;
 }
 
-interface MapPageProps {
+export interface MapPageProps {
   // Secret code for a map zone.
   code?: string;
 }
