@@ -1,11 +1,14 @@
-import { useMemo } from "react";
+import { useState, useEffect } from "react";
 import { UAParser } from "ua-parser-js";
 
 export default function useIsWebKit() {
-  return useMemo(
-    () =>
-      typeof navigator !== "undefined" &&
-      new UAParser(navigator.userAgent).getEngine().name === "WebKit",
-    []
-  );
+  const [isWebKit, setIsWebKit] = useState(false);
+
+  useEffect(() => {
+    setIsWebKit(
+      new UAParser(navigator.userAgent).getEngine().name === "WebKit"
+    );
+  }, []);
+
+  return isWebKit;
 }
