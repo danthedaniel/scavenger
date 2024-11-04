@@ -49,7 +49,7 @@
     "center": { "x": -174, "y": 5 },
     "hints": {
       "none": "A measure above\nWater falls underneath me\nNo bridge is too far",
-      "small": "Climb to the top of Strawberry Hill",
+      "small": "Climb to the top of Strawberry Hill.",
       "big": "If you're still stuck the sticker may be missing. It should be on the highest bridge on Strawberry Hill."
     },
     "image": "/images/placeholder.png",
@@ -63,7 +63,7 @@
     "center": { "x": -381, "y": 15 },
     "hints": {
       "none": "Floating on water\nLillium? No relation\nSeated relaxing",
-      "small": "Head to the Lily Pond",
+      "small": "Head to the Lily Pond.",
       "big": "If you're still stuck the sticker may be missing. It should be on a bench by the Lily Pond."
     },
     "image": "/images/placeholder.png",

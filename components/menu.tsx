@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useAppContext } from "./app_context";
@@ -10,6 +10,13 @@ function Menu() {
   const { resetFound, resetHints, resetRevealed, resetUserId } =
     useAppContext();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDevMode, setIsDevMode] = useState(false);
+
+  useEffect(() => {
+    if (isDevMode) {
+      setIsDevMode(false);
+    }
+  }, [isMenuOpen]);
 
   const discover = async (code: string) => {
     await router.push({ pathname: `/${code}` });
@@ -60,7 +67,32 @@ function Menu() {
           </div>
         )}
       </div>
-      {isMenuOpen && (
+      {isMenuOpen && !isDevMode && (
+        <div className="mt-4 flex flex-col space-y-8 px-8">
+          <p className="text-lg">
+            The Park Scavenger Hunt is a fun way to explore Golden Gate Park.
+            There is no need to go anywhere that might cost money.
+          </p>
+          <p className="text-lg">
+            Please stay on the paths and trails and respect the park as you
+            search for the stickers in each zone.
+          </p>
+          <p className="text-lg">
+            Stickers are all readily visible and easy to find once you are in
+            the right location. Each sticker has a QR code that you can scan to
+            check off the zone. You may also type the code on the sticker into
+            the code box corresponding to the zone.
+          </p>
+
+          <button
+            className="text-md cursor-pointer font-bold"
+            onClick={() => setIsDevMode(true)}
+          >
+            Developer mode
+          </button>
+        </div>
+      )}
+      {isMenuOpen && isDevMode && (
         <div className="mt-4 flex flex-col space-y-8 px-8">
           {ZONES.map((zoneInfo, index) => (
             <span
