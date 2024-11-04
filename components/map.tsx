@@ -150,8 +150,8 @@ function Map({ found, selected, setSelected }: MapProps) {
     <div
       ref={containerRef}
       className={clsx([
-        "bg-blue-200 overflow-hidden animate-map-container relative w-full",
-        selected === null ? "flex-grow h-80" : "h-64",
+        "animate-map-container relative w-full overflow-hidden bg-blue-200",
+        selected === null ? "h-80 flex-grow" : "h-64",
       ])}
     >
       <LocationButton setLatLong={setLatLong} />

@@ -36,8 +36,8 @@ function CodeForm({ selected, correctCode }: CodeFormProps) {
   }
 
   return (
-    <div className="flex flex-col mb-6">
-      <div className="flex flex-row space-x-4 max-w-screen-md justify-center align-middle mb-2">
+    <div className="mb-6 flex flex-col">
+      <div className="mb-2 flex max-w-screen-md flex-row justify-center space-x-4 align-middle">
         <Input
           className={error === null ? "border-black" : "border-red-600"}
           placeholder="Zone code"
@@ -54,7 +54,7 @@ function CodeForm({ selected, correctCode }: CodeFormProps) {
         <Button text="Submit" onClick={() => submitHandler()} />
       </div>
       {error !== null && (
-        <span className="text-sm text-red-600 mb-2">{error}</span>
+        <span className="mb-2 text-sm text-red-600">{error}</span>
       )}
       <span className="text-sm text-gray-700">
         You can either enter the zone code in the field above or scan the QR

@@ -33,10 +33,10 @@ function HintBox({ zone, hint, revealed, reveal, found }: HintBoxProps) {
   if (found) return null;
 
   return (
-    <div className="flex flex-row justify-center w-full">
+    <div className="flex w-full flex-row justify-center">
       <Button
         text={!pressed ? "Show Hint" : "Are you sure?"}
-        className="w-full max-w-72 my-4"
+        className="my-4 w-full max-w-72"
         onClick={clickHandler}
       />
     </div>

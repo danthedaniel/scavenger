@@ -13,8 +13,8 @@ function Button({ text = "Button", className, onClick }: ButtonProps) {
       onClick={onClick}
       className={clsx(
         "px-4 py-2 focus:outline-none focus:ring-2 focus:ring-opacity-50",
-        "bg-white active:bg-gray-300 border-black rounded-lg border-4",
-        "font-chakra-petch font-bold text-xl",
+        "rounded-lg border-4 border-black bg-white active:bg-gray-300",
+        "font-chakra-petch text-xl font-bold",
         className
       )}
     >

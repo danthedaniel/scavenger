@@ -25,7 +25,7 @@ function Input({
       onKeyDown={onKeyDown}
       className={clsx(
         "px-4 py-2 focus:outline-none focus:ring-2 focus:ring-opacity-50",
-        "border-4 w-48 flex-grow rounded-lg placeholder:text-gray-600 placeholder:text-lg",
+        "w-48 flex-grow rounded-lg border-4 placeholder:text-lg placeholder:text-gray-600",
         className
       )}
     />

@@ -137,7 +137,7 @@ function MapPage({ code }: MapPageProps) {
 
   return (
     <div className="mx-auto max-w-screen-md">
-      <div className="flex flex-col justify-between items-center h-full min-h-screen">
+      <div className="flex h-full min-h-screen flex-col items-center justify-between">
         <Head>
           <title>Zen Masters of Golden Gate Park</title>
         </Head>
@@ -148,7 +148,7 @@ function MapPage({ code }: MapPageProps) {
 
         <div
           className={clsx([
-            "flex flex-col w-full justify-start items-center border-t-6 border-black text-black",
+            "border-t-6 flex w-full flex-col items-center justify-start border-black text-black",
             selected !== null && "flex-grow",
           ])}
         >

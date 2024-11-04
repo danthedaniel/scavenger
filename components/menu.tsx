@@ -30,12 +30,12 @@ function Menu() {
       className={clsx(
         "flex flex-col bg-white",
         isMenuOpen
-          ? "fixed top-0 left-0 right-0 mx-auto z-50 h-screen max-w-screen-md"
-          : "border-b-6 border-black w-full h-auto"
+          ? "fixed left-0 right-0 top-0 z-50 mx-auto h-screen max-w-screen-md"
+          : "border-b-6 h-auto w-full border-black"
       )}
     >
-      <div className="flex flex-row w-full h-20 justify-between items-center px-8">
-        <h1 className="text-2xl font-bold font-chakra-petch">
+      <div className="flex h-20 w-full flex-row items-center justify-between px-8">
+        <h1 className="font-chakra-petch text-2xl font-bold">
           Park Scavenger Hunt
         </h1>
         {isMenuOpen ? (
@@ -44,7 +44,7 @@ function Menu() {
             onClick={() => setIsMenuOpen(false)}
           >
             <XMarkIcon
-              className="w-8 h-8 cursor-pointer"
+              className="h-8 w-8 cursor-pointer"
               aria-label="Close menu"
             />
           </div>
@@ -54,25 +54,25 @@ function Menu() {
             onClick={() => setIsMenuOpen(true)}
           >
             <Bars3Icon
-              className="w-8 h-8 cursor-pointer"
+              className="h-8 w-8 cursor-pointer"
               aria-label="Open menu"
             />
           </div>
         )}
       </div>
       {isMenuOpen && (
-        <div className="flex flex-col space-y-8 px-8 mt-4">
+        <div className="mt-4 flex flex-col space-y-8 px-8">
           {ZONES.map((zoneInfo, index) => (
             <span
               key={index}
-              className="text-md font-bold cursor-pointer"
+              className="text-md cursor-pointer font-bold"
               onClick={() => discover(zoneInfo.code)}
             >
               Discover {zoneInfo.name}
             </span>
           ))}
           <span
-            className="text-md font-bold cursor-pointer"
+            className="text-md cursor-pointer font-bold"
             onClick={() => reset()}
           >
             Reset

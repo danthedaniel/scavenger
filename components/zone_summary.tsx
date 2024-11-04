@@ -60,22 +60,22 @@ function ZoneSummary({ setSelected }: ZoneSummaryProps) {
   }
 
   return (
-    <div className="w-full h-full p-8 overflow-hidden max-w-screen-md">
+    <div className="h-full w-full max-w-screen-md overflow-hidden p-8">
       <div
         className={clsx([
-          "flex flex-col justify-center items-center pb-4 select-none",
+          "flex select-none flex-col items-center justify-center pb-4",
           foundThemAll
             ? "cursor-default"
             : "hover:cursor-pointer hover:text-blue-400",
         ])}
         onClick={clickHandler}
       >
-        <h1 className="text-3xl font-bold text-white text-outline font-chakra-petch">
+        <h1 className="text-outline font-chakra-petch text-3xl font-bold text-white">
           {foundThemAll ? "Hunt Completed!" : "Select a Zone"}
         </h1>
       </div>
       {hintsUsed === 0 && !foundAny ? (
-        <p className="pb-4 text-xl text-center">
+        <p className="pb-4 text-center text-xl">
           Click on a zone to see more information about it.
         </p>
       ) : (
@@ -95,12 +95,12 @@ function ZoneSummary({ setSelected }: ZoneSummaryProps) {
       {foundThemAll && (
         <div
           className={clsx([
-            "flex flex-col justify-center items-center pt-8 cursor-pointer",
+            "flex cursor-pointer flex-col items-center justify-center pt-8",
             shareError ? "text-red-400" : "text-black",
           ])}
           onClick={shareHandler}
         >
-          <ArrowUpOnSquareIcon className="w-12 h-12" />
+          <ArrowUpOnSquareIcon className="h-12 w-12" />
           <p className="text-md text-center">Share your results!</p>
         </div>
       )}

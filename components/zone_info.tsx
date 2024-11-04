@@ -72,23 +72,23 @@ function ZoneInfo({ selected, setSelected, discoveredOn }: ZoneInfoProps) {
   }
 
   return (
-    <div className="w-full h-full p-8 overflow-hidden max-w-screen-md">
-      <div className="flex flex-row justify-between items-center mb-2 select-none">
+    <div className="h-full w-full max-w-screen-md overflow-hidden p-8">
+      <div className="mb-2 flex select-none flex-row items-center justify-between">
         <ArrowLeftIcon
           className={clsx([
-            "w-8 h-8 mr-4",
+            "mr-4 h-8 w-8",
             selected === 0
               ? "opacity-0"
               : "hover:cursor-pointer hover:text-blue-400",
           ])}
           onClick={() => selected > 0 && setSelected(selected - 1)}
         />
-        <h1 className="text-3xl font-bold text-white text-outline font-chakra-petch">
+        <h1 className="text-outline font-chakra-petch text-3xl font-bold text-white">
           {zoneInfo.name} Zone
         </h1>
         <ArrowRightIcon
           className={clsx([
-            "w-8 h-8 ml-4",
+            "ml-4 h-8 w-8",
             selected === ZONES.length - 1
               ? "opacity-0"
               : "hover:cursor-pointer hover:text-blue-400",
@@ -96,12 +96,12 @@ function ZoneInfo({ selected, setSelected, discoveredOn }: ZoneInfoProps) {
           onClick={() => selected < 4 && setSelected(selected + 1)}
         />
       </div>
-      <p className="text-sm mb-6 text-center">
+      <p className="mb-6 text-center text-sm">
         {discoveredOn ? `Last found ${getRelativeTime(discoveredOn)}` : ""}
       </p>
       {isFound ? (
         <>
-          <h2 className="text-2xl font-bold text-center">
+          <h2 className="text-center text-2xl font-bold">
             You found this zone!
           </h2>
           <p className="text-md mb-14 text-center">

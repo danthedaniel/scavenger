@@ -8,7 +8,7 @@ class AbortError extends DOMException {
 }
 
 async function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+  return new Promise<void>((resolve) => setTimeout(resolve, ms));
 }
 
 /**
@@ -111,11 +111,11 @@ export default function LocationButton({ setLatLong }: LocationButtonProps) {
   if (buttonState === "off") {
     return (
       <div
-        className="absolute z-10 bottom-4 right-4"
+        className="absolute bottom-4 right-4 z-10"
         onClick={() => setButtonState("on")}
         aria-label="Show Location"
       >
-        <MapPinIcon className="w-8 h-8 cursor-pointer text-slate-400" />
+        <MapPinIcon className="h-8 w-8 cursor-pointer text-slate-400" />
       </div>
     );
   }
@@ -123,23 +123,23 @@ export default function LocationButton({ setLatLong }: LocationButtonProps) {
   if (buttonState === "error") {
     return (
       <div
-        className="absolute z-10 bottom-4 right-4"
+        className="absolute bottom-4 right-4 z-10"
         onClick={() => setButtonState("on")}
         aria-label="Show Location"
       >
-        <MapPinIcon className="w-8 h-8 cursor-pointer text-red-500" />
+        <MapPinIcon className="h-8 w-8 cursor-pointer text-red-500" />
       </div>
     );
   }
 
   return (
     <div
-      className="absolute z-10 bottom-4 right-4 "
+      className="absolute bottom-4 right-4 z-10"
       onClick={() => setButtonState("off")}
       aria-label="Hide Location"
     >
-      <div className="absolute -top-1 -left-1 animate-spin rounded-full border-b-2 border-t-2 border-slate-500 w-10 h-10"></div>
-      <MapPinIcon className="w-8 h-8 cursor-pointer text-black" />
+      <div className="absolute -left-1 -top-1 h-10 w-10 animate-spin rounded-full border-b-2 border-t-2 border-slate-500"></div>
+      <MapPinIcon className="h-8 w-8 cursor-pointer text-black" />
     </div>
   );
 }

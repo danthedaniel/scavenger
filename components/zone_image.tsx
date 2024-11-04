@@ -24,7 +24,7 @@ function ZoneImage({ revealed, reveal, info }: ZoneImageProps) {
   }
 
   return (
-    <div className="flex flex-col w-full justify-center items-center space-y-4 my-6">
+    <div className="my-6 flex w-full flex-col items-center justify-center space-y-4">
       <div
         className={clsx([
           "flip-card z-0",
@@ -37,14 +37,14 @@ function ZoneImage({ revealed, reveal, info }: ZoneImageProps) {
             <Image
               url="/images/unrevealed.png"
               ariaLabel="Unrevealed Image"
-              className="w-full aspect-square border-4 border-black"
+              className="aspect-square w-full border-4 border-black"
             />
           </div>
           <div className="flip-card-front">
             <Image
               url={info.image}
               ariaLabel={`${info.name} Zone Image`}
-              className="w-full aspect-square border-4 border-black"
+              className="aspect-square w-full border-4 border-black"
             />
           </div>
         </div>
