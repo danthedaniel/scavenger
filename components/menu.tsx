@@ -5,17 +5,17 @@ import { useAppContext } from "./app_context";
 import { ZONES } from "./map";
 import clsx from "clsx";
 
+const INIT_DEV_MODE_TAPS = 7;
+
 function Menu() {
   const router = useRouter();
   const { resetFound, resetHints, resetRevealed, resetUserId } =
     useAppContext();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isDevMode, setIsDevMode] = useState(false);
+  const [devModeTapsLeft, setDevModeTapsLeft] = useState(INIT_DEV_MODE_TAPS);
 
   useEffect(() => {
-    if (isDevMode) {
-      setIsDevMode(false);
-    }
+    setDevModeTapsLeft(INIT_DEV_MODE_TAPS);
   }, [isMenuOpen]);
 
   const discover = async (code: string) => {
@@ -67,8 +67,11 @@ function Menu() {
           </div>
         )}
       </div>
-      {isMenuOpen && !isDevMode && (
-        <div className="mt-4 flex flex-col space-y-8 px-8">
+      {isMenuOpen && devModeTapsLeft > 0 && (
+        <div
+          className="mt-4 flex flex-col space-y-8 px-8"
+          onClick={() => setDevModeTapsLeft(Math.max(devModeTapsLeft - 1, 0))}
+        >
           <p className="text-lg">
             The Park Scavenger Hunt is a fun way to explore Golden Gate Park.
             There is no need to go anywhere that might cost money.
@@ -83,16 +86,9 @@ function Menu() {
             check off the zone. You may also type the code on the sticker into
             the code box corresponding to the zone.
           </p>
-
-          <button
-            className="text-md cursor-pointer font-bold"
-            onClick={() => setIsDevMode(true)}
-          >
-            Developer mode
-          </button>
         </div>
       )}
-      {isMenuOpen && isDevMode && (
+      {isMenuOpen && devModeTapsLeft === 0 && (
         <div className="mt-4 flex flex-col space-y-8 px-8">
           {ZONES.map((zoneInfo, index) => (
             <span
