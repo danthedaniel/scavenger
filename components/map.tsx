@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect, CSSProperties } from "react";
-import { MapPinIcon } from "@heroicons/react/24/outline";
 import { HintLevel } from "./app_context";
 import useIsWebKit from "./hooks/use_is_web_kit";
 import zones from "./map_zones.json" with { type: "json" };
 import clsx from "clsx";
+import LocationButton from "./location_button";
 
 interface Position {
   x: number;
@@ -38,16 +38,6 @@ export interface ZoneInfo {
 
 export const ZONES: ZoneInfo[] = zones;
 
-async function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-const GEOLOCATION_ERROR_CODE_NAME = {
-  1: "Permission Denied",
-  2: "Position Unavailable",
-  3: "Timeout",
-} as const;
-
 const INIT_ZOOM = 1.0;
 const INIT_PAN: Position = { x: 0, y: 0 } as const;
 const FOCUS_ZOOM = 2.9;
@@ -64,23 +54,11 @@ function Map({ found, selected, setSelected }: MapProps) {
 
   const isWebKit = useIsWebKit();
 
-  const [locationEnabled, setLocationEnabled] = useState(false);
-  const [locationError, setLocationError] = useState<boolean>(false);
   const [latLong, setLatLong] = useState<Position | null>(null);
 
   const [containerWidth, setContainerWidth] = useState(0);
   const [scale, setScale] = useState(INIT_ZOOM);
   const [pan, setPan] = useState(INIT_PAN);
-
-  // Subscribe to location updates.
-  useEffect(() => {
-    if (!locationEnabled) {
-      setLatLong(null);
-      return;
-    }
-
-    pollLocation();
-  }, [locationEnabled]);
 
   // Center on zone when selected.
   useEffect(() => {
@@ -112,44 +90,6 @@ function Map({ found, selected, setSelected }: MapProps) {
     const zoom = FOCUS_ZOOM * (400 / containerWidth);
     setScale(zoom);
     setPan({ x: zoneCenter.x / zoom, y: zoneCenter.y / zoom });
-  }
-
-  async function pollLocation() {
-    let position: GeolocationPosition;
-
-    try {
-      position = await new Promise<GeolocationPosition>((resolve, reject) =>
-        navigator.geolocation.getCurrentPosition(resolve, reject, {
-          maximumAge: 10000,
-          timeout: 10000,
-          enableHighAccuracy: false,
-        })
-      );
-    } catch (error: unknown) {
-      setLocationEnabled(false);
-      setLocationError(true);
-
-      if (error instanceof GeolocationPositionError) {
-        const code = error.code as keyof typeof GEOLOCATION_ERROR_CODE_NAME;
-        const message = `${GEOLOCATION_ERROR_CODE_NAME[code]}: ${error.message}`;
-
-        alert(message);
-        console.error(message);
-      }
-
-      return;
-    }
-
-    setLocationError(false);
-    setLatLong({
-      y: position.coords.latitude,
-      x: position.coords.longitude,
-    });
-
-    await sleep(30000);
-
-    setLocationEnabled(false);
-    setLatLong(null);
   }
 
   function handleZoneClick(index: number) {
@@ -214,22 +154,7 @@ function Map({ found, selected, setSelected }: MapProps) {
         selected === null ? "flex-grow h-80" : "h-64",
       ])}
     >
-      {locationEnabled ? (
-        <MapPinIcon
-          className="absolute z-10 bottom-4 right-4 w-8 h-8 cursor-pointer text-black"
-          onClick={() => setLocationEnabled(false)}
-          aria-label="Disable Location Services"
-        />
-      ) : (
-        <MapPinIcon
-          className={clsx([
-            "absolute z-10 bottom-4 right-4 w-8 h-8 cursor-pointer",
-            locationError ? "text-red-500" : "text-slate-400",
-          ])}
-          onClick={() => setLocationEnabled(true)}
-          aria-label="Enable Location Services"
-        />
-      )}
+      <LocationButton setLatLong={setLatLong} />
       <svg
         ref={svgRef}
         className="animate-park-map"
