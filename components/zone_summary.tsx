@@ -57,7 +57,11 @@ function ZoneSummary({ setSelected }: ZoneSummaryProps) {
     try {
       await navigator.share({ text: shareText });
     } catch (error) {
+      // Ignore AbortError, which is thrown when the user cancels the share dialog.
+      if (error instanceof DOMException && error.name === "AbortError") return;
+
       console.error(error);
+      setShareError(true);
     }
   }
 
