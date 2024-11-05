@@ -34,8 +34,8 @@
     "color": "rgb(225,220,0)",
     "center": { "x": 28, "y": -5 },
     "hints": {
-      "none": "Six columns of stone\nI watch on from the sidelines\nBench by the water",
-      "small": "A little bit of history. Look around the Portals of the Past monument.",
+      "none": "Six columns of stone\nI watch on from the sidelines\nBit of history",
+      "small": "Look around the Portals of the Past monument.",
       "big": "If you're still stuck the sticker may be missing. It should be on a bench by Lloyd Lake."
     },
     "image": "/images/placeholder.png",
