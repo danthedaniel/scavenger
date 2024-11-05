@@ -207,7 +207,10 @@ function Map({ found, selected, setSelected }: MapProps) {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      <LocationButton setLatLong={setLatLong} />
+      <LocationButton
+        className="absolute bottom-3 right-3 z-10"
+        setLatLong={setLatLong}
+      />
       <svg
         ref={svgRef}
         height={`${(containerWidth / svgAspectRatio) * scale}px`}

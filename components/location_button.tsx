@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { MapPinIcon } from "@heroicons/react/24/outline";
+import clsx from "clsx";
 
 class AbortError extends DOMException {
   constructor() {
@@ -69,10 +70,14 @@ function ArcProgressCircle({ className, progress }: ArcProgressCircleProps) {
 }
 
 interface LocationButtonProps {
+  className?: string;
   setLatLong: (latLong: Position | null) => void;
 }
 
-export default function LocationButton({ setLatLong }: LocationButtonProps) {
+export default function LocationButton({
+  className,
+  setLatLong,
+}: LocationButtonProps) {
   const [abortController, setAbortController] =
     useState<AbortController | null>(null);
   const [buttonState, setButtonState] = useState<ButtonState>("off");
@@ -95,6 +100,15 @@ export default function LocationButton({ setLatLong }: LocationButtonProps) {
     pollLocation(newAbortController);
   }, [buttonState]);
 
+  /**
+   * Gets the user's location once, and then waits for 30 seconds while
+   * animating a progress circle.
+   *
+   * They single location request and delay is used because
+   * watchPosition() was having issues on iOS Safari, but
+   * getCurrentPosition() works fine. So I added the 30 second
+   * animation to indicate to the user that the location expires.
+   */
   async function pollLocation(abortController: AbortController) {
     let position: GeolocationPosition;
 
@@ -154,7 +168,7 @@ export default function LocationButton({ setLatLong }: LocationButtonProps) {
   if (buttonState === "on") {
     return (
       <div
-        className="absolute bottom-4 right-4 z-10 text-black"
+        className={clsx(className, "text-black")}
         onClick={() => setButtonState("off")}
         aria-label="Hide Location"
       >
@@ -170,7 +184,7 @@ export default function LocationButton({ setLatLong }: LocationButtonProps) {
   if (buttonState === "error") {
     return (
       <div
-        className="absolute bottom-4 right-4 z-10 text-red-500"
+        className={clsx(className, "text-red-500")}
         onClick={() => setButtonState("on")}
         aria-label="Check Location"
       >
@@ -182,7 +196,7 @@ export default function LocationButton({ setLatLong }: LocationButtonProps) {
   // buttonState === "off"
   return (
     <div
-      className="absolute bottom-4 right-4 z-10 text-slate-400"
+      className={clsx(className, "text-slate-400")}
       onClick={() => setButtonState("on")}
       aria-label="Check Location"
     >
