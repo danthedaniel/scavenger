@@ -809,12 +809,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^22.8.7":
-  version: 22.8.7
-  resolution: "@types/node@npm:22.8.7"
+"@types/node@npm:^20.17.6":
+  version: 20.17.6
+  resolution: "@types/node@npm:20.17.6"
   dependencies:
-    undici-types: "npm:~6.19.8"
-  checksum: 10c0/14372885db80059ed6e92c320b2bcd8f7dc271698adce11f51aa0f424a3f82aa1749a4f66321b87043791b894346b2458d514cbb65ce70167c2fd8a78a124947
+    undici-types: "npm:~6.19.2"
+  checksum: 10c0/5918c7ff8368bbe6d06d5e739c8ae41a9db41628f28760c60cda797be7d233406f07c4d0e6fdd960a0a342ec4173c2217eb6624e06bece21c1f1dd1b92805c15
   languageName: node
   linkType: hard
 
@@ -2990,7 +2990,7 @@ __metadata:
     "@supabase/supabase-js": "npm:^2.46.1"
     "@trivago/prettier-plugin-sort-imports": "npm:^4.3.0"
     "@types/mixpanel-browser": "npm:^2.50.2"
-    "@types/node": "npm:^22.8.7"
+    "@types/node": "npm:^20.17.6"
     "@types/react": "npm:^18.3.12"
     "@types/ua-parser-js": "npm:^0.7.39"
     autoprefixer: "npm:^10.4.20"
@@ -3008,7 +3008,7 @@ __metadata:
     react: "npm:^18.3.1"
     react-confetti: "npm:^6.1.0"
     react-dom: "npm:^18.3.1"
-    supabase: "npm:1.215.0"
+    supabase: "npm:1.216.0"
     tailwindcss: "npm:^3.4.14"
     typescript: "npm:^5.6.3"
     ua-parser-js: "npm:^2.0.0-rc.1"
@@ -3330,9 +3330,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"supabase@npm:1.215.0":
-  version: 1.215.0
-  resolution: "supabase@npm:1.215.0"
+"supabase@npm:1.216.0":
+  version: 1.216.0
+  resolution: "supabase@npm:1.216.0"
   dependencies:
     bin-links: "npm:^5.0.0"
     https-proxy-agent: "npm:^7.0.2"
@@ -3340,7 +3340,7 @@ __metadata:
     tar: "npm:7.4.3"
   bin:
     supabase: bin/supabase
-  checksum: 10c0/f2ead1d3fa34729f522087eb621ac42907fa0f68042acbcf1245d5d0243fb43fc683d2a774feb6a8fc10a530a662530030edeff47182bcda4d18e6f7ab6807cd
+  checksum: 10c0/1b45c3a7c4c07be4d3239c99f0a385d5a27ffd1f24776251c30c21f884ecfd089a9e693263eed7e587602f7a87a306a7ae995b19c04fa769d7dce24e7a8d1a69
   languageName: node
   linkType: hard
 
@@ -3540,7 +3540,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici-types@npm:~6.19.8":
+"undici-types@npm:~6.19.2, undici-types@npm:~6.19.8":
   version: 6.19.8
   resolution: "undici-types@npm:6.19.8"
   checksum: 10c0/078afa5990fba110f6824823ace86073b4638f1d5112ee26e790155f481f2a868cc3e0615505b6f4282bdf74a3d8caad715fd809e870c2bb0704e3ea6082f344

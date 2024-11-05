@@ -34,4 +34,5 @@ yarn-error.log*
 
 .next/
 .env
+tsconfig.tsbuildinfo
 TODO.md

@@ -26,7 +26,7 @@
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/mixpanel-browser": "^2.50.2",
-    "@types/node": "^22.8.7",
+    "@types/node": "^20.17.6",
     "@types/react": "^18.3.12",
     "@types/ua-parser-js": "^0.7.39",
     "autoprefixer": "^10.4.20",
@@ -37,7 +37,7 @@
     "postcss": "^8.4.47",
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.8",
-    "supabase": "1.215.0",
+    "supabase": "1.216.0",
     "tailwindcss": "^3.4.14",
     "typescript": "^5.6.3"
   }
