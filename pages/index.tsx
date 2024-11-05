@@ -10,14 +10,6 @@ import ZoneSummary from "../components/zone_summary";
 import mixpanel from "mixpanel-browser";
 import clsx from "clsx";
 
-function throwIfNotOk(res: Response) {
-  if (!res.ok) {
-    throw new Error(`HTTP error: ${res.status}`);
-  }
-
-  return res;
-}
-
 function trackFound(
   userId: string | null,
   index: number,
@@ -76,22 +68,32 @@ function MapPage({ code }: MapPageProps) {
   }, [code]);
 
   useEffect(() => {
-    fetch("/api/timestamps", {
-      headers: {
-        "Cache-Control": "no-cache",
-        Pragma: "no-cache",
-      },
-    })
-      .then(throwIfNotOk)
-      .then((res) => res.json())
-      .then((data) => setZoneStatuses(data))
-      .catch((err) => console.error(err));
+    fetchZoneStatuses();
   }, [
     // HACK: Rerun on state updates, but only once per minute.
     Math.floor(Date.now() / (60 * 1000)),
   ]);
 
-  function unlockZone(index: number) {
+  async function fetchZoneStatuses() {
+    try {
+      const response = await fetch("/api/timestamps", {
+        headers: {
+          "Cache-Control": "no-cache",
+          Pragma: "no-cache",
+        },
+      });
+      if (!response.ok) {
+        console.error(response.statusText);
+        return;
+      }
+
+      setZoneStatuses(await response.json());
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function unlockZone(index: number) {
     setSelected(index);
 
     if (!found.includes(index)) {
@@ -102,22 +104,28 @@ function MapPage({ code }: MapPageProps) {
       trackFound(userId, index, found.length, hints[index]);
 
       // Record the discovery in supabase
-      fetch("/api/discover", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: ZONES[index].name,
-        }),
-      })
-        .then(throwIfNotOk)
-        .then((res) => res.json())
-        .then((data) => setZoneStatuses(data))
-        .catch((err) => console.error(err));
+      try {
+        const response = await fetch("/api/discover", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: ZONES[index].name,
+          }),
+        });
+        if (!response.ok) {
+          console.error(response.statusText);
+          return;
+        }
+
+        setZoneStatuses(await response.json());
+      } catch (err) {
+        console.error(err);
+      }
     }
 
-    router.replace({ pathname: "/" });
+    await router.replace({ pathname: "/" });
   }
 
   function discoveredOn(name: string) {

@@ -15,8 +15,6 @@ async function sleep(ms: number) {
  * Creates an abortable version of any Promise
  */
 async function makeAbortable<T>(promise: Promise<T>, signal: AbortSignal) {
-  if (!signal) return promise;
-
   return await Promise.race([
     promise,
     new Promise<never>((_, reject) => {
@@ -49,6 +47,7 @@ export default function LocationButton({ setLatLong }: LocationButtonProps) {
     useState<AbortController | null>(null);
   const [buttonState, setButtonState] = useState<ButtonState>("off");
 
+  // Get location when the button is pressed.
   useEffect(() => {
     if (abortController) {
       abortController.abort(new AbortError());
@@ -75,7 +74,7 @@ export default function LocationButton({ setLatLong }: LocationButtonProps) {
     let position: GeolocationPosition;
 
     try {
-      position = await new Promise<GeolocationPosition>((resolve, reject) =>
+      position = await new Promise((resolve, reject) =>
         navigator.geolocation.getCurrentPosition(resolve, reject, {
           maximumAge: 10000,
           timeout: 10000,
@@ -96,7 +95,6 @@ export default function LocationButton({ setLatLong }: LocationButtonProps) {
       return;
     }
 
-    setButtonState("on");
     setLatLong({
       y: position.coords.latitude,
       x: position.coords.longitude,
@@ -108,14 +106,15 @@ export default function LocationButton({ setLatLong }: LocationButtonProps) {
     setLatLong(null);
   }
 
-  if (buttonState === "off") {
+  if (buttonState === "on") {
     return (
       <div
         className="absolute bottom-4 right-4 z-10"
-        onClick={() => setButtonState("on")}
-        aria-label="Show Location"
+        onClick={() => setButtonState("off")}
+        aria-label="Hide Location"
       >
-        <MapPinIcon className="h-8 w-8 cursor-pointer text-slate-400" />
+        <div className="absolute -left-1 -top-1 h-10 w-10 animate-spin rounded-full border-b-2 border-t-2 border-slate-500"></div>
+        <MapPinIcon className="h-8 w-8 cursor-pointer text-black" />
       </div>
     );
   }
@@ -132,14 +131,14 @@ export default function LocationButton({ setLatLong }: LocationButtonProps) {
     );
   }
 
+  // buttonState === "off"
   return (
     <div
       className="absolute bottom-4 right-4 z-10"
-      onClick={() => setButtonState("off")}
-      aria-label="Hide Location"
+      onClick={() => setButtonState("on")}
+      aria-label="Show Location"
     >
-      <div className="absolute -left-1 -top-1 h-10 w-10 animate-spin rounded-full border-b-2 border-t-2 border-slate-500"></div>
-      <MapPinIcon className="h-8 w-8 cursor-pointer text-black" />
+      <MapPinIcon className="h-8 w-8 cursor-pointer text-slate-400" />
     </div>
   );
 }

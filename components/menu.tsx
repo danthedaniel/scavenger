@@ -18,11 +18,11 @@ function Menu() {
     setDevModeTapsLeft(INIT_DEV_MODE_TAPS);
   }, [isMenuOpen]);
 
-  const discover = async (code: string) => {
+  async function discover(code: string) {
     await router.push({ pathname: `/${code}` });
 
     setIsMenuOpen(false);
-  };
+  }
 
   function reset() {
     resetHints();
