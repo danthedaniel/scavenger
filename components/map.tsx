@@ -71,7 +71,18 @@ function Map({ found, selected, setSelected }: MapProps) {
     }
     if (selected >= ZONES.length) return;
 
-    centerOnZone(selected);
+    if (!svgRef.current) return;
+
+    // Momentarily disable transitions to prevent them from interfering with rapid changes to pan.
+    const originalTransition = svgRef.current.style.transition;
+    svgRef.current.style.transition = "none";
+
+    setTimeout(() => {
+      centerOnZone(selected);
+      if (!svgRef.current) return;
+
+      svgRef.current.style.transition = originalTransition;
+    }, 0);
   }, [selected]);
 
   // Listen for resize of the container.
@@ -181,9 +192,12 @@ function Map({ found, selected, setSelected }: MapProps) {
     <div
       ref={containerRef}
       className={clsx([
-        "animate-map-container relative w-full overflow-hidden bg-blue-200",
+        "relative w-full overflow-hidden bg-blue-200",
         selected === null ? "h-80 flex-grow" : "h-64",
       ])}
+      style={{
+        transition: "height 0.5s ease",
+      }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
@@ -191,7 +205,6 @@ function Map({ found, selected, setSelected }: MapProps) {
       <LocationButton setLatLong={setLatLong} />
       <svg
         ref={svgRef}
-        className="animate-park-map"
         height={`${(containerWidth / svgAspectRatio) * scale}px`}
         width={`${containerWidth * scale}px`}
         viewBox={`${-SVG_PADDING_X} ${-SVG_PADDING_Y} ${SVG_WIDTH + 2 * SVG_PADDING_X} ${SVG_HEIGHT + 2 * SVG_PADDING_Y}`}
@@ -208,6 +221,8 @@ function Map({ found, selected, setSelected }: MapProps) {
           strokeMiterlimit: 1.5,
           cursor: "pointer",
           transformOrigin: "center center",
+          transition:
+            "width 0.5s ease, height 0.5s ease, top 0.5s ease, left 0.5s ease",
         }}
       >
         <defs>
