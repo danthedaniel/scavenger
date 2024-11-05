@@ -14,7 +14,7 @@ function Image({ url, alt, ariaLabel, className, onClick }: ImageProps) {
       src={url}
       alt={alt}
       aria-label={ariaLabel}
-      className={clsx(["rounded-xl", className])}
+      className={clsx("rounded-xl", className)}
       onClick={() => onClick?.()}
     />
   );

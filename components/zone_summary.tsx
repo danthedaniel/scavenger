@@ -62,12 +62,12 @@ function ZoneSummary({ setSelected }: ZoneSummaryProps) {
   return (
     <div className="h-full w-full max-w-screen-md overflow-hidden p-8">
       <div
-        className={clsx([
+        className={clsx(
           "flex select-none flex-col items-center justify-center pb-4",
           foundThemAll
             ? "cursor-default"
-            : "hover:cursor-pointer hover:text-blue-400",
-        ])}
+            : "hover:cursor-pointer hover:text-blue-400"
+        )}
         onClick={clickHandler}
       >
         <h1 className="text-outline font-chakra-petch text-3xl font-bold text-white">
@@ -94,10 +94,10 @@ function ZoneSummary({ setSelected }: ZoneSummaryProps) {
       )}
       {foundThemAll && (
         <div
-          className={clsx([
+          className={clsx(
             "flex cursor-pointer flex-col items-center justify-center pt-8",
-            shareError ? "text-red-400" : "text-black",
-          ])}
+            shareError ? "text-red-400" : "text-black"
+          )}
           onClick={shareHandler}
         >
           <ArrowUpOnSquareIcon className="h-12 w-12" />

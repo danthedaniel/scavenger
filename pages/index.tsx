@@ -139,10 +139,10 @@ function MapPage({ code }: MapPageProps) {
         <Map found={found} selected={selected} setSelected={setSelected} />
 
         <div
-          className={clsx([
+          className={clsx(
             "border-t-6 flex w-full flex-col items-center justify-start border-black text-black",
-            selected !== null && "flex-grow",
-          ])}
+            selected !== null && "flex-grow"
+          )}
         >
           {selected === null ? (
             <ZoneSummary setSelected={setSelected} />

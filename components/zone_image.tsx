@@ -26,10 +26,10 @@ function ZoneImage({ revealed, reveal, info }: ZoneImageProps) {
   return (
     <div className="my-6 flex w-full flex-col items-center justify-center space-y-4">
       <div
-        className={clsx([
+        className={clsx(
           "flip-card z-0",
-          isFlipped ? "flipped" : "cursor-pointer",
-        ])}
+          isFlipped ? "flipped" : "cursor-pointer"
+        )}
         onClick={handleClick}
       >
         <div className="flip-card-inner">
