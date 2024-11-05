@@ -74,17 +74,17 @@ function Menu() {
         >
           <p className="text-lg">
             The Park Scavenger Hunt is a fun way to explore Golden Gate Park.
-            There is no need to go anywhere that might cost money.
+            There is no need to go anywhere that costs money.
           </p>
           <p className="text-lg">
-            Please stay on the paths and trails and respect the park as you
+            Please stay on the paths and trails. Please respect the park as you
             search for the stickers in each zone.
           </p>
           <p className="text-lg">
             Stickers are all readily visible and easy to find once you are in
             the right location. Each sticker has a QR code that you can scan to
-            check off the zone. You may also type the code on the sticker into
-            the code box corresponding to the zone.
+            check off the zone. Alternatively, you can type the code on the
+            sticker into the code box.
           </p>
         </div>
       )}
