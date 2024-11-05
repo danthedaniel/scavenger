@@ -154,12 +154,12 @@ export default function LocationButton({ setLatLong }: LocationButtonProps) {
   if (buttonState === "on") {
     return (
       <div
-        className="absolute bottom-4 right-4 z-10"
+        className="absolute bottom-4 right-4 z-10 text-black"
         onClick={() => setButtonState("off")}
         aria-label="Hide Location"
       >
         <ArcProgressCircle
-          className="absolute -left-1 -top-1 w-10 h-10 text-black"
+          className="absolute -left-1 -top-1 w-10 h-10"
           progress={progress}
         />
         <MapPinIcon className="h-8 w-8 cursor-pointer" />
@@ -170,11 +170,11 @@ export default function LocationButton({ setLatLong }: LocationButtonProps) {
   if (buttonState === "error") {
     return (
       <div
-        className="absolute bottom-4 right-4 z-10"
+        className="absolute bottom-4 right-4 z-10 text-red-500"
         onClick={() => setButtonState("on")}
         aria-label="Check Location"
       >
-        <MapPinIcon className="h-8 w-8 cursor-pointer text-red-500" />
+        <MapPinIcon className="h-8 w-8 cursor-pointer" />
       </div>
     );
   }
@@ -182,11 +182,11 @@ export default function LocationButton({ setLatLong }: LocationButtonProps) {
   // buttonState === "off"
   return (
     <div
-      className="absolute bottom-4 right-4 z-10"
+      className="absolute bottom-4 right-4 z-10 text-slate-400"
       onClick={() => setButtonState("on")}
       aria-label="Check Location"
     >
-      <MapPinIcon className="h-8 w-8 cursor-pointer text-slate-400" />
+      <MapPinIcon className="h-8 w-8 cursor-pointer" />
     </div>
   );
 }
