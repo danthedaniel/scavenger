@@ -66,7 +66,7 @@ function MapPage({ code }: MapPageProps) {
     if (index === -1) return;
 
     // A small delay is necessary because of ridiculous iOS Safari issues.
-    setTimeout(() => unlockZone(index), 500);
+    setTimeout(() => unlockZone(index), 250);
   }, [code]);
 
   useEffect(() => {
