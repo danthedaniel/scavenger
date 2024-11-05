@@ -1,12 +1,13 @@
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
-import { hintCount, HintLevel, useAppContext } from "./app_context";
-import CodeForm from "./code_form";
-import HintBox from "./hint_box";
-import ZoneImage from "./zone_image";
-import paragraphs from "./paragraphs";
-import { ZONES } from "./map";
 import clsx from "clsx";
 import mixpanel from "mixpanel-browser";
+
+import { HintLevel, hintCount, useAppContext } from "~/components/app_context";
+import CodeForm from "~/components/code_form";
+import HintBox from "~/components/hint_box";
+import { ZONES } from "~/components/map";
+import paragraphs from "~/components/paragraphs";
+import ZoneImage from "~/components/zone_image";
 
 function trackHint(
   userId: string | null,
@@ -81,7 +82,7 @@ function ZoneInfo({ selected, setSelected, discoveredOn }: ZoneInfoProps) {
               ? "opacity-0"
               : "hover:cursor-pointer hover:text-blue-400"
           )}
-          onClick={() => selected > 0 && setSelected(selected - 1)}
+          onClick={() => setSelected(Math.max(selected - 1, 0))}
         />
         <h1 className="text-outline font-chakra-petch text-3xl font-bold text-white">
           {zoneInfo.name} Zone
@@ -93,9 +94,7 @@ function ZoneInfo({ selected, setSelected, discoveredOn }: ZoneInfoProps) {
               ? "opacity-0"
               : "hover:cursor-pointer hover:text-blue-400"
           )}
-          onClick={() =>
-            selected < ZONES.length - 1 && setSelected(selected + 1)
-          }
+          onClick={() => setSelected(Math.min(selected + 1, ZONES.length - 1))}
         />
       </div>
       <p className="mb-6 text-center text-sm">

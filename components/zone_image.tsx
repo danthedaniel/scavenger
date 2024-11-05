@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import Image from "./image";
-import { ZoneInfo } from "./map";
+
 import clsx from "clsx";
+
+import Image from "~/components/image";
+import { ZoneInfo } from "~/components/map";
 
 interface ZoneImageProps {
   revealed: boolean;

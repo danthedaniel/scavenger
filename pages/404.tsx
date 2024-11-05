@@ -1,8 +1,9 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import Footer from "../components/footer";
-import Menu from "../components/menu";
-import Button from "../components/button";
+
+import Button from "~/components/button";
+import Footer from "~/components/footer";
+import Menu from "~/components/menu";
 
 function NotFoundPage() {
   const router = useRouter();

@@ -1,7 +1,8 @@
 import { GetServerSideProps } from "next";
-import { MapPageProps } from "./index";
-import { ZONES } from "../components/map";
-import { default as MapPage } from "./index";
+
+import { ZONES } from "~/components/map";
+import { MapPageProps } from "~/pages/index";
+import { default as MapPage } from "~/pages/index";
 
 export const getServerSideProps: GetServerSideProps<MapPageProps> = async (
   context

@@ -1,9 +1,11 @@
-import { useState, useRef, useEffect, CSSProperties } from "react";
-import { HintLevel } from "./app_context";
-import useIsWebKit from "./hooks/use_is_web_kit";
-import zones from "./map_zones.json" with { type: "json" };
+import { CSSProperties, useEffect, useRef, useState } from "react";
+
 import clsx from "clsx";
-import LocationButton from "./location_button";
+
+import { HintLevel } from "~/components/app_context";
+import useIsWebKit from "~/components/hooks/use_is_web_kit";
+import LocationButton from "~/components/location_button";
+import zones from "~/components/map_zones.json";
 
 interface Position {
   x: number;
@@ -123,15 +125,18 @@ function Map({ found, selected, setSelected }: MapProps) {
     const deltaX = touchStart.x - touch.clientX;
     const deltaY = touchStart.y - touch.clientY;
 
-    // Only handle horizontal swipes that are more horizontal than vertical
-    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
-      if (deltaX > 0 && selected < ZONES.length - 1) {
-        setSelected(selected + 1);
-      } else if (deltaX < 0 && selected > 0) {
-        setSelected(selected - 1);
-      }
-      setTouchStart(null);
+    // If more horizontal than vertical, ignore.
+    if (Math.abs(deltaY) > Math.abs(deltaX)) return;
+    // If less than 50 pixels, ignore.
+    if (Math.abs(deltaX) < 50) return;
+
+    if (deltaX > 0) {
+      setSelected(Math.min(selected + 1, ZONES.length - 1));
+    } else if (deltaX < 0) {
+      setSelected(Math.max(selected - 1, 0));
     }
+
+    setTouchStart(null);
   }
 
   function handleTouchEnd() {

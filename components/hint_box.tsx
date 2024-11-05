@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import Button from "./button";
-import paragraphs from "./paragraphs";
+
+import Button from "~/components/button";
+import paragraphs from "~/components/paragraphs";
 
 interface HintBoxProps {
   zone: number;

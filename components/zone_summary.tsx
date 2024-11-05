@@ -1,8 +1,10 @@
-import { ArrowUpOnSquareIcon } from "@heroicons/react/24/outline";
-import { hintCount, useAppContext } from "./app_context";
-import { ZONES } from "./map";
 import { useState } from "react";
+
+import { ArrowUpOnSquareIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
+
+import { hintCount, useAppContext } from "~/components/app_context";
+import { ZONES } from "~/components/map";
 
 interface ZoneSummaryProps {
   setSelected: (index: number | null) => void;

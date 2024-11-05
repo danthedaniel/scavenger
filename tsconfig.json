@@ -21,7 +21,10 @@
     "noUnusedLocals": true, // Report errors on unused locals
     "noUnusedParameters": true, // Report errors on unused parameters
     "noImplicitReturns": true, // Report error when not all code paths in function return a value
-    "target": "ES2017"
+    "target": "ES2017",
+    "paths": {
+      "~/*": ["./*"]
+    }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]

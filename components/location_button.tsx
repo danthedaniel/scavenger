@@ -1,5 +1,6 @@
-import { MapPinIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
+
+import { MapPinIcon } from "@heroicons/react/24/outline";
 
 class AbortError extends DOMException {
   constructor() {
@@ -12,7 +13,7 @@ async function sleep(ms: number) {
 }
 
 /**
- * Creates an abortable version of any Promise
+ * Creates an abortable version of a Promise.
  */
 async function makeAbortable<T>(promise: Promise<T>, signal: AbortSignal) {
   return await Promise.race([
@@ -61,13 +62,7 @@ export default function LocationButton({ setLatLong }: LocationButtonProps) {
 
     const newAbortController = new AbortController();
     setAbortController(newAbortController);
-    pollLocation(newAbortController).catch((e: unknown) => {
-      if (e instanceof AbortError) {
-        return;
-      }
-
-      throw e;
-    });
+    pollLocation(newAbortController);
   }, [buttonState]);
 
   async function pollLocation(abortController: AbortController) {
@@ -100,7 +95,16 @@ export default function LocationButton({ setLatLong }: LocationButtonProps) {
       x: position.coords.longitude,
     });
 
-    await makeAbortable(sleep(30000), abortController.signal);
+    // Wait for 30 seconds, or until the sleep is aborted.
+    try {
+      await makeAbortable(sleep(30000), abortController.signal);
+    } catch (e) {
+      if (e instanceof AbortError) {
+        return;
+      }
+
+      throw e;
+    }
 
     setButtonState("off");
     setLatLong(null);

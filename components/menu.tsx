@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useAppContext } from "./app_context";
-import { ZONES } from "./map";
 import clsx from "clsx";
+
+import { useAppContext } from "~/components/app_context";
+import { ZONES } from "~/components/map";
 
 const INIT_DEV_MODE_TAPS = 7;
 

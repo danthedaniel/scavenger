@@ -1,14 +1,16 @@
-import { useEffect, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { hintCount, HintLevel, useAppContext } from "../components/app_context";
-import Footer from "../components/footer";
-import Menu from "../components/menu";
-import Map, { ZONES } from "../components/map";
-import ZoneInfo from "../components/zone_info";
-import ZoneSummary from "../components/zone_summary";
-import mixpanel from "mixpanel-browser";
+import { useEffect, useState } from "react";
+
 import clsx from "clsx";
+import mixpanel from "mixpanel-browser";
+
+import { HintLevel, hintCount, useAppContext } from "~/components/app_context";
+import Footer from "~/components/footer";
+import Map, { ZONES } from "~/components/map";
+import Menu from "~/components/menu";
+import ZoneInfo from "~/components/zone_info";
+import ZoneSummary from "~/components/zone_summary";
 
 function trackFound(
   userId: string | null,
