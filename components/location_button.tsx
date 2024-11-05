@@ -8,13 +8,13 @@ class AbortError extends DOMException {
   }
 }
 
-async function sleep(ms: number) {
-  return new Promise<void>((resolve) => setTimeout(resolve, ms));
+async function sleep(duration: number) {
+  return new Promise<void>((resolve) => setTimeout(resolve, duration));
 }
 
-async function abortableSleep(ms: number, signal: AbortSignal) {
+async function abortableSleep(duration: number, signal: AbortSignal) {
   return await Promise.race([
-    sleep(ms),
+    sleep(duration),
     new Promise<never>((_, reject) => {
       signal.addEventListener("abort", () => {
         reject(new AbortError());
@@ -126,12 +126,9 @@ export default function LocationButton({ setLatLong }: LocationButtonProps) {
     });
 
     // Wait for 30 seconds, or until the sleep is aborted.
-    const duration = 30000;
+    const duration = 30000; // ms
     try {
-      await Promise.all([
-        abortableSleep(duration, abortController.signal),
-        animateProgress(duration, abortController.signal),
-      ]);
+      await animateProgress(duration, abortController.signal);
     } catch (e) {
       if (e instanceof AbortError) {
         return;
@@ -145,7 +142,7 @@ export default function LocationButton({ setLatLong }: LocationButtonProps) {
   }
 
   async function animateProgress(duration: number, signal: AbortSignal) {
-    const step = 100;
+    const step = 100; // ms
     setProgress(1);
 
     for (let i = 0; i < duration; i += step) {
