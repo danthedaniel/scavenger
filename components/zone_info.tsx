@@ -93,7 +93,9 @@ function ZoneInfo({ selected, setSelected, discoveredOn }: ZoneInfoProps) {
               ? "opacity-0"
               : "hover:cursor-pointer hover:text-blue-400",
           ])}
-          onClick={() => selected < 4 && setSelected(selected + 1)}
+          onClick={() =>
+            selected < ZONES.length - 1 && setSelected(selected + 1)
+          }
         />
       </div>
       <p className="mb-6 text-center text-sm">
