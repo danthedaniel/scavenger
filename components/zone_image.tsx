@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 import clsx from "clsx";
 
 import Image from "~/components/image";
@@ -12,16 +10,9 @@ interface ZoneImageProps {
 }
 
 function ZoneImage({ revealed, reveal, info }: ZoneImageProps) {
-  const [isFlipped, setIsFlipped] = useState(revealed);
-
-  useEffect(() => {
-    setIsFlipped(revealed);
-  }, [revealed]);
-
   function handleClick() {
     if (revealed) return;
 
-    setIsFlipped(true);
     reveal();
   }
 
@@ -30,7 +21,7 @@ function ZoneImage({ revealed, reveal, info }: ZoneImageProps) {
       <div
         className={clsx(
           "flip-card z-0",
-          isFlipped ? "flipped" : "cursor-pointer"
+          revealed ? "flipped" : "cursor-pointer"
         )}
         onClick={handleClick}
       >
