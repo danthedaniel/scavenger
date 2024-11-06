@@ -1,6 +1,16 @@
 {
   "name": "Zen Masters of Golden Gate Park",
+  "start_url": "/",
   "short_name": "Zen Masters",
+  "screenshots": [
+    {
+      "src": "/images/screenshot.png",
+      "sizes": "750x1328",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Start screen"
+    }
+  ],
   "icons": [
     {
       "src": "/favicon/android-chrome-192x192.png",

@@ -21,7 +21,7 @@ export default function Document() {
           sizes="16x16"
           href="/favicon/favicon-16x16.png"
         />
-        <link rel="manifest" href="/site.webmanifest" />
+        <link rel="manifest" href="/manifest.json" />
         <link
           rel="mask-icon"
           href="/favicon/safari-pinned-tab.svg"
@@ -30,6 +30,9 @@ export default function Document() {
         <link rel="shortcut icon" href="/favicon/favicon.ico" />
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Zen Masters" />
       </Head>
       <body className="min-h-screen">
         <Main />
