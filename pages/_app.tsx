@@ -57,8 +57,14 @@ function Mixpanel() {
   } = useAppContext();
 
   useEffect(() => {
-    mixpanel.init(process.env.NEXT_PUBLIC_MIXPANEL_TOKEN!, {
-      debug: true,
+    const token = process.env.NEXT_PUBLIC_MIXPANEL_TOKEN;
+    if (!token) {
+      console.warn("Mixpanel token is not set");
+      return;
+    }
+
+    mixpanel.init(token, {
+      debug: false,
       track_pageview: true,
       persistence: "localStorage",
     });
