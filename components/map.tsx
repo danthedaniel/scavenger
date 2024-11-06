@@ -118,17 +118,22 @@ function Map({ found, selected, setSelected }: MapProps) {
   }
 
   function handleTouchMove(e: React.TouchEvent) {
-    if (selected === null) return;
+    if (selected === null) {
+      e.preventDefault();
+      return;
+    }
     if (!touchStart) return;
 
     const touch = e.touches[0];
     const deltaX = touchStart.x - touch.clientX;
     const deltaY = touchStart.y - touch.clientY;
 
-    // If more horizontal than vertical, ignore.
+    // If more vertical than horizontal, ignore.
     if (Math.abs(deltaY) > Math.abs(deltaX)) return;
     // If less than 50 pixels, ignore.
     if (Math.abs(deltaX) < 50) return;
+
+    e.preventDefault();
 
     if (deltaX > 0) {
       setSelected(Math.min(selected + 1, ZONES.length - 1));
@@ -202,6 +207,7 @@ function Map({ found, selected, setSelected }: MapProps) {
       )}
       style={{
         transition: "height 0.5s ease",
+        touchAction: "pan-y",
       }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}

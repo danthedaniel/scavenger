@@ -90,8 +90,8 @@ function MapPage({ code }: MapPageProps) {
       }
 
       setZoneStatuses(await response.json());
-    } catch (err) {
-      console.error(err);
+    } catch (e) {
+      console.error(e);
     }
   }
 
@@ -122,8 +122,8 @@ function MapPage({ code }: MapPageProps) {
         }
 
         setZoneStatuses(await response.json());
-      } catch (err) {
-        console.error(err);
+      } catch (e) {
+        console.error(e);
       }
     }
 

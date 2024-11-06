@@ -38,7 +38,7 @@ interface Position {
 }
 
 interface ArcProgressCircleProps {
-  className: string;
+  className?: string;
   progress: number;
 }
 
@@ -157,7 +157,6 @@ export default function LocationButton({
 
   async function animateProgress(duration: number, signal: AbortSignal) {
     const step = 100; // ms
-    setProgress(1);
 
     for (let i = 0; i < duration; i += step) {
       setProgress(1 - i / duration);
