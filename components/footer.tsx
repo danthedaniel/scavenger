@@ -5,7 +5,10 @@ function Footer() {
       <a href="https://danangell.com" className="underline">
         Daniel Angell
       </a>{" "}
-      with ✌️
+      with ✌️ &mdash;{" "}
+      <span className="font-mono">
+        [<a href="https://github.com/danthedaniel/scavenger">source</a>]
+      </span>
     </footer>
   );
 }
