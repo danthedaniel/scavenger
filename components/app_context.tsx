@@ -35,6 +35,7 @@ export function hintCount(hintLevel: HintLevel): number {
 }
 
 interface AppState {
+  version: 1;
   userId: string | null;
   confettiOnScreen: boolean;
   hints: [HintLevel, HintLevel, HintLevel, HintLevel, HintLevel];
@@ -55,6 +56,7 @@ type Action =
   | { type: "HIDE_CONFETTI" };
 
 const initialState: AppState = {
+  version: 1,
   userId: null,
   confettiOnScreen: false,
   hints: ["none", "none", "none", "none", "none"],
@@ -130,7 +132,12 @@ function loadState(): AppState {
     if (serializedState === null) {
       return initialState;
     }
-    return JSON.parse(serializedState);
+    const parsedState = JSON.parse(serializedState);
+    if (parsedState.version !== 1) {
+      return initialState;
+    }
+
+    return parsedState;
   } catch (err) {
     console.error("Error loading state from localStorage:", err);
     return initialState;
