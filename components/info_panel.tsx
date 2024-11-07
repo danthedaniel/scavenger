@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { InformationCircleIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 
 import { useAppContext } from "~/components/app_context";
@@ -9,7 +9,7 @@ import { ZONES } from "~/components/map";
 
 const INIT_DEV_MODE_TAPS = 7;
 
-function Menu() {
+function InfoPanel() {
   const router = useRouter();
   const { resetFound, resetHints, resetRevealed, resetUserId } =
     useAppContext();
@@ -62,7 +62,7 @@ function Menu() {
             className="flex flex-row items-center"
             onClick={() => setIsMenuOpen(true)}
           >
-            <Bars3Icon
+            <InformationCircleIcon
               className="h-8 w-8 cursor-pointer"
               aria-label="Open menu"
             />
@@ -113,4 +113,4 @@ function Menu() {
   );
 }
 
-export default Menu;
+export default InfoPanel;

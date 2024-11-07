@@ -7,8 +7,8 @@ import mixpanel from "mixpanel-browser";
 
 import { HintLevel, hintCount, useAppContext } from "~/components/app_context";
 import Footer from "~/components/footer";
+import InfoPanel from "~/components/info_panel";
 import Map, { ZONES } from "~/components/map";
-import Menu from "~/components/menu";
 import ZoneInfo from "~/components/zone_info";
 import ZoneSummary from "~/components/zone_summary";
 
@@ -144,7 +144,7 @@ function MapPage({ code }: MapPageProps) {
           <title>Zen Masters of Golden Gate Park</title>
         </Head>
 
-        <Menu />
+        <InfoPanel />
 
         <Map found={found} selected={selected} setSelected={setSelected} />
 
