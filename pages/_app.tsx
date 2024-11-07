@@ -7,6 +7,7 @@ import Confetti from "react-confetti";
 import { AppProvider, useAppContext } from "~/components/app_context";
 import { useWindowSize } from "~/components/hooks/use_window_size";
 import "~/styles/chakra_petch.css";
+import "~/styles/edu_australia_precursive.css";
 import "~/styles/globals.css";
 
 function ConfettiWrapper() {
