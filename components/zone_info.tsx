@@ -29,7 +29,7 @@ function getRelativeTime(date: Date): string {
   const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
   const diffWeeks = Math.floor(diffDays / 7);
-  const diffMonths = Math.floor(diffDays / 30);
+  const diffMonths = Math.round(diffDays / 30);
 
   if (diffMinutes < 1) {
     return "just now";
