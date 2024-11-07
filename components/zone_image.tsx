@@ -29,6 +29,7 @@ function ZoneImage({ revealed, reveal, info }: ZoneImageProps) {
           <div className="flip-card-back">
             <Image
               url="/images/unrevealed.png"
+              alt="Unrevealed Image"
               ariaLabel="Unrevealed Image"
               className="aspect-square w-full border-4 border-black"
             />
@@ -36,6 +37,7 @@ function ZoneImage({ revealed, reveal, info }: ZoneImageProps) {
           <div className="flip-card-front">
             <Image
               url={info.image}
+              alt={`${info.name} Zone Image`}
               ariaLabel={`${info.name} Zone Image`}
               className="aspect-square w-full border-4 border-black"
             />

@@ -59,6 +59,8 @@ function MapPage({ code }: MapPageProps) {
   const [selected, setSelected] = useState<number | null>(null);
   const [zoneStatuses, setZoneStatuses] = useState<ZoneStatus[]>([]);
 
+  const timestamp = Math.floor(Date.now() / (60 * 1000));
+
   useEffect(() => {
     if (code === undefined) return;
 
@@ -73,7 +75,7 @@ function MapPage({ code }: MapPageProps) {
     fetchZoneStatuses();
   }, [
     // HACK: Rerun on state updates, but only once per minute.
-    Math.floor(Date.now() / (60 * 1000)),
+    timestamp,
   ]);
 
   async function fetchZoneStatuses() {

@@ -160,7 +160,7 @@ export function AppProvider({ children }: AppProviderProps) {
 
   useEffect(() => {
     saveState(state);
-  }, [JSON.stringify(state)]);
+  }, [JSON.stringify(state)]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (state.userId) return;
