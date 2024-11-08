@@ -13,11 +13,11 @@
     "clsx": "^2.1.1",
     "mixpanel-browser": "^2.55.1",
     "nanoid": "^5.0.8",
-    "next": "^15.0.2",
+    "next": "^15.0.3",
     "react": "^18.3.1",
     "react-confetti": "^6.1.0",
     "react-dom": "^18.3.1",
-    "ua-parser-js": "^2.0.0-rc.1"
+    "ua-parser-js": "^2.0.0-rc.2"
   },
   "engines": {
     "node": "20.x"
@@ -31,14 +31,14 @@
     "@types/ua-parser-js": "^0.7.39",
     "autoprefixer": "^10.4.20",
     "dotenv": "^16.4.5",
-    "eslint": "^9.14.0",
-    "eslint-config-next": "^15.0.2",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^15.0.3",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "postcss": "^8.4.47",
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.8",
-    "supabase": "1.216.0",
+    "supabase": "1.220.3",
     "tailwindcss": "^3.4.14",
     "typescript": "^5.6.3"
   }
