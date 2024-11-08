@@ -143,7 +143,7 @@ function MapPage({ code }: MapPageProps) {
     <div className="mx-auto max-w-screen-md">
       <div className="flex h-full min-h-screen flex-col items-center justify-between">
         <Head>
-          <title>Zen Masters of Golden Gate Park</title>
+          <title>Golden Gate Park Scavenger Hunt</title>
         </Head>
 
         <InfoPanel />
