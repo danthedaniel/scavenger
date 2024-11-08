@@ -21,12 +21,40 @@ export default function Document() {
           sizes="16x16"
           href="/favicon/favicon-16x16.png"
         />
-        <link rel="manifest" href="/manifest.json" />
         <link
           rel="mask-icon"
           href="/favicon/safari-pinned-tab.svg"
           color="#5bbad5"
         />
+        <link
+          rel="preload"
+          href="/fonts/urbanist/normal.woff2"
+          as="font"
+          crossOrigin="anonymous"
+          type="font/woff2"
+        />
+        <link
+          rel="preload"
+          href="/fonts/chakra_petch/normal.woff2"
+          as="font"
+          crossOrigin="anonymous"
+          type="font/woff2"
+        />
+        <link
+          rel="preload"
+          href="/fonts/chakra_petch/bold.woff2"
+          as="font"
+          crossOrigin="anonymous"
+          type="font/woff2"
+        />
+        <link
+          rel="preload"
+          href="/fonts/edu_australia_precursive/normal.woff"
+          as="font"
+          crossOrigin="anonymous"
+          type="font/woff"
+        />
+        <link rel="manifest" href="/manifest.json" />
         <link rel="shortcut icon" href="/favicon/favicon.ico" />
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
