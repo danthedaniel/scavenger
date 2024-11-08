@@ -9,6 +9,7 @@ import { useWindowSize } from "~/components/hooks/use_window_size";
 import "~/styles/chakra_petch.css";
 import "~/styles/edu_australia_precursive.css";
 import "~/styles/globals.css";
+import "~/styles/urbanist.css";
 
 function ConfettiWrapper() {
   const {
