@@ -69,6 +69,7 @@ function MapPage({ code }: MapPageProps) {
 
     // A small delay is necessary because of ridiculous iOS Safari issues.
     setTimeout(() => unlockZone(index), 250);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [code]);
 
   useEffect(() => {

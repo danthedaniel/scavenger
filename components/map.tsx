@@ -85,6 +85,7 @@ function Map({ found, selected, setSelected }: MapProps) {
 
       svgRef.current.style.transition = originalTransition;
     }, 0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected]);
 
   // Listen for resize of the container.
@@ -97,6 +98,7 @@ function Map({ found, selected, setSelected }: MapProps) {
     resizeObserver.observe(containerRef.current);
 
     return () => resizeObserver.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [!!containerRef.current]);
 
   function centerOnZone(index: number) {

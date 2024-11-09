@@ -98,6 +98,7 @@ export default function LocationButton({
     const newAbortController = new AbortController();
     setAbortController(newAbortController);
     pollLocation(newAbortController);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buttonState]);
 
   /**
