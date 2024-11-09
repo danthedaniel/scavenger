@@ -1,7 +1,7 @@
 {
-  "name": "Zen Masters of Golden Gate Park",
+  "name": "Golden Gate Park Scavenger Hunt",
   "start_url": "/",
-  "short_name": "Zen Masters",
+  "short_name": "Scavenger Hunt",
   "screenshots": [
     {
       "src": "/images/screenshot.png",
