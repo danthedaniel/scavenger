@@ -1,9 +1,9 @@
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import { QrCodeIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 
-import { useAppContext } from "~/components/app_context";
 import Button from "~/components/button";
 import Camera from "~/components/camera";
 import Input from "~/components/input";
@@ -14,7 +14,8 @@ interface CodeFormProps {
 }
 
 function CodeForm({ selected, correctCode }: CodeFormProps) {
-  const { addFound } = useAppContext();
+  const router = useRouter();
+
   const [code, setCode] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [showCamera, setShowCamera] = useState(false);
@@ -53,7 +54,7 @@ function CodeForm({ selected, correctCode }: CodeFormProps) {
       return;
     }
 
-    addFound(selected);
+    router.push(`/${code}`);
   }
 
   function submitHandler() {
@@ -67,7 +68,7 @@ function CodeForm({ selected, correctCode }: CodeFormProps) {
       return;
     }
 
-    addFound(selected);
+    router.push(`/${code}`);
   }
 
   return (
