@@ -21,7 +21,7 @@ function InfoPanel() {
   }, [isMenuOpen]);
 
   async function discover(code: string) {
-    await router.push({ pathname: `/${code}` });
+    await router.replace({ pathname: `/${code}` });
 
     setIsMenuOpen(false);
   }

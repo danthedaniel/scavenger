@@ -54,7 +54,7 @@ function CodeForm({ selected, correctCode }: CodeFormProps) {
       return;
     }
 
-    router.push(`/${code}`);
+    router.replace({ pathname: `/${code}` }, undefined, { scroll: false });
   }
 
   function submitHandler() {
@@ -68,7 +68,7 @@ function CodeForm({ selected, correctCode }: CodeFormProps) {
       return;
     }
 
-    router.push(`/${code}`);
+    router.replace({ pathname: `/${code}` }, undefined, { scroll: false });
   }
 
   return (

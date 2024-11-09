@@ -130,7 +130,7 @@ function MapPage({ code }: MapPageProps) {
       }
     }
 
-    await router.replace({ pathname: "/" });
+    await router.replace({ pathname: "/" }, undefined, { scroll: false });
   }
 
   function discoveredOn(name: string) {
