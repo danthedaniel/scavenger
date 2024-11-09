@@ -122,7 +122,7 @@ function Camera({ onClose, onScan }: CameraProps) {
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black">
       {error ? (
-        <div className="text-red-500">{error}</div>
+        <div className="text-2xl font-bold text-white">{error}</div>
       ) : (
         <>
           <video
