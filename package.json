@@ -11,6 +11,7 @@
     "@heroicons/react": "^2.1.5",
     "@supabase/supabase-js": "^2.46.1",
     "clsx": "^2.1.1",
+    "jsqr": "^1.4.0",
     "mixpanel-browser": "^2.55.1",
     "nanoid": "^5.0.8",
     "next": "^15.0.3",

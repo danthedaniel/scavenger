@@ -124,7 +124,7 @@ function ZoneInfo({ selected, setSelected, discoveredOn }: ZoneInfoProps) {
 
       {!isFound && (
         <>
-          <div className="mb-8 text-center">
+          <div className="mb-10 text-center">
             {paragraphs(
               zoneInfo.hints["none"],
               "font-edu-australia-precursive text-2xl mb-2"
