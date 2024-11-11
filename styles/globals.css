@@ -6,22 +6,6 @@ body {
   font-family: "Urbanist", sans-serif;
 }
 
-.h-30vh {
-  height: 30vh;
-}
-
-.h-65vh {
-  height: 65vh;
-}
-
-.border-t-6 {
-  border-top-width: 6px;
-}
-
-.border-b-6 {
-  border-bottom-width: 6px;
-}
-
 .text-outline {
   text-shadow:
     rgb(0, 0, 0) 4px 0px 0px,
