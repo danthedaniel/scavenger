@@ -66,7 +66,7 @@ The app will be available at `http://localhost:3000`
 - **Styling**: Tailwind CSS
 - **Backend**: Supabase for data storage
 - **Maps**: Custom SVG-based interactive map implementation
-- **PWA Features**: Offline support, installable web app
+- **PWA Features**: Installable web app
 
 ### Architecture
 
