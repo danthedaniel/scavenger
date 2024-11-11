@@ -4,11 +4,18 @@
   "short_name": "Scavenger Hunt",
   "screenshots": [
     {
-      "src": "/images/screenshot.png",
-      "sizes": "750x1328",
+      "src": "/images/screenshot_start.png",
+      "sizes": "748x1546",
       "type": "image/png",
       "form_factor": "narrow",
       "label": "Start screen"
+    },
+    {
+      "src": "/images/screenshot_focus.png",
+      "sizes": "748x1546",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Zone selected"
     }
   ],
   "icons": [

@@ -1,5 +1,10 @@
 # Golden Gate Park Scavenger Hunt
 
+<div align="center">
+  <img src="/public/images/screenshot_start.png" alt="Start screen" width="300"/>
+  <img src="/public/images/screenshot_focus.png" alt="Zone selected" width="300"/>
+</div>
+
 ## About the Game
 
 The Golden Gate Park Scavenger Hunt is an interactive mobile web experience that guides visitors through various zones in San Francisco's Golden Gate Park. Players explore different areas of the park, looking for hidden QR code stickers at notable locations. Each zone has its own unique hints - starting with a cryptic haiku and progressing to more direct clues if needed.
