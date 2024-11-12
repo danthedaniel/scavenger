@@ -26,8 +26,8 @@ The experience emphasizes respectful exploration - all stickers are placed in pu
 1. Clone the repository
 
 ```
-git clone https://github.com/yourusername/golden-gate-hunt.git
-cd golden-gate-hunt
+git clone https://github.com/danthedaniel/scavenger.git
+cd scavenger
 ```
 
 2. Install dependencies
