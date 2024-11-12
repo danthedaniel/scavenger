@@ -31,11 +31,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  // Verify this is a POST request from Vercel Cron
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
-
   if (!validateRequest(req)) {
     return res.status(401).json({ error: "Unauthorized" });
   }
@@ -47,7 +42,6 @@ export default async function handler(
       throw error;
     }
 
-    // Return the data
     return res.status(200).json({ success: true });
   } catch (error) {
     console.error("Cron job failed:", error);
