@@ -92,7 +92,7 @@ function MapPage({ code }: MapPageProps) {
         return;
       }
 
-      setZoneStatuses(await response.json());
+      throw new Error("Sentry test");
     } catch (e) {
       console.error(e);
     }
