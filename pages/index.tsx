@@ -74,7 +74,6 @@ function MapPage({ code }: MapPageProps) {
 
   useEffect(() => {
     fetchZoneStatuses();
-    throw new Error("Sentry test");
   }, [
     // HACK: Rerun on state updates, but only once per minute.
     timestamp,

@@ -6,7 +6,7 @@ import * as Sentry from "@sentry/nextjs";
 function CustomErrorComponent(props: ErrorProps) {
   return (
     <Error
-      title="An application error has occurred. It has been automatically reported to the developer."
+      title="An application error has occurred. It has been automatically reported to the developer"
       statusCode={props.statusCode}
     />
   );
