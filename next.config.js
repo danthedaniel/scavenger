@@ -17,7 +17,6 @@ const { withSentryConfig } = require("@sentry/nextjs");
  * @property {string[]} [frame-ancestors] - Valid sources for frames
  * @property {string[]} [base-uri] - Valid sources for base URIs
  * @property {string[]} [form-action] - Valid sources for form actions
- * @property {string[]} [media-devices] - Valid sources for media devices
  * @property {string[]} [report-uri] - Valid sources for report URIs
  */
 
@@ -57,7 +56,6 @@ const defaultPolicy = {
   "base-uri": ["'self'"],
   "form-action": ["'self'"],
   "frame-ancestors": ["'none'"],
-  "media-devices": ["'self'"],
 };
 
 /** @type {SecurityPolicyEntry} */
