@@ -84,19 +84,19 @@ const sentryPolicy = {
     : [],
 };
 
-// /** @type {SecurityPolicyEntry} */
-// const vercelLivePolicy = {
-//   "connect-src": [
-//     "https://vercel.live",
-//     "https://*.pusher.com",
-//     "wss://*.pusher.com",
-//   ],
-//   "img-src": ["https://vercel.com"],
-//   "script-src": ["https://vercel.live"],
-//   "style-src": ["https://vercel.live"],
-//   "font-src": ["https://vercel.live"],
-//   "frame-src": ["https://vercel.live"],
-// };
+/** @type {SecurityPolicyEntry} */
+const vercelLivePolicy = {
+  "connect-src": [
+    "https://vercel.live",
+    "https://*.pusher.com",
+    "wss://*.pusher.com",
+  ],
+  "img-src": ["https://vercel.com"],
+  "script-src": ["https://vercel.live"],
+  "style-src": ["https://vercel.live"],
+  "font-src": ["https://vercel.live"],
+  "frame-src": ["https://vercel.live"],
+};
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -114,7 +114,7 @@ const nextConfig = {
             defaultPolicy,
             mixpanelPolicy,
             sentryPolicy,
-            // vercelLivePolicy,
+            vercelLivePolicy,
           ]),
         },
       ],
