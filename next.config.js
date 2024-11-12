@@ -39,7 +39,7 @@ function generateCSPHeader(policies) {
   }, {});
 
   const baseDirectives = Object.entries(combined).map(
-    ([directive, sources]) => `${directive} ${sources.join(" ")}`
+    ([directive, sources]) => `${directive} ${sources.sort().join(" ")}`
   );
 
   return [...baseDirectives, "upgrade-insecure-requests"].join("; ");
