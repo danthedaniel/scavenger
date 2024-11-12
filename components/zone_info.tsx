@@ -79,8 +79,8 @@ function ZoneInfo({ selected, setSelected, discoveredOn }: ZoneInfoProps) {
           className={clsx(
             "mr-4 h-8 w-8",
             selected === 0
-              ? "opacity-0"
-              : "hover:cursor-pointer hover:text-blue-400"
+              ? "opacity-0 pointer-events-none"
+              : "cursor-pointer hover:text-blue-400"
           )}
           onClick={() => setSelected(Math.max(selected - 1, 0))}
         />
@@ -91,8 +91,8 @@ function ZoneInfo({ selected, setSelected, discoveredOn }: ZoneInfoProps) {
           className={clsx(
             "ml-4 h-8 w-8",
             selected === ZONES.length - 1
-              ? "opacity-0"
-              : "hover:cursor-pointer hover:text-blue-400"
+              ? "opacity-0 pointer-events-none"
+              : "cursor-pointer hover:text-blue-400"
           )}
           onClick={() => setSelected(Math.min(selected + 1, ZONES.length - 1))}
         />
