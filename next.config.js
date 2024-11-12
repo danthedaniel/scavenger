@@ -79,29 +79,23 @@ const sentryPolicy = {
   "script-src": ["https://*.sentry-cdn.com"],
   "report-uri": sentryDSN
     ? [
-        `${sentryDSN.origin}/api/${sentryDSN.pathname}/security/?sentry_key=${encodeURIComponent(sentryDSN.username)}`,
+        `${sentryDSN.origin}/api/${sentryDSN.pathname.split("/")[1]}/security/?sentry_key=${encodeURIComponent(sentryDSN.username)}`,
       ]
     : [],
 };
 
 // /** @type {SecurityPolicyEntry} */
-// const vercelPolicy = {
+// const vercelLivePolicy = {
 //   "connect-src": [
-//     "https://vitals.vercel-insights.com",
 //     "https://vercel.live",
-//     "https://vercel.com",
 //     "https://*.pusher.com",
 //     "wss://*.pusher.com",
 //   ],
-//   "script-src": [
-//     "https://va.vercel-scripts.com",
-//     "https://vercel.com",
-//     "https://vercel.live",
-//   ],
+//   "img-src": ["https://vercel.com"],
+//   "script-src": ["https://vercel.live"],
 //   "style-src": ["https://vercel.live"],
 //   "font-src": ["https://vercel.live"],
 //   "frame-src": ["https://vercel.live"],
-//   "img-src": ["https://vercel.com"],
 // };
 
 /** @type {import('next').NextConfig} */
@@ -120,7 +114,7 @@ const nextConfig = {
             defaultPolicy,
             mixpanelPolicy,
             sentryPolicy,
-            // vercelPolicy,
+            // vercelLivePolicy,
           ]),
         },
       ],
