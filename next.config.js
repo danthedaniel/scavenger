@@ -47,7 +47,7 @@ function generateCSPHeader(policies) {
 /** @type {SecurityPolicyEntry} */
 const defaultPolicy = {
   "default-src": ["'self'"],
-  "script-src": ["'self'", "'unsafe-eval'", "'unsafe-inline'"],
+  "script-src": ["'self'", "'unsafe-eval'"],
   "connect-src": ["'self'"],
   "style-src": ["'self'", "'unsafe-inline'"],
   "img-src": ["'self'", "data:", "blob:"],
