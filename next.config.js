@@ -75,7 +75,7 @@ const sentryDSN = process.env.NEXT_PUBLIC_SENTRY_DSN
 
 /** @type {SecurityPolicyEntry} */
 const sentryPolicy = {
-  "connect-src": ["https://*.ingest.us.sentry.io"],
+  "connect-src": sentryDSN ? [sentryDSN.origin] : [],
   "script-src": ["https://*.sentry-cdn.com"],
   "report-uri": sentryDSN
     ? [
@@ -84,27 +84,25 @@ const sentryPolicy = {
     : [],
 };
 
-/** @type {SecurityPolicyEntry} */
-const vercelPolicy = {
-  "connect-src": [
-    "https://vitals.vercel-insights.com", // Web Vitals
-    "https://vercel.live", // Vercel Live
-    "https://*.vercel.app", // Vercel deployments
-    "https://*.vercel.com", // Vercel API and other services
-    "https://*.pusher.com",
-    "wss://*.pusher.com",
-  ],
-  "script-src": [
-    "https://va.vercel-scripts.com", // Vercel Analytics
-    "https://*.vercel.app",
-    "https://*.vercel.com",
-    "https://vercel.live",
-  ],
-  "style-src": ["https://vercel.live"],
-  "font-src": ["https://vercel.live"],
-  "frame-src": ["https://vercel.live"],
-  "img-src": ["https://*.vercel.app", "https://*.vercel.com"],
-};
+// /** @type {SecurityPolicyEntry} */
+// const vercelPolicy = {
+//   "connect-src": [
+//     "https://vitals.vercel-insights.com",
+//     "https://vercel.live",
+//     "https://vercel.com",
+//     "https://*.pusher.com",
+//     "wss://*.pusher.com",
+//   ],
+//   "script-src": [
+//     "https://va.vercel-scripts.com",
+//     "https://vercel.com",
+//     "https://vercel.live",
+//   ],
+//   "style-src": ["https://vercel.live"],
+//   "font-src": ["https://vercel.live"],
+//   "frame-src": ["https://vercel.live"],
+//   "img-src": ["https://vercel.com"],
+// };
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -122,7 +120,7 @@ const nextConfig = {
             defaultPolicy,
             mixpanelPolicy,
             sentryPolicy,
-            vercelPolicy,
+            // vercelPolicy,
           ]),
         },
       ],
