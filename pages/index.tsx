@@ -44,13 +44,9 @@ interface ZoneStatus {
   discovered_on: string;
 }
 
-export interface MapPageProps {
-  // Secret code for a map zone.
-  code?: string;
-}
-
-function MapPage({ code }: MapPageProps) {
+function MapPage() {
   const router = useRouter();
+  const code = [router.query["code"]].flat()[0];
 
   const {
     state: { found, hints, userId },
