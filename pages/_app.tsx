@@ -1,6 +1,7 @@
 import type { AppProps } from "next/app";
 import { useEffect } from "react";
 
+import { Analytics } from "@vercel/analytics/react";
 import mixpanel from "mixpanel-browser";
 import Confetti from "react-confetti";
 
@@ -87,6 +88,7 @@ function App({ Component, pageProps }: AppProps) {
       <Component {...pageProps} />
       <ConfettiWrapper />
       <Mixpanel />
+      <Analytics />
     </AppProvider>
   );
 }
