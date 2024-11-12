@@ -50,7 +50,7 @@ function CodeForm({ selected, correctCode }: CodeFormProps) {
 
     const code = url.pathname.slice(1);
     if (code !== correctCode) {
-      setError("Invalid code");
+      setError("Code is for another zone");
       return;
     }
 
