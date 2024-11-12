@@ -4,7 +4,12 @@ import { type NextPageContext } from "next/types";
 import * as Sentry from "@sentry/nextjs";
 
 function CustomErrorComponent(props: ErrorProps) {
-  return <Error statusCode={props.statusCode} />;
+  return (
+    <Error
+      title="An application error has occurred. It has been automatically reported to the developer."
+      statusCode={props.statusCode}
+    />
+  );
 }
 
 CustomErrorComponent.getInitialProps = async (contextData: NextPageContext) => {
