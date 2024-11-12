@@ -130,6 +130,9 @@ const nextConfig = {
   ],
   // Disable x-powered-by header for security
   poweredByHeader: false,
+  experimental: {
+    optimizePackageImports: ["@sentry/nextjs"],
+  },
 };
 
 module.exports = withSentryConfig(nextConfig, {
