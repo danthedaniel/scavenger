@@ -1422,7 +1422,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/nextjs@npm:^8":
+"@sentry/nextjs@npm:^8.37.1":
   version: 8.37.1
   resolution: "@sentry/nextjs@npm:8.37.1"
   dependencies:
@@ -4548,12 +4548,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mixpanel-browser@npm:^2.55.1":
-  version: 2.55.1
-  resolution: "mixpanel-browser@npm:2.55.1"
+"mixpanel-browser@npm:^2.56.0":
+  version: 2.56.0
+  resolution: "mixpanel-browser@npm:2.56.0"
   dependencies:
     rrweb: "npm:2.0.0-alpha.13"
-  checksum: 10c0/5a959582a1690cc251b0636288d010eb9c4c3501c41ea3ef015d5549f0f5dd95e1feae93dfed491b5b3bf4534dd7a3640f0f895dc5f9b07d950658e38f180899
+  checksum: 10c0/94f96dfb23b8cf640dadb6c9c344572a3802c4f2fb547b0efe50e5435a3cccd8724e00353c63f3fa83061c62bf9cccae92b058fcf7c8ceefcdc5cc116dd214f7
   languageName: node
   linkType: hard
 
@@ -5029,7 +5029,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"picocolors@npm:^1.0.0, picocolors@npm:^1.0.1, picocolors@npm:^1.1.0":
+"picocolors@npm:^1.0.0, picocolors@npm:^1.0.1, picocolors@npm:^1.1.0, picocolors@npm:^1.1.1":
   version: 1.1.1
   resolution: "picocolors@npm:1.1.1"
   checksum: 10c0/e2e3e8170ab9d7c7421969adaa7e1b31434f789afb9b3f115f6b96d91945041ac3ceb02e9ec6fe6510ff036bcc0bf91e69a1772edc0b707e12b19c0f2d6bcf58
@@ -5152,7 +5152,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.4.23, postcss@npm:^8.4.38, postcss@npm:^8.4.47":
+"postcss@npm:^8.4.23, postcss@npm:^8.4.38":
   version: 8.4.47
   resolution: "postcss@npm:8.4.47"
   dependencies:
@@ -5160,6 +5160,17 @@ __metadata:
     picocolors: "npm:^1.1.0"
     source-map-js: "npm:^1.2.1"
   checksum: 10c0/929f68b5081b7202709456532cee2a145c1843d391508c5a09de2517e8c4791638f71dd63b1898dba6712f8839d7a6da046c72a5e44c162e908f5911f57b5f44
+  languageName: node
+  linkType: hard
+
+"postcss@npm:^8.4.49":
+  version: 8.4.49
+  resolution: "postcss@npm:8.4.49"
+  dependencies:
+    nanoid: "npm:^3.3.7"
+    picocolors: "npm:^1.1.1"
+    source-map-js: "npm:^1.2.1"
+  checksum: 10c0/f1b3f17aaf36d136f59ec373459f18129908235e65dbdc3aee5eef8eba0756106f52de5ec4682e29a2eab53eb25170e7e871b3e4b52a8f1de3d344a514306be3
   languageName: node
   linkType: hard
 
@@ -5599,7 +5610,7 @@ __metadata:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@heroicons/react": "npm:^2.1.5"
-    "@sentry/nextjs": "npm:^8"
+    "@sentry/nextjs": "npm:^8.37.1"
     "@supabase/supabase-js": "npm:^2.46.1"
     "@trivago/prettier-plugin-sort-imports": "npm:^4.3.0"
     "@types/mixpanel-browser": "npm:^2.50.2"
@@ -5614,16 +5625,16 @@ __metadata:
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-prettier: "npm:^5.2.1"
     jsqr: "npm:^1.4.0"
-    mixpanel-browser: "npm:^2.55.1"
+    mixpanel-browser: "npm:^2.56.0"
     nanoid: "npm:^5.0.8"
     next: "npm:^15.0.3"
-    postcss: "npm:^8.4.47"
+    postcss: "npm:^8.4.49"
     prettier: "npm:^3.3.3"
     prettier-plugin-tailwindcss: "npm:^0.6.8"
     react: "npm:^18.3.1"
     react-confetti: "npm:^6.1.0"
     react-dom: "npm:^18.3.1"
-    supabase: "npm:1.220.3"
+    supabase: "npm:1.221.0"
     tailwindcss: "npm:^3.4.14"
     typescript: "npm:^5.6.3"
     ua-parser-js: "npm:^2.0.0-rc.2"
@@ -6113,9 +6124,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"supabase@npm:1.220.3":
-  version: 1.220.3
-  resolution: "supabase@npm:1.220.3"
+"supabase@npm:1.221.0":
+  version: 1.221.0
+  resolution: "supabase@npm:1.221.0"
   dependencies:
     bin-links: "npm:^5.0.0"
     https-proxy-agent: "npm:^7.0.2"
@@ -6123,7 +6134,7 @@ __metadata:
     tar: "npm:7.4.3"
   bin:
     supabase: bin/supabase
-  checksum: 10c0/4ecacf0387eaa6a02af07eed79fcf616b2d5016cdedcdef2745cfccd3982cb76c3cd75ce40567001e550689d4ed12ddad8b5d23f538847aec1c9450ada5b1a20
+  checksum: 10c0/49f649864dd8799816e6f05a477260f4a959d13b84975fb66b6f2b08cc94d564b73b6f5d7a56e6e7e093c67f4ba47ce88e3967529c54914615491924fc8e03ab
   languageName: node
   linkType: hard
 
