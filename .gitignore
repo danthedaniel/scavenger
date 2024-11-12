@@ -38,3 +38,6 @@ qr_codes/
 .env
 tsconfig.tsbuildinfo
 TODO.md
+
+# Sentry Config File
+.env.sentry-build-plugin

@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.1.5",
+    "@sentry/nextjs": "^8",
     "@supabase/supabase-js": "^2.46.1",
     "clsx": "^2.1.1",
     "jsqr": "^1.4.0",

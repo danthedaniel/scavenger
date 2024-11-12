@@ -1,4 +1,5 @@
 // @ts-check
+const { withSentryConfig } = require("@sentry/nextjs");
 
 /**
  * @typedef {Object} SecurityPolicyEntry
@@ -17,6 +18,7 @@
  * @property {string[]} [base-uri] - Valid sources for base URIs
  * @property {string[]} [form-action] - Valid sources for form actions
  * @property {string[]} [media-devices] - Valid sources for media devices
+ * @property {string[]} [report-uri] - Valid sources for report URIs
  */
 
 /**
@@ -69,6 +71,37 @@ const mixpanelPolicy = {
   "img-src": ["https://cdn.mxpnl.com/"],
 };
 
+const sentryDSN = process.env.SENTRY_DSN
+  ? new URL(process.env.SENTRY_DSN)
+  : null;
+
+/** @type {SecurityPolicyEntry} */
+const sentryPolicy = {
+  "connect-src": ["https://*.ingest.us.sentry.io"],
+  "script-src": ["https://*.sentry-cdn.com"],
+  "report-uri": sentryDSN
+    ? [
+        `${sentryDSN.origin}/api/${sentryDSN.pathname}/security/?sentry_key=${encodeURIComponent(sentryDSN.username)}`,
+      ]
+    : [],
+};
+
+/** @type {SecurityPolicyEntry} */
+const vercelPolicy = {
+  "connect-src": [
+    "https://vitals.vercel-insights.com", // Web Vitals
+    "https://*.vercel.app", // Vercel deployments
+    "https://vercel.live", // Vercel Live
+    "https://*.vercel.com", // Vercel API and other services
+  ],
+  "script-src": [
+    "https://va.vercel-scripts.com", // Vercel Analytics
+    "https://*.vercel.app",
+    "https://*.vercel.com",
+  ],
+  "img-src": ["https://*.vercel.app", "https://*.vercel.com"],
+};
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -81,7 +114,12 @@ const nextConfig = {
       headers: [
         {
           key: "Content-Security-Policy",
-          value: generateCSPHeader([defaultPolicy, mixpanelPolicy]),
+          value: generateCSPHeader([
+            defaultPolicy,
+            mixpanelPolicy,
+            sentryPolicy,
+            vercelPolicy,
+          ]),
         },
       ],
     },
@@ -90,4 +128,42 @@ const nextConfig = {
   poweredByHeader: false,
 };
 
-module.exports = nextConfig;
+module.exports = withSentryConfig(nextConfig, {
+  // For all available options, see:
+  // https://github.com/getsentry/sentry-webpack-plugin#options
+
+  org: "sfparkgold",
+  project: "sfparkgold",
+
+  // Only print logs for uploading source maps in CI
+  silent: !process.env.CI,
+
+  // For all available options, see:
+  // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
+
+  // Upload a larger set of source maps for prettier stack traces (increases build time)
+  widenClientFileUpload: true,
+
+  // Automatically annotate React components to show their full name in breadcrumbs and session replay
+  reactComponentAnnotation: {
+    enabled: true,
+  },
+
+  // Route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
+  // This can increase your server load as well as your hosting bill.
+  // Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting of client-
+  // side errors will fail.
+  tunnelRoute: "/monitoring",
+
+  // Hides source maps from generated client bundles
+  hideSourceMaps: true,
+
+  // Automatically tree-shake Sentry logger statements to reduce bundle size
+  disableLogger: true,
+
+  // Enables automatic instrumentation of Vercel Cron Monitors. (Does not yet work with App Router route handlers.)
+  // See the following for more information:
+  // https://docs.sentry.io/product/crons/
+  // https://vercel.com/docs/cron-jobs
+  automaticVercelMonitors: true,
+});
