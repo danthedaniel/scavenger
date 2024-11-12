@@ -69,8 +69,8 @@ const mixpanelPolicy = {
   "img-src": ["https://cdn.mxpnl.com/"],
 };
 
-const sentryDSN = process.env.SENTRY_DSN
-  ? new URL(process.env.SENTRY_DSN)
+const sentryDSN = process.env.NEXT_PUBLIC_SENTRY_DSN
+  ? new URL(process.env.NEXT_PUBLIC_SENTRY_DSN)
   : null;
 
 /** @type {SecurityPolicyEntry} */
