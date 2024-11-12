@@ -90,15 +90,21 @@ const sentryPolicy = {
 const vercelPolicy = {
   "connect-src": [
     "https://vitals.vercel-insights.com", // Web Vitals
-    "https://*.vercel.app", // Vercel deployments
     "https://vercel.live", // Vercel Live
+    "https://*.vercel.app", // Vercel deployments
     "https://*.vercel.com", // Vercel API and other services
+    "https://*.pusher.com",
+    "wss://*.pusher.com",
   ],
   "script-src": [
     "https://va.vercel-scripts.com", // Vercel Analytics
     "https://*.vercel.app",
     "https://*.vercel.com",
+    "https://vercel.live",
   ],
+  "style-src": ["https://vercel.live"],
+  "font-src": ["https://vercel.live"],
+  "frame-src": ["https://vercel.live"],
   "img-src": ["https://*.vercel.app", "https://*.vercel.com"],
 };
 
