@@ -34,7 +34,6 @@ yarn-error.log*
 
 qr_codes/
 
-.next/
 .env
 tsconfig.tsbuildinfo
 TODO.md
