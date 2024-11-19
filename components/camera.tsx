@@ -11,31 +11,15 @@ import Button from "~/components/button";
  * @returns The {@link MediaStream}
  */
 async function loadMediaStream(video: HTMLVideoElement) {
-  const mediaStream = await startCamera();
-  if (!mediaStream) {
-    throw new Error("Could not access camera");
-  }
+  const mediaStream = await navigator.mediaDevices.getUserMedia({
+    video: { facingMode: "environment" },
+    audio: false,
+  });
 
   video.srcObject = mediaStream;
   await new Promise((resolve) => video.addEventListener("playing", resolve));
 
   return mediaStream;
-}
-
-/**
- * Start the camera
- * @returns The {@link MediaStream} or `null` if an error occurred
- */
-async function startCamera() {
-  try {
-    return await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: "environment" },
-      audio: false,
-    });
-  } catch (err) {
-    console.error(err);
-    return null;
-  }
 }
 
 /**
