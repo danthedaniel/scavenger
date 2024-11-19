@@ -12,15 +12,15 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "strictNullChecks": true, // Ensure null and undefined are handled
-    "strictFunctionTypes": true, // Ensure function types are checked strictly
-    "strictBindCallApply": true, // Ensure bind, call, and apply methods are checked strictly
-    "noImplicitAny": true, // Disallow implicit 'any' types
-    "noImplicitThis": true, // Disallow 'this' of type 'any'
-    "alwaysStrict": true, // Parse in strict mode and emit "use strict" for each source file
-    "noUnusedLocals": true, // Report errors on unused locals
-    "noUnusedParameters": true, // Report errors on unused parameters
-    "noImplicitReturns": true, // Report error when not all code paths in function return a value
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
     "target": "ES2017",
     "paths": {
       "~/*": ["./*"]
