@@ -1,5 +1,6 @@
 import clsx from "clsx";
 
+import styles from "./zone_image.module.css";
 import Image from "~/components/image";
 import { ZoneInfo } from "~/components/map";
 
@@ -20,13 +21,14 @@ function ZoneImage({ revealed, reveal, info }: ZoneImageProps) {
     <div className="my-6 flex w-full flex-col items-center justify-center space-y-4">
       <div
         className={clsx(
-          "flip-card z-0",
-          revealed ? "flipped" : "cursor-pointer"
+          styles["flip-card"],
+          "z-0",
+          revealed ? styles["flipped"] : "cursor-pointer"
         )}
         onClick={handleClick}
       >
-        <div className="flip-card-inner">
-          <div className="flip-card-back">
+        <div className={styles["flip-card-inner"]}>
+          <div className={styles["flip-card-back"]}>
             <Image
               url="/images/unrevealed.png"
               alt="Unrevealed Image"
@@ -34,7 +36,7 @@ function ZoneImage({ revealed, reveal, info }: ZoneImageProps) {
               className="aspect-square w-full border-4 border-black"
             />
           </div>
-          <div className="flip-card-front">
+          <div className={styles["flip-card-front"]}>
             <Image
               url={info.image}
               alt={`${info.name} Zone Image`}
