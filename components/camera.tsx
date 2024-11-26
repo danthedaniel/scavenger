@@ -25,14 +25,13 @@ async function loadMediaStream(video: HTMLVideoElement) {
 /**
  * Scan for a QR code in the video stream
  * @param video - The video element to scan
- * @param context - The canvas context to draw the video frame to
  * @returns The QR code data or `null` if no QR code was found
  */
-async function scan(
-  video: HTMLVideoElement,
-  context: CanvasRenderingContext2D
-) {
-  const canvas = context.canvas;
+async function scan(video: HTMLVideoElement) {
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
+  if (!context) return null;
+
   // Match canvas size to video size
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
@@ -82,7 +81,6 @@ interface CameraProps {
 
 function Camera({ onClose, onScan }: CameraProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -118,15 +116,10 @@ function Camera({ onClose, onScan }: CameraProps) {
   useEffect(() => {
     if (!mediaStream) return;
 
-    if (!canvasRef.current) return;
-    const canvas = canvasRef.current;
-    const context = canvas.getContext("2d");
-    if (!context) return;
-
     if (!videoRef.current) return;
     const video = videoRef.current;
 
-    scan(video, context)
+    scan(video)
       .then((qrData) => qrData && onScan(qrData))
       .catch((err) => {
         console.error(err);
@@ -147,7 +140,6 @@ function Camera({ onClose, onScan }: CameraProps) {
             playsInline
             className="h-full w-full object-cover"
           />
-          <canvas ref={canvasRef} className="hidden" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             <QrCodeIcon className="h-48 w-48 text-white opacity-50 border-8 border-white rounded-xl" />
           </div>
