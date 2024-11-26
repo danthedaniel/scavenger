@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { ArrowUpOnSquareIcon } from "@heroicons/react/24/outline";
+import * as Sentry from "@sentry/nextjs";
 import clsx from "clsx";
 
 import { hintCount, useAppContext } from "~/components/app_context";
@@ -61,6 +62,7 @@ function ZoneSummary({ setSelected }: ZoneSummaryProps) {
       if (error instanceof DOMException && error.name === "AbortError") return;
 
       console.error(error);
+      Sentry.captureException(error);
       setShareError(true);
     }
   }

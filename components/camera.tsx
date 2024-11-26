@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import { QrCodeIcon } from "@heroicons/react/24/outline";
+import * as Sentry from "@sentry/nextjs";
 import jsQR from "jsqr";
 
 import Button from "~/components/button";
@@ -94,6 +95,7 @@ function Camera({ onClose, onScan }: CameraProps) {
       .then(setMediaStream)
       .catch((err) => {
         console.error(err);
+        Sentry.captureException(err);
         setError("Could not access camera");
       });
 
@@ -123,6 +125,7 @@ function Camera({ onClose, onScan }: CameraProps) {
       .then((qrData) => qrData && onScan(qrData))
       .catch((err) => {
         console.error(err);
+        Sentry.captureException(err);
         setError("Could not scan QR code");
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps

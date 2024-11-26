@@ -6,6 +6,7 @@ import React, {
   useReducer,
 } from "react";
 
+import * as Sentry from "@sentry/nextjs";
 import { nanoid } from "nanoid";
 
 export type HintLevel = "none" | "small" | "big";
@@ -140,6 +141,7 @@ function loadState(): AppState {
     return parsedState;
   } catch (err) {
     console.error("Error loading state from localStorage:", err);
+    Sentry.captureException(err);
     return initialState;
   }
 }
@@ -150,6 +152,7 @@ function saveState(state: AppState) {
     localStorage.setItem(LOCAL_STORAGE_KEY, serializedState);
   } catch (err) {
     console.error("Error saving state to localStorage:", err);
+    Sentry.captureException(err);
   }
 }
 
