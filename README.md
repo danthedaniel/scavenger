@@ -17,7 +17,7 @@ The experience emphasizes respectful exploration - all stickers are placed in pu
 
 ### Prerequisites
 
-- Node.js 20.x
+- Node.js 22.x
 - Yarn package manager (v4.5.0 or later)
 - Supabase (local or remote)
 
