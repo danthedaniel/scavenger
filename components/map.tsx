@@ -205,7 +205,7 @@ function Map({ found, selected, setSelected }: MapProps) {
       ref={containerRef}
       className={clsx(
         "relative w-full overflow-hidden bg-blue-200",
-        selected === null ? "h-80 flex-grow" : "h-64"
+        selected === null ? "h-80 grow" : "h-64"
       )}
       style={{
         transition: "height 0.5s ease",

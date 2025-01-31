@@ -137,7 +137,7 @@ function MapPage() {
   }
 
   return (
-    <div className="mx-auto max-w-screen-md">
+    <div className="mx-auto max-w-(--breakpoint-md)">
       <div className="flex h-full min-h-screen flex-col items-center justify-between">
         <Head>
           <title>Golden Gate Park Scavenger Hunt</title>
@@ -150,7 +150,7 @@ function MapPage() {
         <div
           className={clsx(
             "border-t-6 flex w-full flex-col items-center justify-start border-black text-black",
-            selected !== null && "flex-grow"
+            selected !== null && "grow"
           )}
         >
           {selected === null ? (

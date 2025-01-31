@@ -39,7 +39,7 @@ function InfoPanel() {
       className={clsx(
         "flex flex-col bg-white",
         isMenuOpen
-          ? "fixed left-0 right-0 top-0 z-50 mx-auto h-screen max-w-screen-md"
+          ? "fixed left-0 right-0 top-0 z-50 mx-auto h-screen max-w-(--breakpoint-md)"
           : "border-b-6 h-auto w-full border-black"
       )}
     >

@@ -68,7 +68,7 @@ function ZoneSummary({ setSelected }: ZoneSummaryProps) {
   }
 
   return (
-    <div className="h-full w-full max-w-screen-md overflow-hidden p-8">
+    <div className="h-full w-full max-w-(--breakpoint-md) overflow-hidden p-8">
       <div
         className={clsx(
           "flex select-none flex-col items-center justify-center pb-4",

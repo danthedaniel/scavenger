@@ -25,8 +25,8 @@ function Input({
       onChange={onChange}
       onKeyDown={onKeyDown}
       className={clsx(
-        "px-4 py-2 focus:outline-none focus:ring-2 focus:ring-opacity-50",
-        "w-32 flex-grow rounded-lg border-4 placeholder:text-lg placeholder:text-gray-600",
+        "px-4 py-2 focus:outline-hidden focus:ring-2 focus:ring-opacity-50",
+        "w-32 grow rounded-lg border-4 placeholder:text-lg placeholder:text-gray-600",
         className
       )}
     />

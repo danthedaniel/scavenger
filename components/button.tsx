@@ -14,7 +14,7 @@ function Button({ text, icon: Icon, className, onClick }: ButtonProps) {
     <button
       onClick={onClick}
       className={clsx(
-        "px-2 py-2 focus:outline-none focus:ring-2 focus:ring-opacity-50",
+        "px-2 py-2 focus:outline-hidden focus:ring-2 focus:ring-opacity-50",
         "rounded-lg border-4 border-black bg-white active:bg-gray-300",
         "font-chakra-petch text-xl font-bold",
         "flex items-center justify-center",

@@ -9,7 +9,7 @@ function NotFoundPage() {
   const router = useRouter();
 
   return (
-    <div className="mx-auto max-w-screen-md">
+    <div className="mx-auto max-w-(--breakpoint-md)">
       <div className="flex h-full min-h-screen flex-col items-center justify-between">
         <Head>
           <title>404 - Page Not Found</title>
@@ -17,7 +17,7 @@ function NotFoundPage() {
 
         <InfoPanel />
 
-        <div className="flex w-full flex-grow flex-col items-center justify-center border-black text-black">
+        <div className="flex w-full grow flex-col items-center justify-center border-black text-black">
           <h1 className="font-chakra-petch mb-4 text-4xl font-bold">404</h1>
           <p className="mb-8 text-xl">Oops! This page doesn&apos;t exist.</p>
           <Button text="Go Home" onClick={() => router.push("/")} />

@@ -73,7 +73,7 @@ function ZoneInfo({ selected, setSelected, discoveredOn }: ZoneInfoProps) {
   }
 
   return (
-    <div className="h-full w-full max-w-screen-md overflow-hidden p-8">
+    <div className="h-full w-full max-w-(--breakpoint-md) overflow-hidden p-8">
       <div className="mb-2 flex select-none flex-row items-center justify-between">
         <ArrowLeftIcon
           className={clsx(
