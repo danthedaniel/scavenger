@@ -41,7 +41,7 @@ export interface ZoneInfo {
 export const ZONES: ZoneInfo[] = zones;
 
 const INIT_ZOOM = 1.0;
-const INIT_PAN: Position = { x: 0, y: 0 } as const;
+const INIT_PAN: Position = { x: 0, y: 0 };
 const FOCUS_ZOOM = 2.9;
 
 interface MapProps {
