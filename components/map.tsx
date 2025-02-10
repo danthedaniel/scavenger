@@ -250,12 +250,12 @@ function Map({ found, selected, setSelected }: MapProps) {
 
               @keyframes pulse {
                 0%, 100% {
-                  stroke-width: 6px;
-                  r: 30px;
+                  stroke-width: 8px;
+                  r: 40px;
                 }
                 50% {
-                  stroke-width: 12px;
-                  r: 24px;
+                  stroke-width: 14px;
+                  r: 34px;
                 }
               }
             `}
@@ -740,20 +740,20 @@ function Map({ found, selected, setSelected }: MapProps) {
               d="M2429.85,725.475L2451.83,1088.71L2828.6,1068.06L2907.41,1091.13L3010.8,1074.84L3008.88,1056.49L3042.51,1052.88L2976.51,647.499L2522.63,720.498L2429.85,725.475Z"
               style={zoneStyle(4)}
             />
-            {markerPosition && (
-              <g id="Marker">
-                <circle
-                  cx={markerPosition.x}
-                  cy={markerPosition.y}
-                  style={{
-                    fill: "rgb(0,175,230)",
-                    stroke: "white",
-                  }}
-                  filter={isWebKit ? undefined : "url(#dropShadow)"}
-                />
-              </g>
-            )}
           </g>
+          {markerPosition && (
+            <g id="Marker">
+              <circle
+                cx={markerPosition.x}
+                cy={markerPosition.y}
+                style={{
+                  fill: "rgb(0,175,230)",
+                  stroke: "white",
+                }}
+                filter={isWebKit ? undefined : "url(#dropShadow)"}
+              />
+            </g>
+          )}
         </g>
       </svg>
     </div>
