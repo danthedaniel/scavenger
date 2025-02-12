@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 
+import { type SVGPosition, latLongToSVG } from "~/components/map_utils";
+
 class AbortError extends DOMException {
   constructor() {
     super("Operation was aborted", "AbortError");
@@ -31,11 +33,6 @@ const GEOLOCATION_ERROR_CODE_NAME = {
 } as const;
 
 type ButtonState = "off" | "on" | "error";
-
-interface Position {
-  x: number;
-  y: number;
-}
 
 interface ArcProgressCircleProps {
   className?: string;
@@ -71,12 +68,12 @@ function ArcProgressCircle({ className, progress }: ArcProgressCircleProps) {
 
 interface LocationButtonProps {
   className?: string;
-  setLatLong: (latLong: Position | null) => void;
+  setMarkerPosition: (markerPosition: SVGPosition | null) => void;
 }
 
 export default function LocationButton({
   className,
-  setLatLong,
+  setMarkerPosition,
 }: LocationButtonProps) {
   const [abortController, setAbortController] =
     useState<AbortController | null>(null);
@@ -91,7 +88,7 @@ export default function LocationButton({
     }
 
     if (buttonState !== "on") {
-      setLatLong(null);
+      setMarkerPosition(null);
       return;
     }
 
@@ -135,10 +132,17 @@ export default function LocationButton({
       return;
     }
 
-    setLatLong({
-      y: position.coords.latitude,
-      x: position.coords.longitude,
+    const markerPosition = latLongToSVG({
+      lat: position.coords.latitude,
+      long: position.coords.longitude,
     });
+    if (!markerPosition) {
+      setButtonState("off");
+      alert("You are not within Golden Gate Park");
+      return;
+    }
+
+    setMarkerPosition(markerPosition);
 
     // Wait for 30 seconds, or until the sleep is aborted.
     const duration = 30000; // ms
@@ -153,7 +157,7 @@ export default function LocationButton({
     }
 
     setButtonState("off");
-    setLatLong(null);
+    setMarkerPosition(null);
   }
 
   async function animateProgress(duration: number, signal: AbortSignal) {

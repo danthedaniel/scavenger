@@ -5,12 +5,8 @@ import clsx from "clsx";
 import { HintLevel } from "~/components/app_context";
 import useIsWebKit from "~/components/hooks/use_is_web_kit";
 import LocationButton from "~/components/location_button";
+import { type SVGPosition } from "~/components/map_utils";
 import zones from "~/components/map_zones.json";
-
-interface Position {
-  x: number;
-  y: number;
-}
 
 const roadStyle: CSSProperties = {
   fill: "none",
@@ -32,7 +28,7 @@ export interface ZoneInfo {
   emoji: string;
   code: string;
   color: string;
-  center: Position;
+  center: SVGPosition;
   hints: Record<HintLevel, string>;
   image: string;
   image_description: string;
@@ -41,7 +37,7 @@ export interface ZoneInfo {
 export const ZONES: ZoneInfo[] = zones;
 
 const INIT_ZOOM = 1.0;
-const INIT_PAN: Position = { x: 0, y: 0 };
+const INIT_PAN: SVGPosition = { x: 0, y: 0 };
 const FOCUS_ZOOM = 2.9;
 
 interface MapProps {
@@ -56,12 +52,13 @@ function Map({ found, selected, setSelected }: MapProps) {
 
   const isWebKit = useIsWebKit();
 
-  const [latLong, setLatLong] = useState<Position | null>(null);
-
   const [containerWidth, setContainerWidth] = useState(0);
   const [scale, setScale] = useState(INIT_ZOOM);
   const [pan, setPan] = useState(INIT_PAN);
-  const [touchStart, setTouchStart] = useState<Position | null>(null);
+  const [touchStart, setTouchStart] = useState<SVGPosition | null>(null);
+  const [markerPosition, setMarkerPosition] = useState<SVGPosition | null>(
+    null
+  );
 
   // Center on zone when selected.
   useEffect(() => {
@@ -170,32 +167,6 @@ function Map({ found, selected, setSelected }: MapProps) {
     };
   }
 
-  // Convert lat/long to SVG coordinates.
-  function latLongToSVG(latLong: Position): Position | null {
-    const upperRightLatLong: Position = { y: 37.774673, x: -122.4557844 };
-    const upperRightSVG: Position = { x: 2989.5151, y: 627.4388 };
-    const lowerLeftLatLong: Position = { y: 37.764193, x: -122.5117196 };
-    const lowerLeftSVG: Position = { x: 426.07, y: 1219.975 };
-
-    if (latLong.y > upperRightLatLong.y) return null;
-    if (latLong.y < lowerLeftLatLong.y) return null;
-    if (latLong.x > upperRightLatLong.x) return null;
-    if (latLong.x < lowerLeftLatLong.x) return null;
-
-    const xMultiplier =
-      (upperRightSVG.x - lowerLeftSVG.x) /
-      (upperRightLatLong.x - lowerLeftLatLong.x);
-    const x = xMultiplier * (latLong.x - lowerLeftLatLong.x) + lowerLeftSVG.x;
-
-    const yMultiplier =
-      (upperRightSVG.y - lowerLeftSVG.y) /
-      (upperRightLatLong.y - lowerLeftLatLong.y);
-    const y = yMultiplier * (latLong.y - lowerLeftLatLong.y) + lowerLeftSVG.y;
-
-    return { x, y };
-  }
-
-  const markerPosition = latLong && latLongToSVG(latLong);
   const svgAspectRatio =
     (SVG_WIDTH + 2 * SVG_PADDING_X) / (SVG_HEIGHT + 2 * SVG_PADDING_Y);
   const panPercent = 100 - (pan.x * scale + 400) / 8;
@@ -217,7 +188,7 @@ function Map({ found, selected, setSelected }: MapProps) {
     >
       <LocationButton
         className="absolute bottom-3 right-3 z-10"
-        setLatLong={setLatLong}
+        setMarkerPosition={setMarkerPosition}
       />
       <svg
         ref={svgRef}
