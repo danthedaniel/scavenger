@@ -1,3 +1,4 @@
+// @ts-check
 import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
 import prettier from "eslint-plugin-prettier";
@@ -12,6 +13,7 @@ const compat = new FlatCompat({
   allConfig: js.configs.all,
 });
 
+/** @type {import('eslint').Linter.Config[]} */
 const config = [
   ...compat.extends("next", "next/core-web-vitals", "prettier"),
   {
