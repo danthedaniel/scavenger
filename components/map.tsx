@@ -116,6 +116,7 @@ function Map({ found, selected, setSelected }: MapProps) {
     setTouchStart({ x: touch.clientX, y: touch.clientY });
   }
 
+  // Handle swipe gestures to navigate between zones.
   function handleTouchMove(e: React.TouchEvent) {
     if (selected === null) {
       e.preventDefault();
@@ -136,7 +137,7 @@ function Map({ found, selected, setSelected }: MapProps) {
 
     if (deltaX > 0) {
       setSelected(Math.min(selected + 1, ZONES.length - 1));
-    } else if (deltaX < 0) {
+    } else {
       setSelected(Math.max(selected - 1, 0));
     }
 

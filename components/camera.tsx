@@ -108,8 +108,8 @@ function Camera({ onClose, onScan }: CameraProps) {
         return null;
       });
 
-      if (video) {
-        video.srcObject = null;
+      if (videoRef.current) {
+        videoRef.current.srcObject = null;
       }
     };
   }, []);
@@ -117,8 +117,8 @@ function Camera({ onClose, onScan }: CameraProps) {
   // Scan for QR codes
   useEffect(() => {
     if (!mediaStream) return;
-
     if (!videoRef.current) return;
+
     const video = videoRef.current;
 
     scan(video)
