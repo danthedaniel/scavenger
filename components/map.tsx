@@ -555,7 +555,7 @@ function Map({ found, selected, setSelected }: MapProps) {
                     rx="103.134"
                     ry="97.866"
                     style={{
-                      fill: "rgb(245,27,41)",
+                      fill: ZONES[0].color,
                       fillOpacity: 0.75,
                     }}
                   />
@@ -588,7 +588,7 @@ function Map({ found, selected, setSelected }: MapProps) {
                     rx="103.134"
                     ry="97.866"
                     style={{
-                      fill: "rgb(234,172,0)",
+                      fill: ZONES[1].color,
                       fillOpacity: 0.75,
                     }}
                   />
@@ -621,7 +621,7 @@ function Map({ found, selected, setSelected }: MapProps) {
                     rx="103.134"
                     ry="97.866"
                     style={{
-                      fill: "rgb(226,220,0)",
+                      fill: ZONES[2].color,
                       fillOpacity: 0.75,
                     }}
                   />
@@ -654,7 +654,7 @@ function Map({ found, selected, setSelected }: MapProps) {
                     rx="103.134"
                     ry="97.866"
                     style={{
-                      fill: "rgb(54,228,0)",
+                      fill: ZONES[3].color,
                       fillOpacity: 0.75,
                     }}
                   />
@@ -687,7 +687,7 @@ function Map({ found, selected, setSelected }: MapProps) {
                     rx="103.134"
                     ry="97.866"
                     style={{
-                      fill: "rgb(0,229,207)",
+                      fill: ZONES[4].color,
                       fillOpacity: 0.75,
                     }}
                   />
