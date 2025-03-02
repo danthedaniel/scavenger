@@ -114,9 +114,7 @@ function Camera({ onClose, onScan }: CameraProps) {
         return null;
       });
 
-      if (videoRef.current) {
-        videoRef.current.srcObject = null;
-      }
+      video.srcObject = null;
     };
   }, []);
 
