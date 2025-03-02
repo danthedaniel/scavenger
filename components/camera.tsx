@@ -38,16 +38,8 @@ async function scan(video: HTMLVideoElement) {
   canvas.height = video.videoHeight;
 
   while (video.isConnected && video.srcObject) {
-    await frame(video);
-
-    if (video.readyState !== video.HAVE_ENOUGH_DATA) {
-      continue;
-    }
-
-    // Draw video frame to canvas
-    const boundingBox = [0, 0, video.videoWidth, video.videoHeight] as const;
-    context.drawImage(video, ...boundingBox);
-    const videoFrame = context.getImageData(...boundingBox);
+    const videoFrame = await frame(context, video);
+    if (!videoFrame) continue;
 
     // Scan for QR code
     const code = jsQR(videoFrame.data, videoFrame.width, videoFrame.height, {
@@ -62,10 +54,15 @@ async function scan(video: HTMLVideoElement) {
 }
 
 /**
- * Wait for the next video frame to be available
+ * Get the next video frame.
+ * @param context - The canvas to draw the video frame to
  * @param video - The video element to wait for
+ * @returns The {@link ImageData} of the video frame
  */
-async function frame(video: HTMLVideoElement) {
+async function frame(
+  context: CanvasRenderingContext2D,
+  video: HTMLVideoElement
+) {
   await new Promise((resolve) => {
     if ("requestVideoFrameCallback" in video) {
       video.requestVideoFrameCallback(resolve);
@@ -73,6 +70,15 @@ async function frame(video: HTMLVideoElement) {
       requestAnimationFrame(resolve);
     }
   });
+
+  if (video.readyState !== video.HAVE_ENOUGH_DATA) {
+    return null;
+  }
+
+  // Draw video frame to canvas
+  const boundingBox = [0, 0, video.videoWidth, video.videoHeight] as const;
+  context.drawImage(video, ...boundingBox);
+  return context.getImageData(...boundingBox);
 }
 
 interface CameraProps {
