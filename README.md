@@ -1,4 +1,4 @@
-# Golden Gate Park Scavenger Hunt
+# Hippie Hill Hunt
 
 <div align="center">
   <img src="/public/images/screenshot_start.png" alt="Start screen" width="300"/>
@@ -7,7 +7,7 @@
 
 ## About the Game
 
-The Golden Gate Park Scavenger Hunt is an interactive mobile web experience that guides visitors through various zones in San Francisco's Golden Gate Park. Players explore different areas of the park, looking for hidden QR code stickers at notable locations. Each zone has its own unique hints - starting with a cryptic haiku and progressing to more direct clues if needed.
+The Hippie Hill Hunt is an interactive mobile web experience that guides visitors through various zones in San Francisco's Golden Gate Park. Players explore different areas of the park, looking for hidden QR code stickers at notable locations. Each zone has its own unique hints - starting with a cryptic haiku and progressing to more direct clues if needed.
 
 When players find a sticker, they can either scan the QR code or manually enter the code to mark that zone as discovered. The game tracks progress and allows players to share their completion results, including how many hints they needed for each zone.
 
