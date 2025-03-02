@@ -16,7 +16,7 @@
   {
     "name": "Orange",
     "emoji": "🟧",
-    "code": "TOWEL",
+    "code": "SLIPPER",
     "color": "rgb(234,173,0)",
     "center": { "x": 222, "y": -10 },
     "hints": {
@@ -30,7 +30,7 @@
   {
     "name": "Yellow",
     "emoji": "🟨",
-    "code": "MANSION",
+    "code": "TEMPLE",
     "color": "rgb(225,220,0)",
     "center": { "x": 28, "y": -5 },
     "hints": {
@@ -44,7 +44,7 @@
   {
     "name": "Green",
     "emoji": "🟩",
-    "code": "CITED",
+    "code": "HEIGHT",
     "color": "rgb(55,228,0)",
     "center": { "x": -174, "y": 5 },
     "hints": {
@@ -58,7 +58,7 @@
   {
     "name": "Blue",
     "emoji": "🟦",
-    "code": "PLATFORM",
+    "code": "CHILLIN",
     "color": "rgb(0,228,207)",
     "center": { "x": -381, "y": 15 },
     "hints": {

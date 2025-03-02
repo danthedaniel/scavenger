@@ -140,7 +140,7 @@ function MapPage() {
     <div className="mx-auto max-w-(--breakpoint-md)">
       <div className="flex h-full min-h-screen flex-col items-center justify-between">
         <Head>
-          <title>Golden Gate Park Scavenger Hunt</title>
+          <title>Hippie Hill Hunt</title>
         </Head>
 
         <InfoPanel />
