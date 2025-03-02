@@ -60,12 +60,7 @@ const defaultPolicy = {
 
 /** @type {SecurityPolicyEntry} */
 const mixpanelPolicy = {
-  "connect-src": [
-    process.env.NODE_ENV === "production"
-      ? "https://api.mixpanel.com/"
-      : "http://api.mixpanel.com/",
-    "https://api-js.mixpanel.com",
-  ],
+  "connect-src": ["https://api.mixpanel.com/", "https://api-js.mixpanel.com"],
   "img-src": ["https://cdn.mxpnl.com/"],
 };
 
