@@ -70,17 +70,16 @@ function Map({ found, selected, setSelected }: MapProps) {
     }
     if (selected >= ZONES.length) return;
 
-    if (!svgRef.current) return;
+    const svg = svgRef.current;
+    if (!svg) return;
 
     // Momentarily disable transitions to prevent them from interfering with rapid changes to pan.
-    const originalTransition = svgRef.current.style.transition;
-    svgRef.current.style.transition = "none";
+    const originalTransition = svg.style.transition;
+    svg.style.transition = "none";
 
     setTimeout(() => {
       centerOnZone(selected);
-      if (!svgRef.current) return;
-
-      svgRef.current.style.transition = originalTransition;
+      svg.style.transition = originalTransition;
     }, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected]);
