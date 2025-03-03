@@ -86,12 +86,13 @@ function Map({ found, selected, setSelected }: MapProps) {
 
   // Listen for resize of the container.
   useEffect(() => {
-    if (!containerRef.current) return;
+    const container = containerRef.current;
+    if (!container) return;
 
     const resizeObserver = new ResizeObserver((_entries, _observer) => {
-      setContainerWidth(containerRef.current?.clientWidth ?? 0);
+      setContainerWidth(container.clientWidth);
     });
-    resizeObserver.observe(containerRef.current);
+    resizeObserver.observe(container);
 
     return () => resizeObserver.disconnect();
     // eslint-disable-next-line react-hooks/exhaustive-deps
