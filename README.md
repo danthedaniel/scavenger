@@ -74,4 +74,10 @@ The application uses React Context for state management, with modular components
 
 ## License
 
-AGPL-3.0 License - See LICENSE file for details
+### Code
+
+AGPL-3.0 - See `/LICENSE` file for details
+
+### Design Assets
+
+CC0 - See `/assets/LICENSE` for details
