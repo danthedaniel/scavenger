@@ -170,7 +170,6 @@ function Map({ found, selected, setSelected }: MapProps) {
 
   const svgAspectRatio =
     (SVG_WIDTH + 2 * SVG_PADDING_X) / (SVG_HEIGHT + 2 * SVG_PADDING_Y);
-  const panPercent = 100 - (pan.x * scale + 400) / 8;
 
   return (
     <div
@@ -254,25 +253,6 @@ function Map({ found, selected, setSelected }: MapProps) {
               floodColor="rgba(0,0,0,0.4)"
             />
           </filter>
-          <linearGradient
-            id="borderGradient"
-            x1="-75%"
-            y1="0%"
-            x2="190%"
-            y2="100%"
-          >
-            <stop offset="0%" style={{ stopColor: "#000" }} />
-            <stop
-              offset={`${Math.max(panPercent - 1, 0)}%`}
-              style={{ stopColor: "#333" }}
-            />
-            <stop offset={`${panPercent}%`} style={{ stopColor: "#888" }} />
-            <stop
-              offset={`${Math.min(panPercent + 1, 100)}%`}
-              style={{ stopColor: "#333" }}
-            />
-            <stop offset="100%" style={{ stopColor: "#000" }} />
-          </linearGradient>
         </defs>
         <g transform="matrix(1,0,0,1,-380.586,-603.087)">
           <g
@@ -542,8 +522,8 @@ function Map({ found, selected, setSelected }: MapProps) {
                 fillOpacity: 0,
                 strokeWidth: "18px",
                 strokeLinecap: "round",
+                stroke: "black",
               }}
-              stroke="url(#borderGradient)"
             />
           </g>
           <g id="Zones">
