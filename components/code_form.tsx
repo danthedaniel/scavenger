@@ -28,33 +28,15 @@ function CodeForm({ selected, correctCode }: CodeFormProps) {
     setError(null);
   }, [code]);
 
-  function handleScan(qrData: string) {
+  function handleScan(zoneCode: string) {
     setShowCamera(false);
 
-    let url: URL | null = null;
-    try {
-      url = new URL(qrData);
-    } catch (err) {
-      setError("Invalid QR code");
-      return;
-    }
-
-    if (
-      !["http:", "https:"].includes(url.protocol) ||
-      url.host !== window.location.host ||
-      !url.pathname.match(/\/[A-Z]+/)
-    ) {
-      setError("Invalid QR code");
-      return;
-    }
-
-    const code = url.pathname.slice(1);
-    if (code !== correctCode) {
+    if (zoneCode !== correctCode) {
       setError("Code is for another zone");
       return;
     }
 
-    router.replace({ pathname: `/${code}` }, undefined, { scroll: false });
+    router.replace({ pathname: `/${zoneCode}` }, undefined, { scroll: false });
   }
 
   function submitHandler() {

@@ -42,15 +42,39 @@ async function scan(video: HTMLVideoElement) {
     if (!videoFrame) continue;
 
     // Scan for QR code
-    const code = jsQR(videoFrame.data, videoFrame.width, videoFrame.height, {
+    const qrCode = jsQR(videoFrame.data, videoFrame.width, videoFrame.height, {
       inversionAttempts: "dontInvert",
     });
-    if (!code) continue;
+    if (!qrCode) continue;
 
-    return code.data;
+    const zoneCode = extractZoneCode(qrCode.data);
+    if (!zoneCode) continue;
+
+    return zoneCode;
   }
 
   return null;
+}
+
+function extractZoneCode(qrData: string) {
+  let url: URL | null = null;
+  try {
+    url = new URL(qrData);
+  } catch (err) {
+    return null;
+  }
+
+  if (
+    !["http:", "https:"].includes(url.protocol) ||
+    url.host !== window.location.host ||
+    !url.pathname.match(/\/[A-Z]+/)
+  ) {
+    return null;
+  }
+
+  const zoneCode = url.pathname.slice(1).toLocaleUpperCase();
+
+  return zoneCode;
 }
 
 /**
@@ -151,7 +175,7 @@ function Camera({ onClose, onScan }: CameraProps) {
     const video = videoRef.current;
 
     scan(video)
-      .then((qrData) => qrData && onScan(qrData))
+      .then((zoneCode) => zoneCode && onScan(zoneCode))
       .catch((err) => {
         console.error(err);
         Sentry.captureException(err);
