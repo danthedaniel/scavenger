@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 
-import { QrCodeIcon } from "@heroicons/react/24/outline";
+import { QrCodeIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { LightBulbIcon as LightBulbOffIcon } from "@heroicons/react/24/outline";
+import { LightBulbIcon as LightBulbOnIcon } from "@heroicons/react/24/solid";
 import * as Sentry from "@sentry/nextjs";
 import jsQR from "jsqr";
-
-import Button from "~/components/button";
 
 /**
  * Load the media stream into the video element and wait for it to start playing.
@@ -81,6 +81,26 @@ async function frame(
   return context.getImageData(...boundingBox);
 }
 
+function supportsFlashlight(mediaStream: MediaStream) {
+  const videoTrack = mediaStream.getVideoTracks()[0];
+  const capabilities = videoTrack.getCapabilities();
+  return "torch" in capabilities && !!capabilities.torch;
+}
+
+async function setFlashlight(mediaStream: MediaStream, flashlightOn: boolean) {
+  const videoTrack = mediaStream.getVideoTracks()[0];
+  if (!videoTrack) return;
+
+  try {
+    await videoTrack.applyConstraints({
+      advanced: [{ torch: flashlightOn } as unknown as MediaTrackConstraintSet],
+    });
+  } catch (err) {
+    console.error("Error toggling flashlight:", err);
+    Sentry.captureException(err);
+  }
+}
+
 interface CameraProps {
   onScan: (result: string) => void;
   onClose: () => void;
@@ -91,6 +111,8 @@ function Camera({ onClose, onScan }: CameraProps) {
 
   const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [flashlightOn, setFlashlightOn] = useState(false);
+  const [flashlightSupported, setFlashlightSupported] = useState(false);
 
   // Start up the camera feed
   useEffect(() => {
@@ -98,7 +120,10 @@ function Camera({ onClose, onScan }: CameraProps) {
     if (!video) return;
 
     loadMediaStream(video)
-      .then(setMediaStream)
+      .then((stream) => {
+        setMediaStream(stream);
+        setFlashlightSupported(supportsFlashlight(stream));
+      })
       .catch((err) => {
         console.error(err);
         Sentry.captureException(err);
@@ -135,6 +160,22 @@ function Camera({ onClose, onScan }: CameraProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mediaStream]);
 
+  // Activate flashlight when React state changes
+  useEffect(() => {
+    if (!mediaStream) return;
+
+    setFlashlight(mediaStream, flashlightOn);
+  }, [mediaStream, flashlightOn]);
+
+  // Deactivate flashlight when the component unmounts
+  useEffect(() => {
+    if (!mediaStream) return;
+
+    return () => {
+      setFlashlight(mediaStream, false);
+    };
+  }, [mediaStream]);
+
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black">
       {error ? (
@@ -150,11 +191,32 @@ function Camera({ onClose, onScan }: CameraProps) {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             <QrCodeIcon className="h-48 w-48 text-white opacity-50 border-8 border-white rounded-xl" />
           </div>
+
+          {flashlightSupported && (
+            <div className="absolute top-8 right-8">
+              <button
+                onClick={() => setFlashlightOn(!flashlightOn)}
+                className={`p-3 rounded-full ${flashlightOn ? "bg-yellow-400 border-2 border-yellow-400" : "bg-gray-700 active:bg-gray-500 border-2 border-white"}`}
+              >
+                {flashlightOn ? (
+                  <LightBulbOnIcon className="h-6 w-6 text-white" />
+                ) : (
+                  <LightBulbOffIcon className="h-6 w-6 text-white" />
+                )}
+              </button>
+            </div>
+          )}
+
+          <div className="absolute top-8 left-8">
+            <button
+              onClick={onClose}
+              className="p-3 rounded-full bg-gray-700 border-2 border-white active:bg-gray-500"
+            >
+              <XMarkIcon className="h-6 w-6 text-white" />
+            </button>
+          </div>
         </>
       )}
-      <div className="absolute bottom-8">
-        <Button text="Close Camera" onClick={onClose} />
-      </div>
     </div>
   );
 }
