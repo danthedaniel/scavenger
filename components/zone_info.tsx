@@ -54,15 +54,13 @@ interface ZoneInfoProps {
 
 function ZoneInfo({ selected, setSelected, discoveredOn }: ZoneInfoProps) {
   const {
-    state: { hints, found, revealedImages, userId },
+    state: { hints, found, userId },
     increaseHint,
-    revealImage,
   } = useAppContext();
 
   const zoneInfo = ZONES[selected];
   const hintLevel = hints[selected];
   const isFound = found.includes(selected);
-  const imageRevealed = revealedImages.includes(selected);
   const hintsUsed = hintCount(hintLevel);
 
   function revealHint() {
@@ -113,14 +111,7 @@ function ZoneInfo({ selected, setSelected, discoveredOn }: ZoneInfoProps) {
         <CodeForm selected={selected} correctCode={zoneInfo.code} />
       )}
 
-      {isFound && (
-        <ZoneImage
-          key={selected}
-          revealed={imageRevealed}
-          reveal={() => revealImage(selected)}
-          info={zoneInfo}
-        />
-      )}
+      {isFound && <ZoneImage key={selected} info={zoneInfo} />}
 
       {!isFound && (
         <>

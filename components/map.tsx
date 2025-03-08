@@ -31,7 +31,7 @@ export interface ZoneInfo {
   center: SVGPosition;
   hints: Record<HintLevel, string>;
   image: string;
-  image_description: string;
+  image_class: string;
 }
 
 export const ZONES: ZoneInfo[] = zones;

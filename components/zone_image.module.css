@@ -1,35 +1,74 @@
-.flip-card {
-  width: 100%;
-  perspective: 1000px;
+@keyframes shake {
+  0% {
+    transform: rotate(0deg);
+  }
+  5.56% {
+    transform: rotate(10deg);
+  }
+  11.11% {
+    transform: rotate(-10deg);
+  }
+  16.67% {
+    transform: rotate(10deg);
+  }
+  22.22% {
+    transform: rotate(-10deg);
+  }
+  27.78% {
+    transform: rotate(5deg);
+  }
+  33.33%,
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
-.flip-card-inner {
-  position: relative;
-  width: 100%;
-  padding-top: 100%;
-  transform-style: preserve-3d;
-  transition: transform 0.6s;
-  transform-origin: center;
+.shake {
+  animation: shake 4.5s ease-in-out infinite;
+  transform-origin: center center;
 }
 
-.flip-card.flipped .flip-card-inner {
-  transform: rotateY(180deg);
+@keyframes hover {
+  0% {
+    transform: translateX(-200px) translateY(5px) rotate(3deg) scale(1.1);
+    opacity: 0.5;
+    filter: blur(10px);
+  }
+  50% {
+    transform: translateX(-90px) translateY(-5px) rotate(-2deg) scale(1.1);
+    opacity: 0.5;
+    filter: blur(8px);
+  }
+  75% {
+    transform: translateX(0px) translateY(0px) rotate(1deg) scale(1.05);
+    opacity: 0.5;
+    filter: blur(7px);
+  }
+  100% {
+    transform: translateX(0px) scale(1);
+    opacity: 0.75;
+    filter: blur(0px);
+  }
 }
 
-.flip-card-front,
-.flip-card-back {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
+@keyframes press {
+  0% {
+    transform: scale(1);
+  }
+  8%,
+  92% {
+    transform: scale(0.98);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
-.flip-card-front {
-  transform: rotateY(180deg);
-}
+.stamp {
+  --hover-duration: 3s;
+  --press-duration: 0.5s;
 
-.flip-card-back {
-  transform: rotateY(0deg);
+  animation:
+    var(--hover-duration) hover 0s cubic-bezier(0.4, 0.27, 0.5, 0.6),
+    var(--press-duration) press var(--hover-duration) linear;
 }

@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import clsx from "clsx";
 
 import styles from "./zone_image.module.css";
@@ -5,50 +7,41 @@ import Image from "~/components/image";
 import { ZoneInfo } from "~/components/map";
 
 interface ZoneImageProps {
-  revealed: boolean;
-  reveal: () => void;
   info: ZoneInfo;
 }
 
-function ZoneImage({ revealed, reveal, info }: ZoneImageProps) {
-  function handleClick() {
-    if (revealed) return;
-
-    reveal();
-  }
+function ZoneImage({ info }: ZoneImageProps) {
+  const [stamped, setStamped] = useState(false);
 
   return (
     <div className="my-6 flex w-full flex-col items-center justify-center space-y-4">
-      <div
-        className={clsx(
-          styles["flip-card"],
-          "z-0",
-          revealed ? styles["flipped"] : "cursor-pointer"
-        )}
-        onClick={handleClick}
-      >
-        <div className={styles["flip-card-inner"]}>
-          <div className={styles["flip-card-back"]}>
-            <Image
-              url="/images/unrevealed.png"
-              alt="Unrevealed Image"
-              ariaLabel="Unrevealed Image"
-              className="aspect-square w-full border-4 border-black"
-            />
-          </div>
-          <div className={styles["flip-card-front"]}>
+      <div className="w-full border-8 p-1 bg-amber-100 border-amber-100 rounded-2xl">
+        <div className="w-full border-8 border-amber-700 border-dashed">
+          {stamped ? (
             <Image
               url={info.image}
               alt={`${info.name} Zone Image`}
               ariaLabel={`${info.name} Zone Image`}
-              className="aspect-square w-full border-4 border-black"
+              className={clsx(
+                "aspect-square text-amber-800 relative opacity-75",
+                info["image_class"],
+                styles["stamp"]
+              )}
             />
-          </div>
+          ) : (
+            <div className="aspect-square flex items-center justify-center font-bold text-4xl text-amber-700">
+              <span
+                className={clsx("text-center cursor-pointer", styles["shake"])}
+                onClick={() => setStamped(true)}
+              >
+                Stamp
+                <br />
+                Here
+              </span>
+            </div>
+          )}
         </div>
       </div>
-      <p className="text-md">
-        {!revealed ? "Tap the card above to reveal" : info.image_description}
-      </p>
     </div>
   );
 }
