@@ -13,6 +13,10 @@ interface ZoneImageProps {
 function ZoneImage({ info }: ZoneImageProps) {
   const [stamped, setStamped] = useState(false);
 
+  if (!(info["image"] in Stamps)) {
+    throw new Error(`Invalid zone image: ${info["image"]}`);
+  }
+
   const Stamp = Stamps[info["image"] as keyof typeof Stamps];
 
   return (

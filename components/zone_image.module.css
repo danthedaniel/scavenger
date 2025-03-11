@@ -30,27 +30,12 @@
 
 @keyframes hover {
   0% {
-    transform: translateX(-20px) translateY(5px) rotate(3deg) scale(1.1);
+    transform: scale(1.1);
     opacity: 0;
     filter: blur(10px);
   }
-  10% {
-    transform: translateX(-20px) translateY(5px) rotate(3deg) scale(1.1);
-    opacity: 0.5;
-    filter: blur(10px);
-  }
-  50% {
-    transform: translateX(-10px) translateY(-5px) rotate(-2deg) scale(1.1);
-    opacity: 0.5;
-    filter: blur(8px);
-  }
-  75% {
-    transform: translateX(0px) translateY(0px) rotate(1deg) scale(1.05);
-    opacity: 0.5;
-    filter: blur(7px);
-  }
   100% {
-    transform: translateX(0px) scale(1);
+    transform: scale(1);
     opacity: 0.8;
     filter: blur(0px);
   }
@@ -70,7 +55,7 @@
 }
 
 .stamp {
-  --hover-duration: 3s;
+  --hover-duration: 1s;
   --press-duration: 0.5s;
 
   animation:
