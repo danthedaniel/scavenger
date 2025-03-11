@@ -93,6 +93,11 @@ const vercelLivePolicy = {
   "frame-src": ["https://vercel.live"],
 };
 
+/** @type {SecurityPolicyEntry} */
+const vercelAnalyticsPolicy = {
+  "script-src": ["https://va.vercel-scripts.com"],
+};
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -110,6 +115,7 @@ const nextConfig = {
             mixpanelPolicy,
             sentryPolicy,
             vercelLivePolicy,
+            vercelAnalyticsPolicy,
           ]),
         },
       ],

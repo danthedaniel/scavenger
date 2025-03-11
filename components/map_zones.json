@@ -13,7 +13,7 @@
       "small": "There are two windmills in the park. They were built to pump water for irrigating the park. But only one has a tulip garden!",
       "big": "If you're still stuck the sticker may be missing. It should be on a bench by the Dutch Windmill."
     },
-    "image": "/images/lily.svg",
+    "image": "Lily",
     "image_class": "rotate-5 top-1 left-1"
   },
   {
@@ -30,7 +30,7 @@
       "small": "Look around the polo field. Where would you sit there?",
       "big": "If you're still stuck the sticker may be missing. It should be in the upper row of the stands."
     },
-    "image": "/images/lily.svg",
+    "image": "Lily",
     "image_class": "-rotate-5 -top-1 left-1"
   },
   {
@@ -47,7 +47,7 @@
       "small": "Look around the Portals of the Past monument.",
       "big": "If you're still stuck the sticker may be missing. It should be on a bench by Lloyd Lake."
     },
-    "image": "/images/lily.svg",
+    "image": "Lily",
     "image_class": "-rotate-3 top-1 left-1"
   },
   {
@@ -64,7 +64,7 @@
       "small": "Climb to the top of Strawberry Hill.",
       "big": "If you're still stuck the sticker may be missing. It should be on the highest bridge on Strawberry Hill."
     },
-    "image": "/images/lily.svg",
+    "image": "Bridge",
     "image_class": "rotate-3 -top-1 left-1"
   },
   {
@@ -81,7 +81,7 @@
       "small": "Head to the Lily Pond.",
       "big": "If you're still stuck the sticker may be missing. It should be on a bench by the Lily Pond."
     },
-    "image": "/images/lily.svg",
+    "image": "Lily",
     "image_class": "-rotate-1 top-2 left-1"
   }
 ]

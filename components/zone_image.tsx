@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import clsx from "clsx";
 
-import Lily from "./stamps/lily";
+import * as Stamps from "./stamps";
 import styles from "./zone_image.module.css";
 import { ZoneInfo } from "~/components/map";
 
@@ -13,12 +13,14 @@ interface ZoneImageProps {
 function ZoneImage({ info }: ZoneImageProps) {
   const [stamped, setStamped] = useState(false);
 
+  const Stamp = Stamps[info["image"] as keyof typeof Stamps];
+
   return (
     <div className="my-6 flex w-full flex-col items-center justify-center space-y-4">
       <div className="w-full border-8 p-1 bg-amber-100 border-amber-100 rounded-2xl">
         <div className="w-full border-8 border-yellow-700 border-dashed">
           {stamped ? (
-            <Lily
+            <Stamp
               className={clsx(
                 "aspect-square text-stone-800 relative opacity-80",
                 info["image_class"],
