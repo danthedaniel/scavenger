@@ -2,8 +2,8 @@ import { useState } from "react";
 
 import clsx from "clsx";
 
+import Lily from "./stamps/lily";
 import styles from "./zone_image.module.css";
-import Image from "~/components/image";
 import { ZoneInfo } from "~/components/map";
 
 interface ZoneImageProps {
@@ -16,20 +16,17 @@ function ZoneImage({ info }: ZoneImageProps) {
   return (
     <div className="my-6 flex w-full flex-col items-center justify-center space-y-4">
       <div className="w-full border-8 p-1 bg-amber-100 border-amber-100 rounded-2xl">
-        <div className="w-full border-8 border-amber-700 border-dashed">
+        <div className="w-full border-8 border-yellow-700 border-dashed">
           {stamped ? (
-            <Image
-              url={info.image}
-              alt={`${info.name} Zone Image`}
-              ariaLabel={`${info.name} Zone Image`}
+            <Lily
               className={clsx(
-                "aspect-square text-amber-800 relative opacity-75",
+                "aspect-square text-stone-800 relative opacity-80",
                 info["image_class"],
                 styles["stamp"]
               )}
             />
           ) : (
-            <div className="aspect-square flex items-center justify-center font-bold text-4xl text-amber-700">
+            <div className="aspect-square flex items-center justify-center font-bold text-4xl text-yellow-700">
               <span
                 className={clsx("text-center cursor-pointer", styles["shake"])}
                 onClick={() => setStamped(true)}

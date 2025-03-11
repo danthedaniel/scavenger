@@ -30,12 +30,17 @@
 
 @keyframes hover {
   0% {
-    transform: translateX(-200px) translateY(5px) rotate(3deg) scale(1.1);
+    transform: translateX(-20px) translateY(5px) rotate(3deg) scale(1.1);
+    opacity: 0;
+    filter: blur(10px);
+  }
+  10% {
+    transform: translateX(-20px) translateY(5px) rotate(3deg) scale(1.1);
     opacity: 0.5;
     filter: blur(10px);
   }
   50% {
-    transform: translateX(-90px) translateY(-5px) rotate(-2deg) scale(1.1);
+    transform: translateX(-10px) translateY(-5px) rotate(-2deg) scale(1.1);
     opacity: 0.5;
     filter: blur(8px);
   }
@@ -46,7 +51,7 @@
   }
   100% {
     transform: translateX(0px) scale(1);
-    opacity: 0.75;
+    opacity: 0.8;
     filter: blur(0px);
   }
 }
