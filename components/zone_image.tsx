@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import clsx from "clsx";
 
@@ -8,10 +8,20 @@ import { ZoneInfo } from "~/components/map";
 
 interface ZoneImageProps {
   info: ZoneInfo;
+  revealed: boolean;
+  setRevealed: () => void;
 }
 
-function ZoneImage({ info }: ZoneImageProps) {
-  const [stamped, setStamped] = useState(false);
+function ZoneImage({ info, revealed, setRevealed }: ZoneImageProps) {
+  const [stamped, setStamped] = useState(revealed);
+
+  useEffect(() => {
+    if (!stamped) return;
+
+    // Persist the revealed state once the animation is complete
+    const timeout = setTimeout(() => setRevealed(), 1500);
+    return () => clearTimeout(timeout);
+  }, [stamped, setRevealed]);
 
   if (!(info["image"] in Stamps)) {
     throw new Error(`Invalid zone image: ${info["image"]}`);
@@ -28,7 +38,7 @@ function ZoneImage({ info }: ZoneImageProps) {
               className={clsx(
                 "aspect-square text-stone-800 relative opacity-80",
                 info["image_class"],
-                styles["stamp"]
+                revealed ? null : styles["stamp"]
               )}
             />
           ) : (
