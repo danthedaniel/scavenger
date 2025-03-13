@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 
 import clsx from "clsx";
 
-import * as Stamps from "./stamps";
-import styles from "./zone_image.module.css";
 import { ZoneInfo } from "~/components/map";
+import * as Stamps from "~/components/stamps";
+import styles from "~/components/zone_image.module.css";
 
 interface ZoneImageProps {
   info: ZoneInfo;
