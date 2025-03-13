@@ -202,6 +202,15 @@ function Camera({ onClose, onScan }: CameraProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black">
+      <div className="absolute top-8 left-8">
+        <button
+          onClick={onClose}
+          className="p-3 rounded-full bg-gray-700 border-2 border-white active:bg-gray-500"
+        >
+          <XMarkIcon className="h-6 w-6 text-white" />
+        </button>
+      </div>
+
       {error ? (
         <div className="text-2xl font-bold text-white">{error}</div>
       ) : (
@@ -212,6 +221,7 @@ function Camera({ onClose, onScan }: CameraProps) {
             playsInline
             className="h-full w-full object-cover"
           />
+
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             <QrCodeIcon className="h-48 w-48 text-white opacity-50 border-8 border-white rounded-xl" />
           </div>
@@ -230,15 +240,6 @@ function Camera({ onClose, onScan }: CameraProps) {
               </button>
             </div>
           )}
-
-          <div className="absolute top-8 left-8">
-            <button
-              onClick={onClose}
-              className="p-3 rounded-full bg-gray-700 border-2 border-white active:bg-gray-500"
-            >
-              <XMarkIcon className="h-6 w-6 text-white" />
-            </button>
-          </div>
         </>
       )}
     </div>
