@@ -17,11 +17,12 @@ function ZoneImage({ info, revealed, setRevealed }: ZoneImageProps) {
 
   useEffect(() => {
     if (!stamped) return;
+    if (revealed) return;
 
     // Persist the revealed state once the animation is complete
     const timeout = setTimeout(() => setRevealed(), 1500);
     return () => clearTimeout(timeout);
-  }, [stamped, setRevealed]);
+  }, [revealed, stamped, setRevealed]);
 
   if (!(info["image"] in Stamps)) {
     throw new Error(`Invalid zone image: ${info["image"]}`);
