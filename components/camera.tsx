@@ -4,6 +4,7 @@ import { QrCodeIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { LightBulbIcon as LightBulbOffIcon } from "@heroicons/react/24/outline";
 import { LightBulbIcon as LightBulbOnIcon } from "@heroicons/react/24/solid";
 import * as Sentry from "@sentry/nextjs";
+import clsx from "clsx";
 import jsQR from "jsqr";
 
 /**
@@ -230,7 +231,12 @@ function Camera({ onClose, onScan }: CameraProps) {
             <div className="absolute top-8 right-8">
               <button
                 onClick={() => setFlashlightOn(!flashlightOn)}
-                className={`p-3 rounded-full ${flashlightOn ? "bg-yellow-400 border-2 border-yellow-400" : "bg-gray-700 active:bg-gray-500 border-2 border-white"}`}
+                className={clsx(
+                  "p-3 rounded-full",
+                  flashlightOn
+                    ? "border-2 border-yellow-400 bg-yellow-400"
+                    : "border-2 border-white bg-gray-700 active:bg-gray-500"
+                )}
               >
                 {flashlightOn ? (
                   <LightBulbOnIcon className="h-6 w-6 text-white" />
