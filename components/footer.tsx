@@ -27,7 +27,7 @@ function Footer() {
       ref={footerRef}
       className="flex flex-col items-center justify-center"
     >
-      <div className="p-2">
+      <div className="pb-4">
         <ChevronDoubleUpIcon
           className={clsx(
             "h-6 w-6 cursor-pointer transition-all duration-500 ease-in-out",
@@ -38,7 +38,7 @@ function Footer() {
       </div>
 
       {isVisible && (
-        <div className="text-md p-4 text-center text-black">
+        <div className="text-md pb-8 text-center text-black">
           Made by{" "}
           <a href="https://danangell.com" className="underline">
             Daniel Angell
