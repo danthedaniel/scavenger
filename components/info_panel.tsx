@@ -84,15 +84,16 @@ function InfoPanel() {
           onClick={() => setDevModeTapsLeft(Math.max(devModeTapsLeft - 1, 0))}
         >
           <p className="text-lg">
-            The Park Scavenger Hunt is a fun way to explore Golden Gate Park.
-            There is no need to go anywhere that costs money.
+            The Hippie Hill Hunt is a fun way to explore Golden Gate Park. There
+            is no need to go anywhere that costs money.
           </p>
           <p className="text-lg">
             Please stay on the paths and trails. Please respect the park as you
             search for the stickers in each zone.
           </p>
           <p className="text-lg">
-            Stickers are all tucked just out of sight and easy to find once you
+            Stickers are all tucked just out of sight. They are generally found
+            on benches and other flat surfaces. They are easy to find once you
             are in the right location. Each sticker has a QR code that you can
             scan to check off the zone. Alternatively, you can type the code on
             the sticker into the code box.
