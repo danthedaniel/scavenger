@@ -44,9 +44,18 @@ function InfoPanel() {
       )}
     >
       <div className="flex h-20 w-full flex-row items-center justify-between px-8">
-        <h1 className="font-chakra-petch text-2xl font-bold">
-          Hippie Hill Hunt
-        </h1>
+        <div className="flex flex-row items-center gap-4">
+          <img
+            src="/images/logo.svg"
+            alt="Hippie Hill Hunt Logo"
+            className="h-12 w-12"
+          />
+
+          <h1 className="font-chakra-petch text-2xl font-bold">
+            Hippie Hill Hunt
+          </h1>
+        </div>
+
         {isMenuOpen ? (
           <div
             className="flex flex-row items-center"
