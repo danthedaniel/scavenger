@@ -83,10 +83,10 @@ function InfoPanel() {
             search for the stickers in each zone.
           </p>
           <p className="text-lg">
-            Stickers are all readily visible and easy to find once you are in
-            the right location. Each sticker has a QR code that you can scan to
-            check off the zone. Alternatively, you can type the code on the
-            sticker into the code box.
+            Stickers are all tucked just out of sight and easy to find once you
+            are in the right location. Each sticker has a QR code that you can
+            scan to check off the zone. Alternatively, you can type the code on
+            the sticker into the code box.
           </p>
         </div>
       )}
