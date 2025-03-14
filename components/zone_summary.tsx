@@ -3,9 +3,24 @@ import { useState } from "react";
 import { ArrowUpOnSquareIcon } from "@heroicons/react/24/outline";
 import * as Sentry from "@sentry/nextjs";
 import clsx from "clsx";
+import mixpanel from "mixpanel-browser";
 
 import { hintCount, useAppContext } from "~/components/app_context";
 import { ZONES } from "~/components/map";
+
+async function trackShare(userId: string | null) {
+  await new Promise<void>((resolve) => {
+    mixpanel.track(
+      "Share",
+      {
+        distinct_id: userId,
+        $insert_id: `${userId}-Share`,
+      },
+      {},
+      () => resolve()
+    );
+  });
+}
 
 interface ZoneSummaryProps {
   setSelected: (index: number | null) => void;
@@ -13,7 +28,7 @@ interface ZoneSummaryProps {
 
 function ZoneSummary({ setSelected }: ZoneSummaryProps) {
   const {
-    state: { found, hints },
+    state: { found, hints, userId },
   } = useAppContext();
 
   const [shareError, setShareError] = useState(false);
@@ -65,6 +80,8 @@ function ZoneSummary({ setSelected }: ZoneSummaryProps) {
       Sentry.captureException(error);
       setShareError(true);
     }
+
+    await trackShare(userId);
   }
 
   return (
