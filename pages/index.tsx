@@ -24,11 +24,11 @@ function trackFound(
   if (!zoneInfo) return;
 
   const eventName = [
-    "Found First Region",
-    "Found Second Region",
-    "Found Third Region",
-    "Found Fourth Region",
-    "Found Fifth Region",
+    "Found First Zone",
+    "Found Second Zone",
+    "Found Third Zone",
+    "Found Fourth Zone",
+    "Found Fifth Zone",
   ][foundCount - 1];
 
   mixpanel.track(eventName, {
