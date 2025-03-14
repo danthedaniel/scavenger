@@ -1,18 +1,18 @@
 {
-  "name": "Golden Gate Park Scavenger Hunt",
+  "name": "Hippie Hill Hunt",
   "start_url": "/",
-  "short_name": "Scavenger Hunt",
+  "short_name": "Hippie Hill Hunt",
   "screenshots": [
     {
       "src": "/images/screenshot_start.png",
-      "sizes": "748x1546",
+      "sizes": "716x1520",
       "type": "image/png",
       "form_factor": "narrow",
       "label": "Start screen"
     },
     {
       "src": "/images/screenshot_focus.png",
-      "sizes": "748x1546",
+      "sizes": "716x1520",
       "type": "image/png",
       "form_factor": "narrow",
       "label": "Zone selected"
@@ -33,5 +33,8 @@
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
   "display": "standalone",
-  "permissions": ["camera", "geolocation"]
+  "permissions": [
+    "camera",
+    "geolocation"
+  ]
 }
