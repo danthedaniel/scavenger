@@ -1,7 +1,8 @@
 #!/bin/bash
 
-SOURCE_SVG="/Users/daniel/git/scavenger/public/images/logo.svg"
-DEST_DIR="/Users/daniel/git/scavenger/public/favicon"
+cd "$(dirname "$0")"
+SOURCE_SVG="../public/images/logo.svg"
+DEST_DIR="../public/favicon"
 
 # Check if ImageMagick is installed
 if ! command -v convert &> /dev/null; then
