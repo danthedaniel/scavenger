@@ -76,6 +76,14 @@ async function loadPage(browser, url) {
   });
   await sleep(2000);
 
+  // Remove the NextJS dev tools button
+  await page.evaluate(() => {
+    const element = document.querySelector("nextjs-portal");
+    if (element) {
+      element.remove();
+    }
+  });
+
   return page;
 }
 
