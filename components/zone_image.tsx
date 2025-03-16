@@ -20,8 +20,7 @@ function ZoneImage({ info, revealed, setRevealed }: ZoneImageProps) {
     if (revealed) return;
 
     // Persist the revealed state once the animation is complete
-    const timeout = setTimeout(() => setRevealed(), 1500);
-    return () => clearTimeout(timeout);
+    setTimeout(() => setRevealed(), 1500);
   }, [revealed, stamped, setRevealed]);
 
   if (!(info["image"] in Stamps)) {
