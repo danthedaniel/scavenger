@@ -17,7 +17,7 @@
     "jsqr": "^1.4.0",
     "mixpanel-browser": "^2.61.1",
     "nanoid": "^5.1.3",
-    "next": "^15.2.2",
+    "next": "15.2.8",
     "react": "^19.0.0",
     "react-confetti": "^6.4.0",
     "react-dom": "^19.0.0",
